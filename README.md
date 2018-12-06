@@ -4,20 +4,22 @@
 全局事件通知框架，无任何第三方依赖，源码中已包含使用范例，不懂的可联系QQ：568049460，微信：zkpursuit。
 
 #### 软件架构
-软件架构说明
+1. 核心为单例 + 观察者模式模式，包含标准版本和多核版本，标准版可直接使用Facade中的静态常量facade，多核版则使用Facade.getInstance("core name")。
+2. 本项目的核心是解耦业务，通过Startup.scan类扫描器扫描Command、Proxy、Mediator子类的注解，并将其注册到Facade中，由Facade处理事件流向。
+3. 在本人的使用过程中，Command作为业务处理器处理业务，Proxy为数据模型，Command可通过getProxy方法获得Proxy数据模型。
+4. Command只能监听注册到Facade中的事件，可多个事件注册同一个Command，而Mediator则是监听多个自身感兴趣的事件，而具体对哪些事件感兴趣则由listMessageInterests方法的返回值决定。
+5. Command、Proxy、Mediator中都能通过sendMessage向外派发事件。
+6. 此框架的事件数据类型尽可能的使用int和String。
 
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 将dist/kaka-notice-lib.jar直接导入项目即可使用。
+2. 或者将src源码复制到项目中使用。
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+可参看test中的使用范例，个人认为比google的EventBus更加强大。
 
 #### 参与贡献
 
