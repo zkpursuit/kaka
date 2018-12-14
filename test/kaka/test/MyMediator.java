@@ -1,4 +1,4 @@
-package test;
+package kaka.test;
 
 import com.kaka.notice.Mediator;
 import com.kaka.notice.Message;

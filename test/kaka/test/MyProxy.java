@@ -1,4 +1,4 @@
-package test;
+package kaka.test;
 
 import com.kaka.notice.Proxy;
 import com.kaka.notice.annotation.Model;

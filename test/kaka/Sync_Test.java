@@ -1,4 +1,4 @@
-package test;
+package kaka;
 
 
 import com.kaka.Startup;
@@ -7,14 +7,15 @@ import com.kaka.notice.Message;
 
 
 /**
- *
+ * 同步使用范例
+ * 
  * @author zkpursuit
  */
-public class Test extends Startup {
+public class Sync_Test extends Startup {
 
     public static void main(String[] args) {
-        Test test = new Test();
-        test.scan("test");
+        Sync_Test test = new Sync_Test();
+        test.scan("kaka.test");
         facade.sendMessage(new Message("1000", "让MyCommand接收执行"));
         facade.sendMessage(new Message("2000", "让MyMediator和MyCommand接收执行"));
     }
