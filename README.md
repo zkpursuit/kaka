@@ -10,7 +10,7 @@
 后续版本可能会增加AOP功能，望大家多多支持、鼓励，多多star！！！
 
 #### 软件架构
-1. 核心为单例 + 观察者模式，包含标准版本和多核版本，标准版可直接使用Facade中的静态常量facade，多核版则使用Facade.getInstance("core name")。
+1. 核心为单例 + 观察者模式，包含标准版本和多核版本，标准版可直接使用Facade中的静态常量facade，多核版则使用Facade.getInstance("core name")。标准版能应付绝大部分情况。
 2. 本项目的核心是解耦业务，通过Startup.scan类扫描器扫描Command、Proxy、Mediator子类的注解，并将其注册到Facade中，由Facade处理事件流向。
 3. 在本人的使用过程中，Command作为业务处理器处理业务，Proxy为数据模型，Command中可通过getProxy方法获得Proxy数据模型。
 4. Command只能监听注册到Facade中的事件，可多个事件注册同一个Command（也可理解为一个Command可监听多个事件），而Mediator则是监听多个自身感兴趣的事件，具体对哪些事件感兴趣则由listMessageInterests方法的返回值决定。Command、Mediator是功能非常相似的事件监听器和事件派发器，看个人使用习惯，个人建议多使用Command。
