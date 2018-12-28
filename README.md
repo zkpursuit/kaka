@@ -4,18 +4,19 @@
 1. 全局事件通知框架，无任何第三方依赖。
 2. test源码中已包含使用范例，个人认为比google的EventBus更加强大。
 3. 本项目为本人十年左右的游戏后端框架中的核心部分；主要用于业务解耦分离；棋牌类游戏（tcp socket）中的类状态机；http方面亦可作为url路由框架。
-4. 此框架可简化程序复杂性，提高代码可读性，降低开发维护成本。
+4. 此框架可解耦业务，简化程序复杂性，提高代码可读性，降低开发维护成本。
 5. 不懂的可联系QQ群：801241310，微信：zkpursuit。
 
 后续版本可能会增加AOP功能，望大家多多支持、鼓励，多多star！！！
 
 #### 软件架构
 1. 核心为单例 + 观察者模式，包含标准版本和多核版本，标准版可直接使用Facade中的静态常量facade，多核版则使用Facade.getInstance("core name")。标准版能应付绝大部分情况。
-2. 本项目的核心是解耦业务，通过Startup.scan类扫描器扫描Command、Proxy、Mediator子类的注解，并将其注册到Facade中，由Facade处理事件流向。
-3. 在本人的使用过程中，Command作为业务处理器处理业务，Proxy为数据模型，Command中可通过getProxy方法获得Proxy数据模型。
-4. Command只能监听注册到Facade中的事件，可多个事件注册同一个Command（也可理解为一个Command可监听多个事件），而Mediator则是监听多个自身感兴趣的事件，具体对哪些事件感兴趣则由listMessageInterests方法的返回值决定。Command、Mediator是功能非常相似的事件监听器和事件派发器，看个人使用习惯，个人建议多使用Command。
-5. Command、Proxy、Mediator中都能通过sendMessage向外派发事件，也可在此框架之外直接使用Facade实例调用sendMessage派发事件。
+2. 本项目的核心思想是解耦业务，通过Startup实例的scan方法扫描Command、Proxy、Mediator子类的注解，并将其注册到Facade中，由Facade处理事件流向。
+3. Command、Mediator一般作为业务处理器处理业务，Proxy为数据模型（比如作为数据库service层），Command、Mediator中可通过getProxy方法获得Proxy数据模型。
+4. Command只能监听注册到Facade中的事件，可多个事件注册同一个Command（也可理解为一个Command可监听多个事件），而Mediator则是监听多个自身感兴趣的事件，具体对哪些事件感兴趣则由listMessageInterests方法的返回值决定。Command、Mediator是功能非常相似的事件监听器和事件派发器，强烈建议多使用Command。
+5. Command、Proxy、Mediator中都能通过sendMessage方法向外派发事件，也可在此框架之外直接使用Facade实例调用sendMessage派发事件。
 6. 此框架的事件数据类型尽可能的使用int和String。
+7. Facade实例在调用initThreadPool方法配置了线程池的情况下，Facade、Command、Proxy、Mediator的sendMessage都将直接支持异步派发事件，默认为同步。
 
 
 #### 安装教程
