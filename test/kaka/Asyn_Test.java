@@ -27,6 +27,7 @@ public class Asyn_Test extends Startup {
 
         //future模式获取异步处理结果
         Message asynMsg = new Message("10000", "让AsynCommand接收执行");
+        //由于事件通知为广播模式，故而必须为执行结果进行命名标识唯一性
         AsynResult result = (AsynResult) asynMsg.setResult("AsynMsg", new AsynResult());
         facade.sendMessage(asynMsg, true);
         if (result != null) {

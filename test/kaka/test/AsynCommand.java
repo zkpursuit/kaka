@@ -24,6 +24,7 @@ public class AsynCommand extends Command {
         }
         AsynResult result = (AsynResult) msg.getResult("AsynMsg");
         if (result != null) {
+            //必须设置处理结果
             result.set("的金发的设计费的撒娇附带数据阿范德萨");
         }
     }

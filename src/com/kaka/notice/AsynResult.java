@@ -17,6 +17,13 @@ public class AsynResult<V> implements IResult<V> {
         return this.result != NULL;
     }
 
+    /**
+     * 获取事件通知处理结果具体数值
+     * <br>
+     * 默认5秒超时时间，超出5秒返回null
+     *
+     * @return 处理结果具体数值
+     */
     @Override
     public V get() {
 //        synchronized (this) {
