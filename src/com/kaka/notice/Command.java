@@ -1,26 +1,18 @@
 package com.kaka.notice;
 
-import com.kaka.util.ObjectPool.Poolable;
+import com.kaka.util.ObjectPool;
 
 /**
  * 控制命令类
  *
  * @author zkpursuit
  */
-abstract public class Command extends Notifier implements Poolable {
-
+abstract public class Command extends Notifier implements ObjectPool.Poolable {
+    
     /**
      * 注册时的命令号
      */
     Object cmd;
-
-    /**
-     * 处理消息，此方法中不要用线程处理
-     *
-     * @see Message Message处理方法
-     * @param msg 通知消息
-     */
-    abstract public void execute(Message msg);
 
     /**
      * 获取注册时的命令号
@@ -39,5 +31,13 @@ abstract public class Command extends Notifier implements Poolable {
         this.facade = null;
         this.cmd = null;
     }
+
+    /**
+     * 处理消息，此方法中不要用线程处理
+     *
+     * @see Message Message处理方法
+     * @param msg 通知消息
+     */
+    abstract public void execute(Message msg);
 
 }

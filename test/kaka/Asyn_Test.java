@@ -1,8 +1,12 @@
 package kaka;
 
 import com.kaka.Startup;
+import com.kaka.notice.AsynResult;
 import static com.kaka.notice.Facade.facade;
+import com.kaka.notice.IResult;
 import com.kaka.notice.Message;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 /**
@@ -16,7 +20,18 @@ public class Asyn_Test extends Startup {
         Asyn_Test test = new Asyn_Test();
         test.scan("kaka.test");
         facade.initThreadPool(Executors.newFixedThreadPool(2));
-        facade.sendMessage(new Message("1000", "让MyCommand接收执行")); //同步发送事件通知
-        facade.sendMessage(new Message("2000", "让MyMediator和MyCommand接收执行"), true); //异步发送事件通知
+        //同步发送事件通知
+        facade.sendMessage(new Message("1000", "让MyCommand接收执行"));
+        //简单的异步发送事件通知
+        facade.sendMessage(new Message("2000", "让MyMediator和MyCommand接收执行"), true);
+
+        //future模式获取异步处理结果
+        Message asynMsg = new Message("10000", "让AsynCommand接收执行");
+        AsynResult result = (AsynResult) asynMsg.setResult("AsynMsg", new AsynResult());
+        facade.sendMessage(asynMsg, true);
+        if (result != null) {
+            Object resultObject = result.get();
+            System.out.println(resultObject);
+        }
     }
 }
