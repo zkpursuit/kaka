@@ -3,10 +3,7 @@ package kaka;
 import com.kaka.Startup;
 import com.kaka.notice.AsynResult;
 import static com.kaka.notice.Facade.facade;
-import com.kaka.notice.IResult;
 import com.kaka.notice.Message;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Executors;
 
 /**
