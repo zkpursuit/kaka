@@ -5,7 +5,8 @@
 2. test源码中已包含使用范例，个人认为比google的EventBus更加强大。
 3. 本项目为本人十年左右的游戏后端框架中的核心部分；主要用于业务解耦分离；棋牌类游戏（tcp socket）中的类状态机；http方面亦可作为url路由框架。
 4. 此框架可解耦业务，简化程序复杂性，提高代码可读性，降低开发维护成本。
-5. 不懂的可联系QQ：568049460，微信：zkpursuit。
+5. 支持同步或者异步获取事件处理结果。
+6. 不懂的可联系QQ：568049460，微信：zkpursuit。
 
 https://my.oschina.net/zkpursuit/blog/2989186 此博文为本框架 + servlet基于json通信的一个简单接口服务范例，此范例模式已应用于实际生产环境！
 更多精彩博文，敬请期待！
@@ -20,6 +21,7 @@ https://my.oschina.net/zkpursuit/blog/2989186 此博文为本框架 + servlet基
 5. Command、Proxy、Mediator中都能通过sendMessage方法向外派发事件，也可在此框架之外直接使用Facade实例调用sendMessage派发事件。
 6. 此框架的事件数据类型尽可能的使用int和String。
 7. Facade实例在调用initThreadPool方法配置了线程池的情况下，Facade、Command、Proxy、Mediator的sendMessage都将直接支持异步派发事件，默认为同步。
+8. 统一同步或者异步获得事件处理结果，异步获取事件结果以wait、notifyAll实现。应该尽可能的少使用此方式，而改用派发事件方式。
 
 
 #### 安装教程

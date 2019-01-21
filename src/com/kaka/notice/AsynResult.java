@@ -12,6 +12,22 @@ public class AsynResult<V> implements IResult<V> {
 
     private final static Object NULL = new Object();
     private volatile Object result = NULL;
+    private long defaultWaitMillsecs = 5000;
+
+    /**
+     * 默认构造方法
+     */
+    public AsynResult() {
+    }
+
+    /**
+     * 构造方法
+     *
+     * @param defaultWaitMillsecs 默认wait超时时间，单位毫秒
+     */
+    public AsynResult(long defaultWaitMillsecs) {
+        this.defaultWaitMillsecs = defaultWaitMillsecs;
+    }
 
     public boolean isDone() {
         return this.result != NULL;
@@ -37,7 +53,7 @@ public class AsynResult<V> implements IResult<V> {
 //        }
 //        return (V) this.result;
         try {
-            return get(5000, TimeUnit.MILLISECONDS);
+            return get(defaultWaitMillsecs, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ex) {
             return null;
         }
