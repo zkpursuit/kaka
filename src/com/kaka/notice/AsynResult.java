@@ -29,8 +29,24 @@ public class AsynResult<V> implements IResult<V> {
         this.defaultWaitMillsecs = defaultWaitMillsecs;
     }
 
-    public boolean isDone() {
+    /**
+     * 内部调用，尽可能的防止锁嵌套，避免死锁
+     *
+     * @return 是否赋值结果
+     */
+    private boolean _isDone() {
         return this.result != NULL;
+    }
+
+    /**
+     * 结果是否处理完成
+     *
+     * @return true处理完成
+     */
+    public boolean isDone() {
+        synchronized (this) {
+            return this._isDone();
+        }
     }
 
     /**
@@ -42,16 +58,6 @@ public class AsynResult<V> implements IResult<V> {
      */
     @Override
     public V get() {
-//        synchronized (this) {
-//            while (!isDone()) {
-//                try {
-//                    this.wait();
-//                } catch (InterruptedException ex) {
-//                    throw new Error(ex);
-//                }
-//            }
-//        }
-//        return (V) this.result;
         try {
             return get(defaultWaitMillsecs, TimeUnit.MILLISECONDS);
         } catch (InterruptedException ex) {
@@ -59,6 +65,14 @@ public class AsynResult<V> implements IResult<V> {
         }
     }
 
+    /**
+     * 获取事件通知处理结果具体数值
+     *
+     * @param timeout 超时时间
+     * @param unit 超时时间类型
+     * @return 处理结果具体数值
+     * @throws InterruptedException
+     */
     public V get(long timeout, TimeUnit unit) throws InterruptedException {
         if (await(timeout, unit)) {
             return (V) this.result;
@@ -66,27 +80,40 @@ public class AsynResult<V> implements IResult<V> {
         return null;
     }
 
+    /**
+     * 等待赋值处理结果
+     *
+     * @param timeout 超时时间
+     * @param unit 超时时间类型
+     * @return true 成功赋值处理结果
+     * @throws InterruptedException
+     */
     private boolean await(long timeout, TimeUnit unit) throws InterruptedException {
         timeout = unit.convert(timeout, TimeUnit.MILLISECONDS);
         long startTime = timeout <= 0 ? 0 : System.currentTimeMillis();
         long waitTime = timeout;
         synchronized (this) {
             for (;;) {
-                if (isDone()) {
+                if (_isDone()) {
                     return true;
                 }
                 if (waitTime <= 0) {
-                    return isDone();
+                    return _isDone();
                 }
                 this.wait(waitTime, 999999);
                 waitTime = timeout - (System.currentTimeMillis() - startTime);
                 if (waitTime <= 0) {
-                    return isDone();
+                    return _isDone();
                 }
             }
         }
     }
 
+    /**
+     * 赋值处理结果
+     *
+     * @param result 事件处理结果
+     */
     @Override
     public void set(V result) {
         synchronized (this) {
