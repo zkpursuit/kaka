@@ -53,5 +53,11 @@ public class Asyn_Test extends Startup {
         IResult<String> result2 = syncMsg1.setResult("ResultMsg", new SyncResult<>());
         facade.sendMessage(syncMsg1, false); //同步发送事件通知
         System.out.println(result2.get());
+        
+        //哈哈，异步中的异步，其实没必要
+        Message syncMsg2 = new Message("30000", "让FutureCommand接收执行");
+        IResult<String> result3 = syncMsg2.setResult("ResultMsg", new AsynResult<>());
+        facade.sendMessage(syncMsg2, true); //异步发送事件通知
+        System.out.println(result3.get());
     }
 }
