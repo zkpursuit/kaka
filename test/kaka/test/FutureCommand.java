@@ -26,7 +26,7 @@ public class FutureCommand extends Command {
         try {
             IResult result = msg.getResult("ResultMsg");
             if(result != null) {
-                result.set(ft.get());
+                result.set(ft.get()); 
             }
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(FutureCommand.class.getName()).log(Level.SEVERE, null, ex);
