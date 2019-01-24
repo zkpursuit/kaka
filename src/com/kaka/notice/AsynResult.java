@@ -15,18 +15,19 @@ public class AsynResult<V> implements IResult<V> {
     private long defaultWaitMillsecs = 5000;
 
     /**
-     * 默认构造方法
-     */
-    public AsynResult() {
-    }
-
-    /**
      * 构造方法
      *
      * @param defaultWaitMillsecs 默认wait超时时间，单位毫秒
      */
     public AsynResult(long defaultWaitMillsecs) {
         this.defaultWaitMillsecs = defaultWaitMillsecs;
+    }
+    
+    /**
+     * 默认构造方法
+     */
+    public AsynResult() {
+        this(5000);
     }
 
     /**
