@@ -46,11 +46,12 @@ public class Message implements Poolable {
     /**
      * 初始化设置事件通知处理结果
      *
+     * @param <T> 数据类型限定
      * @param name 因广播事件通知，必须为处理结果定义唯一标识名
      * @param result 处理结果数据容器
      * @return 处理结果数据容器
      */
-    public IResult setResult(String name, IResult result) {
+    public <T> IResult<T> setResult(String name, IResult<T> result) {
         synchronized (this) {
             if (this.resultMap == null) {
                 this.resultMap = new ConcurrentHashMap<>();
@@ -63,10 +64,11 @@ public class Message implements Poolable {
     /**
      * 获取处理结果数据容器
      *
+     * @param <T> 数据类型限定
      * @param name 因广播事件通知，必须为处理结果定义唯一标识名
      * @return 处理结果数据容器
      */
-    public IResult getResult(String name) {
+    public <T> IResult<T> getResult(String name) {
         synchronized (this) {
             if (this.resultMap == null) {
                 return null;
