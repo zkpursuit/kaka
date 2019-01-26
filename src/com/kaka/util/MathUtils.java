@@ -155,5 +155,95 @@ public final class MathUtils {
         value |= value >> 16;
         return value + 1;
     }
+    
+    /**
+     * 判断一个数是否为2的次幂数
+     *
+     * @param value
+     * @return
+     */
+    public final static boolean isPowerOfTwo(int value) {
+        return value != 0 && (value & value - 1) == 0;
+    }
+    
+    public static long saturatedAdd(long a, long b) {
+        long naiveSum = a + b;
+        return (a ^ b) < 0L | (a ^ naiveSum) >= 0L ? naiveSum : 9223372036854775807L + (naiveSum >>> 63 ^ 1L);
+    }
+
+    public static long saturatedSubtract(long a, long b) {
+        long naiveDifference = a - b;
+        return (a ^ b) >= 0L | (a ^ naiveDifference) >= 0L ? naiveDifference : 9223372036854775807L + (naiveDifference >>> 63 ^ 1L);
+    }
+
+    public static long saturatedMultiply(long a, long b) {
+        int leadingZeros = Long.numberOfLeadingZeros(a) + Long.numberOfLeadingZeros(~a) + Long.numberOfLeadingZeros(b) + Long.numberOfLeadingZeros(~b);
+        if (leadingZeros > 65) {
+            return a * b;
+        } else {
+            long limit = 9223372036854775807L + ((a ^ b) >>> 63);
+            if (leadingZeros < 64 | a < 0L & b == -9223372036854775808L) {
+                return limit;
+            } else {
+                long result = a * b;
+                return a != 0L && result / a != b ? limit : result;
+            }
+        }
+    }
+
+    public static long saturatedPow(long b, int k) {
+        if(k < 0) {
+            throw new IllegalArgumentException(" 指数(" + k + ") 必须 >= 0");
+        }
+        if (b >= -2L & b <= 2L) {
+            switch((int)b) {
+                case -2:
+                    if (k >= 64) {
+                        return 9223372036854775807L + (long)(k & 1);
+                    }
+
+                    return (k & 1) == 0 ? 1L << k : -1L << k;
+                case -1:
+                    return (k & 1) == 0 ? 1L : -1L;
+                case 0:
+                    return k == 0 ? 1L : 0L;
+                case 1:
+                    return 1L;
+                case 2:
+                    if (k >= 63) {
+                        return 9223372036854775807L;
+                    }
+
+                    return 1L << k;
+                default:
+                    throw new AssertionError();
+            }
+        } else {
+            long accum = 1L;
+            long limit = 9223372036854775807L + (b >>> 63 & (long)(k & 1));
+
+            while(true) {
+                switch(k) {
+                    case 0:
+                        return accum;
+                    case 1:
+                        return saturatedMultiply(accum, b);
+                }
+
+                if ((k & 1) != 0) {
+                    accum = saturatedMultiply(accum, b);
+                }
+
+                k >>= 1;
+                if (k > 0) {
+                    if (-3037000499L > b | b > 3037000499L) {
+                        return limit;
+                    }
+
+                    b *= b;
+                }
+            }
+        }
+    }
 
 }
