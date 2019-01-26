@@ -3,3 +3,4 @@ com.kaka.notice
 com.kaka.notice.annotation
 com.kaka.notice.register
 com.kaka.util
+com.kaka.util.concurrent
