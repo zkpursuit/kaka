@@ -1,7 +1,8 @@
 package com.kaka.util;
 
 import com.kaka.util.ObjectPool.Poolable;
-import java.util.Stack;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * 对象池
@@ -18,9 +19,11 @@ abstract public class ObjectPool<T extends Poolable> {
     /**
      * 闲置对象数量峰值
      */
-    private int peak;
-
-    private Stack<T> freeObjects;
+    private volatile int peak;
+    /**
+     * 对象存储队列
+     */
+    private Queue<T> freeObjects;
 
     /**
      * 构造方法
@@ -37,7 +40,7 @@ abstract public class ObjectPool<T extends Poolable> {
     public ObjectPool(int max) {
         this.max = max;
         if (this.max > 0) {
-            freeObjects = new Stack();
+            freeObjects = new ConcurrentLinkedQueue();
         }
     }
 
@@ -57,7 +60,7 @@ abstract public class ObjectPool<T extends Poolable> {
         if (freeObjects == null) {
             return newObject();
         }
-        return freeObjects.isEmpty() ? newObject() : freeObjects.pop();
+        return freeObjects.isEmpty() ? newObject() : freeObjects.poll();
     }
 
     /**
@@ -75,9 +78,12 @@ abstract public class ObjectPool<T extends Poolable> {
         if (object instanceof Poolable) {
             ((Poolable) object).reset();
         }
-        if (freeObjects != null && freeObjects.size() < max) {
-            freeObjects.add(object);
-            peak = Math.max(peak, freeObjects.size());
+        if (freeObjects != null) {
+            int idleCount = freeObjects.size();
+            if (idleCount < max) {
+                freeObjects.add(object);
+                peak = Math.max(peak, idleCount + 1);
+            }
         }
     }
 
@@ -113,8 +119,12 @@ abstract public class ObjectPool<T extends Poolable> {
 
     /**
      * 池中闲置对象数量的峰值
+     * <br>
+     * 此值添加volatile修饰，为了尽可能的增加并发性能，故对此值未加锁控制，因 此不一定完全真实，一般情况，我们不一定用到此值。
+     * <br>
+     * 如需具有真实的参考，请改写源码自行对此值加锁，建议使用jdk8的StampedLock
      *
-     * @return
+     * @return 闲置对象数量的峰值
      */
     public int peak() {
         return this.peak;

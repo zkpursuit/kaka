@@ -1,7 +1,7 @@
 package com.kaka.notice;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Stack;
 
 /**
  * 可添加子命令的控制命令类
@@ -10,13 +10,22 @@ import java.util.Stack;
  */
 abstract public class MacroCommand extends Command {
 
+    /**
+     * 子命令存储容器
+     */
     private Collection<Command> subCommands = null;
 
+    /**
+     * 构造方法
+     */
     public MacroCommand() {
-        this.subCommands = new Stack<>();
+        this.subCommands = new ArrayList<>();
         this.__init();
     }
-    
+
+    /**
+     * 初始化，间接调用添加所有子命令的方法
+     */
     private void __init() {
         initializeMacroCommand();
     }
@@ -26,10 +35,20 @@ abstract public class MacroCommand extends Command {
      */
     abstract protected void initializeMacroCommand();
 
+    /**
+     * 添加子命令
+     *
+     * @param commandClassRef 子命令
+     */
     final protected void addSubCommand(Command commandClassRef) {
         this.subCommands.add(commandClassRef);
     }
 
+    /**
+     * 执行所有子命令
+     *
+     * @param msg 事件消息
+     */
     @Override
     public void execute(Message msg) {
         subCommands.stream().map((command) -> {
