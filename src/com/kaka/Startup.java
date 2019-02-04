@@ -1,6 +1,6 @@
 package com.kaka;
 
-import com.kaka.notice.register.ModelRegister;
+import com.kaka.notice.register.ProxyRegister;
 import com.kaka.notice.register.IRegister;
 import com.kaka.notice.register.CommandRegister;
 import com.kaka.notice.register.MediatorRegister;
@@ -30,7 +30,7 @@ public abstract class Startup {
     public Startup(IRegister... registers) {
         addRegister(new CommandRegister());
         addRegister(new MediatorRegister());
-        addRegister(new ModelRegister());
+        addRegister(new ProxyRegister());
         for (IRegister register : registers) {
             addRegister(register);
         }

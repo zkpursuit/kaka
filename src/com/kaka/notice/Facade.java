@@ -24,13 +24,15 @@ public class Facade implements INotifier {
     private static final Map<String, Facade> instanceMap = new HashMap<>();
 
     public synchronized static Facade getInstance(String key) {
-        Facade inst = null;
+        Facade inst;
         if (instanceMap.get(key) == null) {
             try {
                 inst = new Facade(key);
             } catch (Exception e) {
                 inst = instanceMap.get(key);
             }
+        } else {
+            inst = instanceMap.get(key);
         }
         return inst;
     }

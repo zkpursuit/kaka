@@ -11,9 +11,9 @@ import java.util.logging.Level;
  *
  * @author zkpursuit
  */
-public class ModelRegister implements IRegister {
+public class ProxyRegister implements IRegister {
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ModelRegister.class.getTypeName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ProxyRegister.class.getTypeName());
 
     @Override
     public String name() {
