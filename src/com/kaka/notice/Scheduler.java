@@ -1,6 +1,5 @@
 package com.kaka.notice;
 
-import com.kaka.util.ObjectPool.Poolable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -10,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author zkpursuit
  */
-public class Scheduler implements Runnable, Poolable {
+public class Scheduler implements Runnable {
 
     Message msg;
     Facade facade;
@@ -132,16 +131,16 @@ public class Scheduler implements Runnable, Poolable {
         }
     }
 
-    @Override
-    public void reset() {
-        this.facade = null;
-        this.msg = null;
-        this.count.set(0);
-        this.prevExecTime.set(0);
-        this.repeatCount = 1;
-        this.name = "";
-        this.endTime = Long.MAX_VALUE;
-        this.interval = 0;
-    }
+//    @Override
+//    public void reset() {
+//        this.facade = null;
+//        this.msg = null;
+//        this.count.set(0);
+//        this.prevExecTime.set(0);
+//        this.repeatCount = 1;
+//        this.name = "";
+//        this.endTime = Long.MAX_VALUE;
+//        this.interval = 0;
+//    }
 
 }
