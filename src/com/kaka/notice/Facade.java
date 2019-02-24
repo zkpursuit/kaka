@@ -23,9 +23,9 @@ import java.util.concurrent.TimeUnit;
  * @author zkpursuit
  */
 public class Facade implements INotifier {
-    
+
     private static final Map<String, Facade> instanceMap = new HashMap<>();
-    
+
     public synchronized static Facade getInstance(String key) {
         Facade inst;
         if (instanceMap.get(key) == null) {
@@ -44,15 +44,15 @@ public class Facade implements INotifier {
      * 唯一默认实例
      */
     public final static Facade facade = getInstance("default");
-    
+
     public static Facade getInstance() {
         return facade;
     }
-    
+
     public synchronized static boolean hasCore(String key) {
         return instanceMap.containsKey(key);
     }
-    
+
     public synchronized static void removeCore(String key) {
         Facade inst = instanceMap.remove(key);
         if (inst != null) {
@@ -70,15 +70,15 @@ public class Facade implements INotifier {
     private Executor threadPool;
     private ScheduledExecutorService scheduleThreadPool;
     private final Map<String, ScheduledFuture<?>> scheduleFutureMap = new ConcurrentHashMap<>();
-    
+
     private Facade() {
-        
+
     }
-    
+
     private Facade(String key) {
         this.init(key);
     }
-    
+
     private void init(String key) {
         if (instanceMap.get(key) != null) {
             throw new RuntimeException(String.format("%s 对应的实例已被创建", key));
@@ -673,6 +673,9 @@ public class Facade implements INotifier {
         if (scheduleThreadPool == null) {
             throw new Error(String.format("执行sendMessage定时调度前请先调用 %s.initScheduleThreadPool方法初始化线程池", this.getClass().toString()));
         }
+        if (scheduler.facade != null && scheduler.msg != null) {
+            throw new Error(String.format("每次调用sendMessage进行事件调度时必须保证%s参数为新的且独立的对象", Scheduler.class.getTypeName()));
+        }
         String cmdStr = msg.what.toString();
         if (StringUtils.isNumeric(cmdStr)) {
             scheduler.name += "_$#_numeric_" + cmdStr;
@@ -769,5 +772,5 @@ public class Facade implements INotifier {
         }
         this.scheduleThreadPool = null;
     }
-    
+
 }
