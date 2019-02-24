@@ -21,4 +21,20 @@ public interface INotifier {
      * @param asyn true为异步，false为同步
      */
     void sendMessage(Message msg, boolean asyn);
+
+    /**
+     * 定时调度执行事件通知
+     *
+     * @param msg 事件
+     * @param scheduler 定时调度器
+     */
+    void sendMessage(Message msg, Scheduler scheduler);
+
+    /**
+     * 取消调度
+     *
+     * @param cmd 事件名
+     * @param group 调度器组名
+     */
+    void cancelSchedule(Object cmd, String group);
 }

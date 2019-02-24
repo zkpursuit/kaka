@@ -5,8 +5,10 @@ import com.kaka.notice.AsynResult;
 import static com.kaka.notice.Facade.facade;
 import com.kaka.notice.IResult;
 import com.kaka.notice.Message;
+import com.kaka.notice.Scheduler;
 import com.kaka.notice.SyncResult;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 异步使用范例
@@ -47,17 +49,27 @@ public class Asyn_Test extends Startup {
         IResult<String> result1 = syncMsg.setResult("ResultMsg", new SyncResult<>());
         facade.sendMessage(syncMsg, false);  //同步发送事件通知
         System.out.println(result1.get());
-        
+
         //另一种异步处理方式,同步派发事件，事件处理器中使用FutureTask及线程异步获取执行结果
         Message syncMsg1 = new Message("30000", "让FutureCommand接收执行");
         IResult<String> result2 = syncMsg1.setResult("ResultMsg", new SyncResult<>());
         facade.sendMessage(syncMsg1, false); //同步发送事件通知
         System.out.println(result2.get());
-        
+
         //哈哈，异步中的异步，其实没必要
         Message syncMsg2 = new Message("30000", "让FutureCommand接收执行");
         IResult<String> result3 = syncMsg2.setResult("ResultMsg", new AsynResult<>());
         facade.sendMessage(syncMsg2, true); //异步发送事件通知
         System.out.println(result3.get());
+        
+        facade.initScheduleThreadPool(Executors.newScheduledThreadPool(2));
+        long c = System.currentTimeMillis();
+        Scheduler scheduler = Scheduler.create("test")
+                .startTime(c + 3000) //3秒后开始执行
+                .endTime(c + 7000) //调度执行结束时间点
+                .interval(2000, TimeUnit.MILLISECONDS) //执行间隔
+                .repeatCount(5); //执行次数
+        //此处的执行次数为5次，但因执行到某次时超出设置的结束时间，故而实际次数将少于5次
+        facade.sendMessage(new Message("1000", "让MyCommand接收执行"), scheduler);
     }
 }

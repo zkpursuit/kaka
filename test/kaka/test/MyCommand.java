@@ -15,9 +15,9 @@ public class MyCommand extends Command {
     @Override
     public void execute(Message msg) {
         System.out.println(MyCommand.class.getTypeName() + " -> execute " + msg.getWhat() + " 绑定的数据：" + msg.getBody());
-        MyProxy proxy = this.getProxy(MyProxy.class);
-        proxy.func();
-        this.sendMessage(new Message("3000", "让MyMediator接收执行"));
+        //MyProxy proxy = this.getProxy(MyProxy.class);
+        //proxy.func();
+        //this.sendMessage(new Message("3000", "让MyMediator接收执行"));
     }
 
 }

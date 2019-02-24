@@ -37,11 +37,37 @@ abstract public class Notifier implements INotifier {
     }
 
     /**
+     * 定时调度执行事件通知
+     *
+     * @param msg 事件
+     * @param scheduler 定时调度器
+     */
+    @Override
+    public void sendMessage(Message msg, Scheduler scheduler) {
+        if (facade != null) {
+            facade.sendMessage(msg, scheduler);
+        }
+    }
+
+    /**
+     * 取消调度
+     *
+     * @param cmd 事件名
+     * @param group 调度器组名
+     */
+    @Override
+    public void cancelSchedule(Object cmd, String group) {
+        if (facade != null) {
+            facade.cancelSchedule(cmd, group);
+        }
+    }
+
+    /**
      * 获取通知派发器
      *
      * @return 通知派发器
      */
-    protected Facade getDispatcher() {
+    protected Facade getFacade() {
         return this.facade;
     }
 

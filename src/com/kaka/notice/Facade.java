@@ -13,6 +13,9 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 整个框架的中枢神经（大脑）
@@ -20,9 +23,9 @@ import java.util.concurrent.Executor;
  * @author zkpursuit
  */
 public class Facade implements INotifier {
-
+    
     private static final Map<String, Facade> instanceMap = new HashMap<>();
-
+    
     public synchronized static Facade getInstance(String key) {
         Facade inst;
         if (instanceMap.get(key) == null) {
@@ -41,15 +44,15 @@ public class Facade implements INotifier {
      * 唯一默认实例
      */
     public final static Facade facade = getInstance("default");
-
+    
     public static Facade getInstance() {
         return facade;
     }
-
+    
     public synchronized static boolean hasCore(String key) {
         return instanceMap.containsKey(key);
     }
-
+    
     public synchronized static void removeCore(String key) {
         Facade inst = instanceMap.remove(key);
         if (inst != null) {
@@ -65,15 +68,17 @@ public class Facade implements INotifier {
     private final Map<Object, List<Mediator>> notiMediMap = new ConcurrentHashMap<>();
     private final Map<Object, CommandPool> cmdPoolMap = new ConcurrentHashMap<>();
     private Executor threadPool;
-
+    private ScheduledExecutorService scheduleThreadPool;
+    private final Map<String, ScheduledFuture<?>> scheduleFutureMap = new ConcurrentHashMap<>();
+    
     private Facade() {
-
+        
     }
-
+    
     private Facade(String key) {
         this.init(key);
     }
-
+    
     private void init(String key) {
         if (instanceMap.get(key) != null) {
             throw new RuntimeException(String.format("%s 对应的实例已被创建", key));
@@ -88,6 +93,15 @@ public class Facade implements INotifier {
      */
     public void initThreadPool(Executor threadPool) {
         this.threadPool = threadPool;
+    }
+
+    /**
+     * 异步定时调度线程池
+     *
+     * @param scheduleThreadPool 定时调度线程池
+     */
+    public void initScheduleThreadPool(ScheduledExecutorService scheduleThreadPool) {
+        this.scheduleThreadPool = scheduleThreadPool;
     }
 
     /**
@@ -637,6 +651,77 @@ public class Facade implements INotifier {
     }
 
     /**
+     * 终止任务调度
+     *
+     * @param name 任务名
+     */
+    void cancelSchedule(String name) {
+        if (scheduleFutureMap.containsKey(name)) {
+            ScheduledFuture<?> future = scheduleFutureMap.remove(name);
+            future.cancel(true);
+        }
+    }
+
+    /**
+     * 定时调度执行事件通知
+     *
+     * @param msg 事件
+     * @param scheduler 定时调度器
+     */
+    @Override
+    public void sendMessage(final Message msg, Scheduler scheduler) {
+        if (scheduleThreadPool == null) {
+            throw new Error(String.format("执行sendMessage定时调度前请先调用 %s.initScheduleThreadPool方法初始化线程池", this.getClass().toString()));
+        }
+        String cmdStr = msg.what.toString();
+        if (StringUtils.isNumeric(cmdStr)) {
+            scheduler.name += "_$#_numeric_" + cmdStr;
+        } else {
+            scheduler.name += "_$#_string_" + cmdStr;
+        }
+        scheduler.facade = this;
+        scheduler.msg = msg;
+        long initDelay;
+        long currMillSecs = System.currentTimeMillis();
+        if (scheduler.startTime <= 0) {
+            scheduler.startTime = currMillSecs;
+        }
+        scheduler.prevExecTime.set(scheduler.startTime);
+        if (scheduler.startTime >= currMillSecs) {
+            initDelay = scheduler.startTime - currMillSecs;
+        } else {
+            initDelay = 0;
+        }
+        long delay;
+        if (scheduler.interval <= 0) {
+            delay = 1;
+        } else {
+            delay = scheduler.interval;
+        }
+        cancelSchedule(scheduler.name);
+        ScheduledFuture<?> future = scheduleThreadPool.scheduleWithFixedDelay(scheduler, initDelay, delay, TimeUnit.MILLISECONDS);
+        scheduleFutureMap.put(scheduler.name, future);
+    }
+
+    /**
+     * 取消调度
+     *
+     * @param cmd 事件名
+     * @param group 调度器组名
+     */
+    @Override
+    public void cancelSchedule(Object cmd, String group) {
+        String name = group;
+        String cmdStr = cmd.toString();
+        if (StringUtils.isNumeric(cmdStr)) {
+            name += "_$#_numeric_" + cmdStr;
+        } else {
+            name += "_$#_string_" + cmdStr;
+        }
+        cancelSchedule(name);
+    }
+
+    /**
      * 释放内存
      */
     final public void dispose() {
@@ -676,6 +761,13 @@ public class Facade implements INotifier {
         cmdPoolMap.clear();
         mediaMap.clear();
         proxyMap.clear();
+        this.threadPool = null;
+        keys = scheduleFutureMap.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            this.cancelSchedule(key);
+        }
+        this.scheduleThreadPool = null;
     }
-
+    
 }

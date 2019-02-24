@@ -1,14 +1,12 @@
 package kaka;
 
-
 import com.kaka.Startup;
 import static com.kaka.notice.Facade.facade;
 import com.kaka.notice.Message;
 
-
 /**
  * 同步使用范例
- * 
+ *
  * @author zkpursuit
  */
 public class Sync_Test extends Startup {
