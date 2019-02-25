@@ -68,7 +68,7 @@ public class Asyn_Test extends Startup {
                 .startTime(c + 3000) //3秒后开始执行
                 .endTime(c + 7000) //调度执行结束时间点
                 .interval(2000, TimeUnit.MILLISECONDS) //执行间隔
-                .repeatCount(5); //执行次数
+                .repeat(5); //执行次数
         //此处的执行次数为5次，但因执行到某次时超出设置的结束时间，故而实际次数将少于5次
         facade.sendMessage(new Message("1000", "让MyCommand接收执行"), scheduler);
     }

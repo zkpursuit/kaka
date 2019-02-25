@@ -18,7 +18,7 @@ public class Scheduler implements Runnable {
     long interval;
     int repeatCount;
     AtomicInteger count;
-    AtomicLong prevExecTime; //执行次数尽可能的busho执行耗时
+    AtomicLong prevExecTime; //执行次数尽可能的不受执行耗时影响
     String name;
 
     /**
@@ -77,14 +77,14 @@ public class Scheduler implements Runnable {
     /**
      * 设置调度器最大执行次数
      *
-     * @param repeatCount 最大执行次数
+     * @param repeat 最大执行次数
      * @return 调度器
      */
-    public Scheduler repeatCount(int repeatCount) {
-        if (repeatCount <= 0) {
+    public Scheduler repeat(int repeat) {
+        if (repeat <= 0) {
             this.repeatCount = 1;
         } else {
-            this.repeatCount = repeatCount;
+            this.repeatCount = repeat;
         }
         return this;
     }
