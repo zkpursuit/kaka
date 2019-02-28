@@ -729,11 +729,10 @@ public class Facade implements INotifier {
     @Override
     public void cancelSchedule(Object cmd, String group) {
         String name = group;
-        String cmdStr = cmd.toString();
-        if (StringUtils.isNumeric(cmdStr)) {
-            name += "_$#_numeric_" + cmdStr;
+        if (cmd instanceof Number) {
+            name += "_$#_numeric_" + cmd;
         } else {
-            name += "_$#_string_" + cmdStr;
+            name += "_$#_string_" + cmd;
         }
         cancelSchedule(name);
     }
