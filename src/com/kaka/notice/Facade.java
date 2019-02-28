@@ -690,11 +690,11 @@ public class Facade implements INotifier {
         if (scheduler.facade != null && scheduler.msg != null) {
             throw new Error(String.format("每次调用sendMessage进行事件调度时必须保证%s参数为新的且独立的对象", Scheduler.class.getTypeName()));
         }
-        String cmdStr = msg.what.toString();
-        if (StringUtils.isNumeric(cmdStr)) {
-            scheduler.name += "_$#_numeric_" + cmdStr;
+        Object what = msg.what;
+        if(what instanceof Number) {
+            scheduler.name += "_$#_numeric_" + what;
         } else {
-            scheduler.name += "_$#_string_" + cmdStr;
+            scheduler.name += "_$#_string_" + what;
         }
         scheduler.facade = this;
         scheduler.msg = msg;
