@@ -690,12 +690,8 @@ public class Facade implements INotifier {
         if (scheduler.facade != null && scheduler.msg != null) {
             throw new Error(String.format("每次调用sendMessage进行事件调度时必须保证%s参数为新的且独立的对象", Scheduler.class.getTypeName()));
         }
-        Object what = msg.what;
-        if(what instanceof Number) {
-            scheduler.name += "_$#_numeric_" + what;
-        } else {
-            scheduler.name += "_$#_string_" + what;
-        }
+        Object cmd = msg.what;
+        scheduler.name += String.format("_$%s$_%s", cmd.getClass().getTypeName(), cmd);
         scheduler.facade = this;
         scheduler.msg = msg;
         long initDelay;
@@ -729,11 +725,7 @@ public class Facade implements INotifier {
     @Override
     public void cancelSchedule(Object cmd, String group) {
         String name = group;
-        if (cmd instanceof Number) {
-            name += "_$#_numeric_" + cmd;
-        } else {
-            name += "_$#_string_" + cmd;
-        }
+        name += String.format("_$%s$_%s", cmd.getClass().getTypeName(), cmd);
         cancelSchedule(name);
     }
 
