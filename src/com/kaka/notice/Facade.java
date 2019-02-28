@@ -60,9 +60,7 @@ public class Facade implements INotifier {
         }
     }
 
-//    private final Logger logger = (Logger) LoggerFactory.getLogger(Facade.class);
-//    private final ReentrantReadWriteLock msgLock = new ReentrantReadWriteLock();
-//    private final Lock msgLock = new ReentrantLock();
+    private String __name;
     private final Map<String, Proxy> proxyMap = new ConcurrentHashMap<>();
     private final Map<String, Mediator> mediaMap = new ConcurrentHashMap<>();
     private final Map<Object, List<Mediator>> notiMediMap = new ConcurrentHashMap<>();
@@ -71,19 +69,35 @@ public class Facade implements INotifier {
     private ScheduledExecutorService scheduleThreadPool;
     private final Map<String, ScheduledFuture<?>> scheduleFutureMap = new ConcurrentHashMap<>();
 
-    private Facade() {
-
-    }
-
+    /**
+     * 创建一个内核
+     *
+     * @param key 内核唯一标识名
+     */
     private Facade(String key) {
         this.init(key);
     }
 
+    /**
+     * 初始化内核
+     *
+     * @param key 内核唯一标识名
+     */
     private void init(String key) {
         if (instanceMap.get(key) != null) {
             throw new RuntimeException(String.format("%s 对应的实例已被创建", key));
         }
+        this.__name = key;
         instanceMap.put(key, this);
+    }
+
+    /**
+     * 获取内核唯一标识名
+     *
+     * @return 内核唯一标识名
+     */
+    public String getName() {
+        return this.__name;
     }
 
     /**
