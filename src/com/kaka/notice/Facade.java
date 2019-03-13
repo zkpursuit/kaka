@@ -603,6 +603,17 @@ public class Facade implements INotifier {
     final public void registCommand(Object cmd, Class<? extends Command> clasz) {
         registCommand(cmd, clasz, -1);
     }
+    
+    /**
+     * 移除命令执行器
+     *
+     * @param cmd 命令执行器唯一标识
+     */
+    final public void removeCommand(Object cmd) {
+        if (cmdPoolMap.containsKey(cmd)) {
+            cmdPoolMap.remove(cmd);
+        }
+    }
 
     /**
      * 消息调度处理
