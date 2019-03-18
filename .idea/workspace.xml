@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="kaka.jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="79f07983-805e-4b41-8153-daa38e98e1d3" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/ftp/FtpSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/ftp/FtpSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/XmlElementAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/XmlElementAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/config/ExcelTxtNumericConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/config/ExcelTxtNumericConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/SerializeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/SerializeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/Tool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/TypeUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/excel/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/excel/ExcelReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../zoki/test/tree/TestTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/test/tree/TestTree.java" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/.gradle/" />
+    <ignored path="$PROJECT_DIR$/build/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/aop/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-aop/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-aop/kaka-notice/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-notice/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-core/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-aopwear/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-test/target/" />
+    <ignored path="$PROJECT_DIR$/kaka-core-lib/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/kaka$Sync_Test.ic" NAME="Sync_Test Coverage Results" MODIFIED="1549262363256" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>kaka.test.*</FILTER>
+    </SUITE>
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="1646253459">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.closed" value="29" />
+          <entry key="project.open.time.1" value="2" />
+          <entry key="project.open.time.2" value="6" />
+          <entry key="project.open.time.23" value="1" />
+          <entry key="project.open.time.24" value="2" />
+          <entry key="project.open.time.26" value="1" />
+          <entry key="project.open.time.27" value="1" />
+          <entry key="project.open.time.29" value="2" />
+          <entry key="project.open.time.3" value="3" />
+          <entry key="project.open.time.30" value="2" />
+          <entry key="project.open.time.31" value="1" />
+          <entry key="project.open.time.32" value="2" />
+          <entry key="project.open.time.34" value="1" />
+          <entry key="project.open.time.35" value="1" />
+          <entry key="project.open.time.36" value="1" />
+          <entry key="project.open.time.4" value="2" />
+          <entry key="project.open.time.48" value="1" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="30" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="0-SNAPSHOT" value="1" />
+          <entry key="MF" value="1" />
+          <entry key="class" value="13" />
+          <entry key="iml" value="1" />
+          <entry key="java" value="310" />
+          <entry key="properties" value="1" />
+          <entry key="xml" value="47" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="CLASS" value="13" />
+          <entry key="IDEA_MODULE" value="1" />
+          <entry key="JAVA" value="310" />
+          <entry key="Manifest" value="1" />
+          <entry key="Properties" value="1" />
+          <entry key="UML" value="1" />
+          <entry key="XML" value="47" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="dummy" value="13" />
+          <entry key="java" value="5591" />
+          <entry key="xml" value="359" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="JAVA" value="5591" />
+          <entry key="PLAIN_TEXT" value="13" />
+          <entry key="XML" value="359" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/kaka-aopwear/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>SortUtils</find>
+      <find>checkPermits</find>
+      <find>static</find>
+      <find>static</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../zoki" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/test/java/kaka/test/FutureMessage.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kaka/test/FutureCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Future.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Message.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kaka/Asyn_Test.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/Ticker.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/RateLimiter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/Stopwatch.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/SmoothRateLimiter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/concurrent/RateLimiter.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/MathUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/scheduler/QuartzScheduler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/util/ReflectUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/scheduler/MessageJob.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Scheduler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Notifier.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/INotifier.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/SimpleScheduler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/IScheduler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Facade.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/scheduler/QuartzSchedulerFacade.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/kaka/Startup.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/IAopFactory.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/AbstractAopFactory.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/AbstractAop.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/AopFactory.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/Startup.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/notice/Facade.java" />
+        <option value="$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/Aop.java" />
+        <option value="$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/CglibAop.java" />
+        <option value="$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/CglibAop.java" />
+        <option value="$PROJECT_DIR$/kaka-aop/pom.xml" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/AopFactory.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/IProceedJoinPoint.java" />
+        <option value="$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/ProceedJoinPoint.java" />
+        <option value="$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/IMethodInterceptor.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/IMethodInterceptor.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/annotation/Intercept.java" />
+        <option value="$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/MethodInterceptor.java" />
+        <option value="$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/MethodAspectHandler.java" />
+        <option value="$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/MethodInterceptHandler.java" />
+        <option value="$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/CglibAop.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kaka/test/MyProxy.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kaka/test/MyAspect.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kaka/test/MyMethodInterceptor.java" />
+        <option value="$PROJECT_DIR$/src/test/java/kaka/Sync_Test.java" />
+        <option value="$PROJECT_DIR$/kaka-core/pom.xml" />
+        <option value="$PROJECT_DIR$/kaka-core-lib/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/kaka-aopwear/pom.xml" />
+        <option value="$PROJECT_DIR$/kaka-test/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/apache-maven-3.6.0" />
+        <option name="usePluginRegistry" value="true" />
+        <option name="userSettingsFile" value="D:\apache-maven-3.6.0\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand />
+      <select />
+    </treeState>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="1.8" />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1346" />
+    <option name="height" value="688" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="kaka" type="b2602c69:ProjectViewProjectNode" />
+              <item name="kaka" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552899661022" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.17576961" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+      <recent name="com.kaka.aop" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\workspace\IdeaProjects\kaka\src\test\java\kaka\test" />
+      <recent name="D:\workspace\IdeaProjects\kaka\src\test\java\kaka" />
+      <recent name="D:\workspace\IdeaProjects\kaka\kaka-aopwear\src\main\java\com\kaka\aopwear" />
+      <recent name="D:\workspace\IdeaProjects\kaka\kaka-aop\src\main\java\com\kaka\aop" />
+      <recent name="D:\workspace\IdeaProjects\kaka\src\main\java\com\kaka\notice" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\workspace\IdeaProjects\kaka\kaka-aop\src\main\java\com.kaka.aop" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.TestAop (1)">
+    <configuration name="Asyn_Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kaka.Asyn_Test" />
+      <module name="kaka" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="kaka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Sync_Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kaka.Sync_Test" />
+      <module name="kaka" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestAop (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kaka.TestAop" />
+      <module name="kaka-test" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="kaka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestAop" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kaka.TestAop" />
+      <module name="kaka" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="kaka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestConf" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.numerical.TestConf" />
+      <module name="kaka" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.numerical.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="kaka [clean:clean]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="clean:clean" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="kaka [compiler:compile]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="compiler:compile" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="kaka [dependency:copy-dependencies]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="dependency:copy-dependencies" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration name="kaka [jar:jar]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="jar:jar" />
+              </list>
+            </option>
+            <option name="pomFileName" value="pom.xml" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Maven.kaka [clean:clean]" />
+      <item itemvalue="Maven.kaka [compiler:compile]" />
+      <item itemvalue="Maven.kaka [dependency:copy-dependencies]" />
+      <item itemvalue="Maven.kaka [jar:jar]" />
+      <item itemvalue="Application.TestConf" />
+      <item itemvalue="Application.Sync_Test" />
+      <item itemvalue="Application.Asyn_Test" />
+      <item itemvalue="Application.TestAop" />
+      <item itemvalue="Application.TestAop (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestAop (1)" />
+        <item itemvalue="Application.TestAop" />
+        <item itemvalue="Application.Sync_Test" />
+        <item itemvalue="Application.Asyn_Test" />
+        <item itemvalue="Application.TestConf" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="79f07983-805e-4b41-8153-daa38e98e1d3" name="Default" comment="" />
+      <created>1527309052245</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1527309052245</updated>
+      <workItem from="1527309055708" duration="3958000" />
+      <workItem from="1527313085996" duration="1759000" />
+      <workItem from="1527316933708" duration="3386000" />
+      <workItem from="1527335493864" duration="14187000" />
+      <workItem from="1527386673474" duration="38000" />
+      <workItem from="1527423527802" duration="240000" />
+      <workItem from="1547207583709" duration="3722000" />
+      <workItem from="1547264112266" duration="817000" />
+      <workItem from="1547271992560" duration="959000" />
+      <workItem from="1547299594082" duration="4380000" />
+      <workItem from="1547347280434" duration="28000" />
+      <workItem from="1547444118223" duration="4247000" />
+      <workItem from="1547450691052" duration="4562000" />
+      <workItem from="1547516624332" duration="21000" />
+      <workItem from="1547552167111" duration="4807000" />
+      <workItem from="1547775253206" duration="6382000" />
+      <workItem from="1548053588770" duration="1129000" />
+      <workItem from="1548305369802" duration="2462000" />
+      <workItem from="1548328028865" duration="1774000" />
+      <workItem from="1548330963963" duration="73000" />
+      <workItem from="1548331392594" duration="3335000" />
+      <workItem from="1548417158771" duration="3132000" />
+      <workItem from="1548931169005" duration="194000" />
+      <workItem from="1548931455488" duration="42000" />
+      <workItem from="1548998177301" duration="44000" />
+      <workItem from="1549255021550" duration="8372000" />
+      <workItem from="1549718396491" duration="564000" />
+      <workItem from="1551106764106" duration="168000" />
+      <workItem from="1551182425012" duration="3559000" />
+      <workItem from="1551326683304" duration="324000" />
+      <workItem from="1551774485881" duration="64000" />
+      <workItem from="1552825834760" duration="4766000" />
+      <workItem from="1552830727171" duration="603000" />
+      <workItem from="1552831405242" duration="5889000" />
+      <workItem from="1552891790331" duration="2145000" />
+      <workItem from="1552894003087" duration="1469000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="93601000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <editor active="true" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30559757" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3846154" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39770868" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="FindBugs-IDEA" order="7" weight="0.3294893" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Inspection Results" order="9" weight="0.3289689" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32569557" />
+      <window_info anchor="bottom" id="Database Changes" order="12" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="13" show_stripe_button="false" />
+      <window_info anchor="right" id="Coverage" order="0" sideWeight="0.5090016" side_tool="true" visible="true" weight="0.15355521" />
+      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.24962178" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Capture Analysis" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" sideWeight="0.49099836" visible="true" weight="0.23827533" />
+      <window_info anchor="right" id="Database" order="7" weight="0.32980332" />
+      <window_info anchor="right" id="Palette&#9;" order="8" />
+      <window_info anchor="right" id="Theme Preview" order="9" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/notice/Facade.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/scheduler/MessageJob.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/scheduler/QuartzSchedulerFacade.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/aop/Aop.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/Startup.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/IAopFactory.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/notice/Facade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="142" column="48" lean-forward="true" selection-start-line="142" selection-start-column="48" selection-end-line="142" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/Startup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="76" column="63" lean-forward="true" selection-start-line="76" selection-start-column="63" selection-end-line="76" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/AbstractAop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="33" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/ProceedJoinPoint.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/MethodWrap.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/MethodInterceptHandler.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/MethodAspectHandler.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/MethodAdvices.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/JoinPoint.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/IMethodInterceptor.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com.kaka.aop/CglibAop.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/MethodInterceptHandler.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/ProceedJoinPoint.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/MethodWrap.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/MethodAspectHandler.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/MethodAdvices.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/JoinPoint.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/IMethodInterceptor.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/kaka-aop.iml" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/src/main/java/com/kaka/aopwear/CglibAop.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-aop/pom.xml" />
+    <entry file="file://$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/JoinPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-624">
+          <caret line="23" column="28" lean-forward="true" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/ProceedJoinPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/annotation/Intercept.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="48" lean-forward="true" selection-start-line="20" selection-start-column="48" selection-end-line="20" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/MethodInvocation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="38" lean-forward="true" selection-start-line="4" selection-start-column="38" selection-end-line="4" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/MethodInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="43" selection-start-line="9" selection-start-column="43" selection-end-line="9" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/test/FutureCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="20" column="56" lean-forward="true" selection-start-line="20" selection-start-column="56" selection-end-line="20" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/MethodInterceptHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="25" column="48" lean-forward="true" selection-start-line="25" selection-start-column="48" selection-end-line="25" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/MethodAspectHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="42" column="51" lean-forward="true" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/src/main/java/com/kaka/aop/AopFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-aopwear/src/main/java/com/kaka/aopwear/CglibAop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="430" column="67" lean-forward="true" selection-start-line="430" selection-start-column="67" selection-end-line="430" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/kaka/test/MyInterceptor.java" />
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/test/MyProxy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="36" lean-forward="true" selection-start-line="10" selection-start-column="36" selection-end-line="10" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/test/MyMethodInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="21" column="47" lean-forward="true" selection-start-line="21" selection-start-column="47" selection-end-line="21" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/test/MyAspect.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="46" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/kaka/Sync_Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="31" lean-forward="true" selection-start-line="4" selection-start-column="31" selection-end-line="4" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/kaka/Asyn_Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/src/main/java/kaka/TestAop.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="3" lean-forward="true" selection-start-line="6" selection-start-column="3" selection-end-line="6" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="67" column="12" selection-start-line="15" selection-start-column="4" selection-end-line="67" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-core-lib/pom.xml" />
+    <entry file="file://$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-test/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/kaka-aopwear/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>kaka-aopwear:jar</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17576961" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>No facets are configured</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17576961" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>jquery-DefinitelyTyped</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17576961" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17576961" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>kaka-aopwear</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17576961" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: cglib:cglib:3.2.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17576961" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.30077693" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="$PROJECT_DIR$" />
+    <option value="dependency:copy-dependencies -DoutputDirectory=lib" />
+  </component>
+</project>
