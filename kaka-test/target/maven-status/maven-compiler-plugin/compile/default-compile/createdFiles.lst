@@ -1,0 +1,11 @@
+test\MyProxy.class
+kaka\Asyn_Test.class
+kaka\Sync_Test.class
+test\MyAspect.class
+kaka\TestAop.class
+test\MyMethodInterceptor.class
+test\MyCommand.class
+test\MyMediator.class
+test\AopCommand.class
+test\ResultCommand.class
+test\FutureCommand.class
