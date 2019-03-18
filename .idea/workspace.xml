@@ -6,18 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79f07983-805e-4b41-8153-daa38e98e1d3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/ftp/FtpSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/ftp/FtpSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/Parser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/XmlElementAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/XmlElementAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/config/ExcelTxtNumericConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/numerical/config/ExcelTxtNumericConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/SerializeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/SerializeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/StringUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/Tool.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/Tool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/TypeUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/TypeUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/com/kaka/util/excel/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/com/kaka/util/excel/ExcelReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../zoki/test/tree/TestTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../zoki/test/tree/TestTree.java" afterDir="false" />
-    </list>
+    <list default="true" id="79f07983-805e-4b41-8153-daa38e98e1d3" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/" />
@@ -117,6 +106,26 @@
         </counts>
       </usages-collector>
     </session>
+    <session id="1285355014">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="LICENSE" value="1" />
+          <entry key="md" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Markdown" value="2" />
+          <entry key="PLAIN_TEXT" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
@@ -124,16 +133,37 @@
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+              <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/kaka-aopwear/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LICENSE">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2175">
+              <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/kaka-aopwear/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="30">
+                <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -157,12 +187,11 @@
     </findStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../zoki" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/test/java/kaka/test/FutureMessage.java" />
         <option value="$PROJECT_DIR$/src/test/java/kaka/test/FutureCommand.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Future.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/kaka/notice/Message.java" />
@@ -213,6 +242,7 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/kaka-aopwear/pom.xml" />
         <option value="$PROJECT_DIR$/kaka-test/pom.xml" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -251,11 +281,13 @@
     <option name="width" value="1346" />
     <option name="height" value="688" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -268,7 +300,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -570,17 +601,18 @@
       <workItem from="1552831405242" duration="5889000" />
       <workItem from="1552891790331" duration="2145000" />
       <workItem from="1552894003087" duration="1469000" />
+      <workItem from="1552900239544" duration="74000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93601000" />
+    <option name="totallyTimeSpent" value="93675000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.30559757" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.31013617" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -620,8 +652,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/notice/Facade.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/scheduler/MessageJob.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/scheduler/QuartzSchedulerFacade.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/aop/Aop.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/kaka/Startup.java" />
@@ -790,13 +820,6 @@
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/kaka-test/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -804,10 +827,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/kaka-aopwear/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="28" lean-forward="true" selection-start-line="13" selection-start-column="28" selection-end-line="13" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2175">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="30">
+            <caret line="2" column="9" lean-forward="true" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="9" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
