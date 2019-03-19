@@ -1,1 +1,13 @@
 /.idea
+/kaka-aopwear/target/maven-archiver
+/kaka-aopwear/target/maven-status
+/kaka-aopwear/target/classes
+/kaka-aopwear/target/generated-sources
+/kaka-core/target/maven-archiver
+/kaka-core/target/maven-status
+/kaka-core/target/classes
+/kaka-core/target/generated-sources
+/kaka-test/target/maven-status
+/kaka-test/target/classes
+/kaka-test/target/generated-sources
+/kaka-test/target/maven-archiver

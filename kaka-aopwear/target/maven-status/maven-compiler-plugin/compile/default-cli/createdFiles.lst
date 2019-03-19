@@ -1,7 +1,0 @@
-com\kaka\aopwear\MethodInterceptHandler.class
-com\kaka\aopwear\ProceedJoinPoint.class
-com\kaka\aopwear\MethodAspectHandler.class
-com\kaka\aopwear\JoinPoint.class
-com\kaka\aopwear\CglibAop.class
-com\kaka\aopwear\MethodWrap.class
-com\kaka\aopwear\MethodAdvices.class
