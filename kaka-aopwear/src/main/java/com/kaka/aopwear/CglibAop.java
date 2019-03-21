@@ -7,18 +7,18 @@ import com.kaka.aop.annotation.AfterThrowing;
 import com.kaka.aop.annotation.Around;
 import com.kaka.aop.annotation.Before;
 import com.kaka.aop.annotation.Intercept;
-import com.kaka.aop.AbstractAop;
+import com.kaka.aop.Aop;
 import com.kaka.util.ClassScaner;
 import com.kaka.util.ReflectUtils;
+
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Modifier;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import net.sf.cglib.proxy.Enhancer;
 
 /**
@@ -26,7 +26,7 @@ import net.sf.cglib.proxy.Enhancer;
  *
  * @author zkpursuit
  */
-public class CglibAop extends AbstractAop {
+public class CglibAop extends Aop {
 
     /**
      * Class对应CgLib中的Enhancer对象
@@ -35,7 +35,12 @@ public class CglibAop extends AbstractAop {
     /**
      * Class对应《方法对应切面方法信息》
      */
-    final Map<Class<?>, Map<Method, MethodAdvices>> class_aspect_method_map = new ConcurrentHashMap<>();
+    //final Map<Class<?>, Map<Method, MethodAdvices>> class_aspect_method_map = new ConcurrentHashMap<>();
+
+    /**
+     * 方法完全限定名与其切面方法集合的映射
+     */
+    final Map<String, MethodAdvices> method_advices_map = new ConcurrentHashMap<>();
 
     /**
      * 类方法拦截器映射
@@ -43,10 +48,6 @@ public class CglibAop extends AbstractAop {
     final Map<String, MethodInterceptor> class_method_interceptor_map = new ConcurrentHashMap<>();
 
     final Map<Class<?>, MethodInterceptor> class_interceptor_map = new ConcurrentHashMap<>();
-
-    public final boolean isRegistered(Class<?> clasz) {
-        return class_enhancer_map.containsKey(clasz);
-    }
 
     private final Pattern pattern = Pattern.compile("\\(([\\s\\S]*)\\)");
 
@@ -56,7 +57,7 @@ public class CglibAop extends AbstractAop {
      * @param src 类完全限定名方法名及其参数类型列表，参数类型列表为小括号限定且以逗号分隔
      * @return 方法参数
      */
-    private String matchMethodParamsFromAopPointcut(String src) {
+    private String matchMethodParams(String src) {
         Matcher matcher = pattern.matcher(src);
         while (matcher.find()) {
             return matcher.group(1);
@@ -72,9 +73,6 @@ public class CglibAop extends AbstractAop {
      * @return
      */
     private Class<?> getClassByName(String className, ClassLoader classLoader) {
-        if (className.startsWith("com.kaka")) {
-            return null;
-        }
         Class<?> clasz = classMap.get(className);
         if (clasz == null) {
             try {
@@ -102,140 +100,127 @@ public class CglibAop extends AbstractAop {
      * @return 类集合
      */
     private Set<Class<?>> getClassesByPackageName(String packageName, ClassLoader classLoader) {
-        if (packageName.startsWith("com.kaka")) {
-            return null;
+        if (packageClassMap.containsKey(packageName)) {
+            return packageClassMap.get(packageName);
         }
-        Set<Class<?>> classes = packageClassMap.get(packageName);
-        if (classes == null) {
-            Set<Class<?>> _classes = ClassScaner.getClasses(classLoader, packageName);
-            if (!_classes.isEmpty()) {
-                packageClassMap.put(packageName, _classes);
+        //提供的包名有父级包名已获得旗下的所有类
+        int idx;
+        String pname = packageName;
+        while ((idx = pname.lastIndexOf('.')) > 0) {
+            pname = pname.substring(0, idx);
+            if (packageClassMap.containsKey(pname)) {
+                return packageClassMap.get(pname);
             }
-            classes = _classes;
         }
-        return classes;
+        //存在子级类包的映射则删除子集类包
+        Set<String> keys = packageClassMap.keySet();
+        for (String key : keys) {
+            if (key.startsWith(packageName)) {
+                packageClassMap.remove(key);
+            }
+        }
+        //获取本类包和旗下后代类包下的所有类
+        Set<Class<?>> _classes = ClassScaner.getClasses(classLoader, packageName);
+        if (!_classes.isEmpty()) {
+            packageClassMap.put(packageName, _classes);
+        }
+        return _classes;
     }
 
     /**
-     * 根据类名，获取对应的Class
+     * 利用正则表达式匹配方法的完全限定名
      *
-     * @param className 类名
-     * @param classLoader 类加载器
-     * @return Class
+     * @param clasz 被切面的类
+     * @param pattern 切点表达式的正则表示
+     * @param classMethodsMap 被切面的类映射其被切面的方法
      */
-    private Class getTypeByName(String className, ClassLoader classLoader) {
-        switch (className) {
-            case "byte":
-                return byte.class;
-            case "boolean":
-                return boolean.class;
-            case "char":
-                return char.class;
-            case "short":
-                return short.class;
-            case "int":
-                return int.class;
-            case "long":
-                return long.class;
-            case "float":
-                return float.class;
-            case "double":
-                return double.class;
-            case "Byte":
-                return Byte.class;
-            case "Boolean":
-                return Boolean.class;
-            case "Character":
-                return Character.class;
-            case "Short":
-                return Short.class;
-            case "Integer":
-                return Integer.class;
-            case "Long":
-                return Long.class;
-            case "Float":
-                return Float.class;
-            case "Double":
-                return Double.class;
-            case "String":
-                return String.class;
-        }
-        try {
-            return classLoader.loadClass(className);
-        } catch (ClassNotFoundException ex) {
-        }
-        return null;
-    }
-
-    /**
-     * 分析出被切面代理类的哪些方法需要被代理
-     *
-     * @param clasz 被切面代理的类
-     * @param methodName 被代理方法名
-     * @param methodParams 被代理方法参数
-     * @param classMethodsMap 被切面代理类和其所有将被代理方法的映射
-     */
-    private void analyseAopClassMethod(Class clasz, String methodName, String methodParams, Map<Class<?>, Method[]> classMethodsMap) {
+    private void analyseAopClassMethod(Class clasz, Pattern pattern, Map<Class<?>, Set<Method>> classMethodsMap) {
         if (clasz == null) {
             return;
         }
-        if ("...".equals(methodParams)) {
-            //同方法名的所有方法
-            Method[] methods = ReflectUtils.getDeclaredMethods(clasz, false);
-            List<Method> list = new ArrayList<>(methods.length);
-            for (Method method : methods) {
-                if (method.getName().equals(methodName)) {
-                    list.add(method);
+        if (pattern == null) {
+            return;
+        }
+        int modifiers = clasz.getModifiers();
+        if (Modifier.isAbstract(modifiers)) {
+            return;
+        }
+        if (Modifier.isInterface(modifiers)) {
+            return;
+        }
+        Method[] methods = ReflectUtils.getDeclaredMethods(clasz, true);
+        for (Method method : methods) {
+            String methodGenName = method.toGenericString();
+            int idx;
+            while ((idx = methodGenName.indexOf(' ')) > 0) {
+                methodGenName = methodGenName.substring(idx + 1);
+            }
+            Matcher matcher = pattern.matcher(methodGenName);
+            if (matcher.matches()) {
+                Set<Method> methodSet;
+                if (!classMethodsMap.containsKey(clasz)) {
+                    methodSet = new HashSet<>(methods.length);
+                    classMethodsMap.put(clasz, methodSet);
+                } else {
+                    methodSet = classMethodsMap.get(clasz);
                 }
+                methodSet.add(method);
             }
-            if (!list.isEmpty()) {
-                classMethodsMap.put(clasz, list.toArray(new Method[list.size()]));
-            }
-        } else if ("".equals(methodParams)) {
-            //指定方法名的无参方法
-            Method method = ReflectUtils.getDeclaredMethod(clasz, methodName, new Class[]{});
-            if (method != null) {
-                classMethodsMap.put(clasz, new Method[]{method});
-            }
-        } else {
-            //指定方法名指定参数的方法
-            String[] paramTypes = methodParams.split(",");
-            Class[] paramTypeClasses = new Class[paramTypes.length];
-            for (int i = 0; i < paramTypes.length; i++) {
-                paramTypeClasses[i] = getTypeByName(paramTypes[i], clasz.getClassLoader());
-            }
-            Method[] methods = new Method[]{ReflectUtils.getDeclaredMethod(clasz, methodName, paramTypeClasses)};
-            classMethodsMap.put(clasz, methods);
         }
     }
 
     /**
-     * 分析aop切入点表达式
+     * 分析切点表达式
      *
-     * @param pointcut aop切入点表达式
+     * @param pointcut 切点表达式
      * @param classLoader 类加载器
+     * @return
      */
-    private Map<Class<?>, Method[]> analyseAspectPointcut(String pointcut, ClassLoader classLoader) {
-        //判断是否含有小括号，含有则为方法名
-        Map<Class<?>, Method[]> classMethodsMap = new HashMap<>();
-        String methodParams = matchMethodParamsFromAopPointcut(pointcut);
+    private Map<Class<?>, Set<Method>> analyseAspectPointcut(String pointcut, ClassLoader classLoader) {
+        pointcut = pointcut.replaceAll(" ", "");
+        Map<Class<?>, Set<Method>> classMethodsMap = new HashMap<>();
+        String methodParams = matchMethodParams(pointcut);
         if (methodParams != null) {
             methodParams = methodParams.trim();
             int idx = pointcut.lastIndexOf('(');
             String s = pointcut.substring(0, idx);
             idx = s.lastIndexOf('.');
-            String methodName = s.substring(idx + 1);
-            String className = s.substring(0, idx);
-            if (className.lastIndexOf('*') >= 0) {
-                idx = className.lastIndexOf('.');
-                String packageName = className.substring(0, idx);
-                Set<Class<?>> classes = getClassesByPackageName(packageName, classLoader);
-                for (Class clasz : classes) {
-                    analyseAopClassMethod(clasz, methodName, methodParams, classMethodsMap);
+            //String methodName = s.substring(idx + 1);
+            if ("...".equals(methodParams)) {
+                //同方法名的所有方法
+                pointcut = pointcut.replace("(...)", "\\(&\\)");
+                pointcut = pointcut.replaceAll("(\\*)|&", "([\\\\s\\\\S]*)");
+                pointcut = pointcut.replaceAll("\\.", "\\\\.");
+            } else if ("".equals(methodParams)) {
+                //指定方法名的无参方法
+                pointcut = pointcut.replace("()", "\\(\\)");
+                pointcut = pointcut.replaceAll("\\*", "([\\\\s\\\\S]*)");
+                pointcut = pointcut.replaceAll("\\.", "\\\\.");
+            } else {
+                //指定方法名指定参数的方法
+                pointcut = pointcut.replace("(", "\\(");
+                pointcut = pointcut.replace(")", "\\)");
+                pointcut = pointcut.replaceAll("\\*", "([\\\\s\\\\S]*)");
+                pointcut = pointcut.replaceAll("\\.", "\\\\.");
+            }
+            Pattern _pattern = Pattern.compile(pointcut);
+            String fullClassName = s.substring(0, idx);
+            char lastChar = fullClassName.charAt(fullClassName.length() - 1);
+            if (lastChar == '*') {
+                idx = fullClassName.lastIndexOf('.');
+                String packageName = fullClassName.substring(0, idx);
+                while ((idx = packageName.lastIndexOf(".*")) > 0) {
+                    packageName = packageName.substring(0, idx);
+                }
+                if (!"".equals(packageName)) {
+                    Set<Class<?>> classes = getClassesByPackageName(packageName, classLoader);
+                    classes.forEach((clasz) -> {
+                        analyseAopClassMethod(clasz, _pattern, classMethodsMap);
+                    });
                 }
             } else {
-                Class<?> clasz = getClassByName(className, classLoader);
-                analyseAopClassMethod(clasz, methodName, methodParams, classMethodsMap);
+                Class<?> clasz = getClassByName(fullClassName, classLoader);
+                analyseAopClassMethod(clasz, _pattern, classMethodsMap);
             }
         }
         return classMethodsMap;
@@ -250,54 +235,62 @@ public class CglibAop extends AbstractAop {
      * @param aspectAdvice 切面通知的字符串表示
      * @param order 切面通知执行优先级
      */
-    private void aspectMethodMapping(Map<Class<?>, Method[]> classMethodsMap, Object aspectObject, Method aspectMethod, String aspectAdvice, int order) {
+    private void aspectMethodMapping(Map<Class<?>, Set<Method>> classMethodsMap, Object aspectObject, Method aspectMethod, int order, String aspectAdvice) {
         if (classMethodsMap == null || classMethodsMap.isEmpty()) {
             return;
         }
-        classMethodsMap.forEach((Class<?> cls, Method[] mtds) -> {
-            Map<Method, MethodAdvices> methodMap = class_aspect_method_map.get(cls);
-            if (methodMap == null) {
-                methodMap = new HashMap<>();
-                class_aspect_method_map.put(cls, methodMap);
-            }
+        classMethodsMap.forEach((Class<?> cls, Set<Method> mtds) -> {
             for (Method m : mtds) {
-                MethodAdvices methodAdvices = methodMap.get(m);
+                String methodGenName = m.toGenericString();
+                MethodAdvices methodAdvices = method_advices_map.get(methodGenName);
                 if (methodAdvices == null) {
                     methodAdvices = new MethodAdvices();
-                    methodMap.put(m, methodAdvices);
+                    method_advices_map.put(methodGenName, methodAdvices);
                 }
+                MethodWrap methodWrap = new MethodWrap(aspectObject, aspectMethod, order);
                 switch (aspectAdvice) {
                     case "before":
                         if (methodAdvices.before == null) {
-                            methodAdvices.before = new ArrayList<>(8);
+                            methodAdvices.before = new CopyOnWriteArrayList();
                         }
-                        methodAdvices.before.add(new MethodWrap(aspectObject, aspectMethod, order));
+                        methodAdvices.before.add(methodWrap);
+                        sortMethodWraps(methodAdvices.before);
                         break;
                     case "after":
                         if (methodAdvices.after == null) {
-                            methodAdvices.after = new ArrayList<>(8);
+                            methodAdvices.after = new CopyOnWriteArrayList<>();
                         }
-                        methodAdvices.after.add(new MethodWrap(aspectObject, aspectMethod, order));
+                        methodAdvices.after.add(methodWrap);
+                        sortMethodWraps(methodAdvices.after);
                         break;
                     case "afterReturning":
                         if (methodAdvices.afterReturning == null) {
-                            methodAdvices.afterReturning = new ArrayList<>(8);
+                            methodAdvices.afterReturning = new CopyOnWriteArrayList<>();
                         }
-                        methodAdvices.afterReturning.add(new MethodWrap(aspectObject, aspectMethod, order));
+                        methodAdvices.afterReturning.add(methodWrap);
+                        sortMethodWraps(methodAdvices.afterReturning);
                         break;
                     case "around":
                         if (methodAdvices.around == null) {
-                            methodAdvices.around = new ArrayList<>(8);
+                            methodAdvices.around = new CopyOnWriteArrayList<>();
                         }
-                        methodAdvices.around.add(new MethodWrap(aspectObject, aspectMethod, order));
+                        methodAdvices.around.add(methodWrap);
+                        sortMethodWraps(methodAdvices.afterThrowing);
                         break;
                     case "afterThrowing":
                         if (methodAdvices.afterThrowing == null) {
-                            methodAdvices.afterThrowing = new ArrayList<>(8);
+                            methodAdvices.afterThrowing = new CopyOnWriteArrayList<>();
                         }
-                        methodAdvices.afterThrowing.add(new MethodWrap(aspectObject, aspectMethod, order));
+                        methodAdvices.afterThrowing.add(methodWrap);
+                        sortMethodWraps(methodAdvices.around);
                         break;
                 }
+            }
+            if (!class_enhancer_map.containsKey(cls)) {
+                Enhancer enhancer = new Enhancer();
+                enhancer.setSuperclass(cls);
+                enhancer.setCallback(new MethodAspectHandler(this));
+                class_enhancer_map.put(cls, enhancer);
             }
         });
     }
@@ -349,51 +342,38 @@ public class CglibAop extends AbstractAop {
                         if (paramType1 == JoinPoint.class) {
                             Before before = aspectMethod.getAnnotation(Before.class);
                             if (before != null) {
-                                Map<Class<?>, Method[]> classMethodsMap = analyseAspectPointcut(before.value(), classLoader);
-                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, "before", before.order());
+                                Map<Class<?>, Set<Method>> classMethodsMap = analyseAspectPointcut(before.value(), classLoader);
+                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, before.order(), "before");
                             }
                             After after = aspectMethod.getAnnotation(After.class);
                             if (after != null) {
-                                Map<Class<?>, Method[]> classMethodsMap = analyseAspectPointcut(after.value(), classLoader);
-                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, "after", after.order());
+                                Map<Class<?>, Set<Method>> classMethodsMap = analyseAspectPointcut(after.value(), classLoader);
+                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, after.order(), "after");
                             }
                             AfterReturning afterReturning = aspectMethod.getAnnotation(AfterReturning.class);
                             if (afterReturning != null) {
-                                Map<Class<?>, Method[]> classMethodsMap = analyseAspectPointcut(afterReturning.value(), classLoader);
-                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, "afterReturning", afterReturning.order());
+                                Map<Class<?>, Set<Method>> classMethodsMap = analyseAspectPointcut(afterReturning.value(), classLoader);
+                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, afterReturning.order(), "afterReturning");
                             }
                         } else if (paramType1 == ProceedJoinPoint.class) {
                             Around around = aspectMethod.getAnnotation(Around.class);
                             if (around != null) {
-                                Map<Class<?>, Method[]> classMethodsMap = analyseAspectPointcut(around.value(), classLoader);
-                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, "around", around.order());
+                                Map<Class<?>, Set<Method>> classMethodsMap = analyseAspectPointcut(around.value(), classLoader);
+                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, around.order(), "around");
                             }
                         }
                     } else {
                         if (paramType1 == JoinPoint.class) {
                             AfterThrowing afterThrowing = aspectMethod.getAnnotation(AfterThrowing.class);
                             if (afterThrowing != null) {
-                                Map<Class<?>, Method[]> classMethodsMap = analyseAspectPointcut(afterThrowing.value(), classLoader);
-                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, "afterThrowing", afterThrowing.order());
+                                Map<Class<?>, Set<Method>> classMethodsMap = analyseAspectPointcut(afterThrowing.value(), classLoader);
+                                aspectMethodMapping(classMethodsMap, aspectObject, aspectMethod, afterThrowing.order(), "afterThrowing");
                             }
                         }
                     }
                 }
             }
         }
-        class_aspect_method_map.forEach((Class<?> clasz, Map<Method, MethodAdvices> map) -> {
-            Enhancer enhancer = new Enhancer();
-            enhancer.setSuperclass(clasz);
-            enhancer.setCallback(new MethodAspectHandler(this));
-            class_enhancer_map.put(clasz, enhancer);
-            map.forEach((Method m, MethodAdvices advices) -> {
-                sortMethodWraps(advices.before);
-                sortMethodWraps(advices.after);
-                sortMethodWraps(advices.afterReturning);
-                sortMethodWraps(advices.afterThrowing);
-                sortMethodWraps(advices.around);
-            });
-        });
     }
 
     private MethodInterceptor getInterceptor(Class<? extends MethodInterceptor> clasz) {
@@ -431,6 +411,11 @@ public class CglibAop extends AbstractAop {
             enhancer.setCallback(new MethodInterceptHandler(this));
             class_enhancer_map.put(targetClass, enhancer);
         }
+    }
+
+    @Override
+    public final boolean isPrepared(Class<?> clasz) {
+        return class_enhancer_map.containsKey(clasz);
     }
 
     /**

@@ -15,13 +15,13 @@ public class AopCommand extends Command {
     @Intercept(test.MyMethodInterceptor.class)
     @Override
     public void execute(Message msg) {
-        System.out.println("AopCommand.execute");
+        System.out.println("-------------- AopCommand.execute -----------------");
 //        int a = 100 / 0;
-//        this.execute(100);
+        this.execute(100, 200);
     }
 
-//    public void execute(int v) {
-//        System.out.println(v);
-//    }
+    public void execute(int a, int b) {
+
+    }
 
 }

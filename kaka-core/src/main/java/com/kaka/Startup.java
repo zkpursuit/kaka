@@ -1,6 +1,6 @@
 package com.kaka;
 
-import com.kaka.aop.AbstractAop;
+import com.kaka.aop.Aop;
 import com.kaka.aop.AopFactory;
 import com.kaka.aop.annotation.Aspect;
 import com.kaka.notice.detector.ProxyDetector;
@@ -85,7 +85,7 @@ public abstract class Startup {
             loader = Thread.currentThread().getContextClassLoader();
         }
         Set<Class<?>> classes = new HashSet<>();
-        AbstractAop aop = AopFactory.getFactory();
+        Aop aop = AopFactory.getAop();
         for (int i = 0; i < packages.length; i++) {
             if (!delIdxs.contains(i)) {
                 Set<Class<?>> _classes = ClassScaner.getClasses(loader, packages[i]);
@@ -106,7 +106,7 @@ public abstract class Startup {
                 if (aspect != null) {
                     aop.registerAspect(cls);
                 }
-                if (!aop.isRegistered(cls)) {
+                if (!aop.isPrepared(cls)) {
                     aop.registerInterceptTarget(cls);
                 }
             }

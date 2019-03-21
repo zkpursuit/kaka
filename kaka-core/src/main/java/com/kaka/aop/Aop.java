@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-abstract public class AbstractAop {
+abstract public class Aop {
 
     /**
      * 包名对应包下的所有Class
@@ -28,12 +28,12 @@ abstract public class AbstractAop {
         }
     }
 
-    abstract public boolean isRegistered(Class<?> clasz);
+    abstract public boolean isPrepared(Class<?> clasz);
 
     abstract public void registerAspect(Class<?> aspectClass);
 
     abstract public void registerInterceptTarget(Class<?> targetClass);
 
-    abstract public Object createInstance(Class clasz);
+    abstract public <T> T createInstance(Class<? extends T> clasz);
 
 }

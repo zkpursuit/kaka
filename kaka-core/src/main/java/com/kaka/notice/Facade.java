@@ -1,6 +1,6 @@
 package com.kaka.notice;
 
-import com.kaka.aop.AbstractAop;
+import com.kaka.aop.Aop;
 import com.kaka.aop.AopFactory;
 import com.kaka.util.ReflectUtils;
 import com.kaka.util.StringUtils;
@@ -127,7 +127,7 @@ public class Facade implements INotifier {
      * @return 实例
      */
     Object createObject(Class clasz) {
-        AbstractAop aop = AopFactory.getFactory();
+        Aop aop = AopFactory.getAop();
         if (aop != null) {
             Object inst = aop.createInstance(clasz);
             if (inst != null) {

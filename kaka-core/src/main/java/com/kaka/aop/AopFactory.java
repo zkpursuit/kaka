@@ -1,18 +1,21 @@
 package com.kaka.aop;
 
+/**
+ * Aop实例化工厂
+ */
 public class AopFactory {
 
-    private static AbstractAop aop;
+    private static Aop aop;
 
     static {
         try {
-            Class<? extends AbstractAop> aopClass = (Class<? extends AbstractAop>) Class.forName("com.kaka.aopwear.CglibAop");
-            aop = (AbstractAop) com.kaka.util.ReflectUtils.newInstance(aopClass);
+            Class<? extends Aop> aopClass = (Class<? extends Aop>) Class.forName("com.kaka.aopwear.CglibAop");
+            aop = (Aop) com.kaka.util.ReflectUtils.newInstance(aopClass);
         } catch (ClassNotFoundException e) {
         }
     }
 
-    public static AbstractAop getFactory() {
+    public static Aop getAop() {
         return aop;
     }
 

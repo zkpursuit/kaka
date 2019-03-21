@@ -7,7 +7,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
 /**
- * 被代理对象的方法拦截处理器
+ * 切面处理器
  *
  * @author zkpursuit
  */
@@ -32,17 +32,29 @@ public class MethodAspectHandler implements MethodInterceptor {
         return joinPoint;
     }
 
+    /**
+     * @param object cglib创建的对象
+     * @param method 被cglib代理拦截的原始方法
+     * @param args   方法参数
+     * @param proxy  cglib代理
+     * @return
+     * @throws Throwable
+     */
     @Override
     public Object intercept(Object object, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        Class<?> clasz = object.getClass().getSuperclass();
-        if (!aop.class_aspect_method_map.containsKey(clasz)) {
+//        Class<?> clasz = object.getClass().getSuperclass();
+//        if (!aop.class_aspect_method_map.containsKey(clasz)) {
+//            return proxy.invokeSuper(object, args);
+//        }
+//        Map<Method, MethodAdvices> methodMap = aop.class_aspect_method_map.get(clasz);
+//        if (!methodMap.containsKey(method)) {
+//            return proxy.invokeSuper(object, args);
+//        }
+        String methodGenName = method.toGenericString();
+        if (!aop.method_advices_map.containsKey(methodGenName)) {
             return proxy.invokeSuper(object, args);
         }
-        Map<Method, MethodAdvices> methodMap = aop.class_aspect_method_map.get(clasz);
-        if (!methodMap.containsKey(method)) {
-            return proxy.invokeSuper(object, args);
-        }
-        MethodAdvices bag = methodMap.get(method);
+        MethodAdvices bag = aop.method_advices_map.get(methodGenName);
         ProceedJoinPoint joinPoint = null;
         if (bag.before != null && !bag.before.isEmpty()) {
             joinPoint = createJoinPoint(joinPoint, object, method, args, proxy, null);
