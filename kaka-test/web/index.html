@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>求和</title>
+    <script type="text/javascript" src="scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btn").click(function () {
+                $("#t3").attr("value", "");
+                var min = $("#t1").val();
+                var max = $("#t2").val();
+                var sendData = {cmd: "cmd_my_first", min: min, max: max};
+                $.ajax({
+                    url: "/api",
+                    type: "post",
+                    data: JSON.stringify(sendData),
+                    success: function (response) {
+                        var json = JSON.parse(response);
+                        var data = json["data"];
+                        if (data) {
+                            $("#t1").attr("value", data["min"]);
+                            $("#t2").attr("value", data["max"]);
+                            $("#t3").attr("value", data["sum"]);
+                        } else {
+                            var info = json["info"];
+                            if (info) {
+                                $("#t3").attr("value", info);
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+起始数：<input type="text" id="t1"/>
+终止数：<input type="text" id="t2"/>
+<input type="button" id="btn" value="求  和"/>
+&nbsp;&nbsp;
+结&nbsp;&nbsp;果：<input type="text" id="t3"/>
+</body>
+</html

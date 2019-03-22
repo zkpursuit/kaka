@@ -1,4 +1,4 @@
-package kaka;
+package com.test;
 
 import com.kaka.Startup;
 import com.kaka.notice.AsynResult;
@@ -19,7 +19,7 @@ public class Asyn_Test extends Startup {
 
     public static void main(String[] args) {
         Asyn_Test test = new Asyn_Test();
-        test.scan("test");
+        test.scan("com.test.units");
         facade.initThreadPool(Executors.newFixedThreadPool(2));
         //同步发送事件通知
         facade.sendMessage(new Message("1000", "让MyCommand接收执行"));
@@ -64,7 +64,7 @@ public class Asyn_Test extends Startup {
         
         facade.initScheduleThreadPool(Executors.newScheduledThreadPool(2));
         long c = System.currentTimeMillis();
-        Scheduler scheduler = Scheduler.create("test")
+        Scheduler scheduler = Scheduler.create("com/test/units")
                 .startTime(c + 3000) //3秒后开始执行
                 .endTime(c + 7000) //调度执行结束时间点
                 .interval(2000, TimeUnit.MILLISECONDS) //执行间隔

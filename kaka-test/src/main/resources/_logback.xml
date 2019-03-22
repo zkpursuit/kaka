@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration debug="false">
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
+        <encoder>  
+            <pattern>[%level] - %date - %logger#%line %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>../mylogs/ball_http_log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>../mylogs/ball_http_log.%i.log</FileNamePattern>
+            <MinIndex>1</MinIndex>
+            <MaxIndex>50</MaxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>5MB</MaxFileSize>
+        </triggeringPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%date [%thread] %-5level %logger{80}#%line - %msg%n</Pattern>
+            <charset>UTF-8</charset>
+        </encoder>   
+    </appender>
+    <logger name="io" level="ERROR" />
+    <logger name="com.mchange" level="ERROR" />
+    <logger name="com.kaka" level="INFO" />
+    <logger name="org" level="INFO" />
+    <root level="INFO">
+        <appender-ref ref="console" /> <!-- 控制台输出 -->
+        <appender-ref ref="file" /> <!-- 文件输出 -->
+    </root>
+</configuration>

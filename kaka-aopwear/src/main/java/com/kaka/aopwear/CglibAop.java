@@ -148,7 +148,7 @@ public class CglibAop extends Aop {
         if (Modifier.isInterface(modifiers)) {
             return;
         }
-        Method[] methods = ReflectUtils.getDeclaredMethods(clasz, true);
+        Method[] methods = ReflectUtils.getDeclaredMethods(clasz, false);
         for (Method method : methods) {
             String methodGenName = method.toGenericString();
             int idx;

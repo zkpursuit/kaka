@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package test;
+package com.test.units;
 
 import com.kaka.aop.MethodInterceptor;
 import com.kaka.aop.MethodInvocation;

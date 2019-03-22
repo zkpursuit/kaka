@@ -1,4 +1,4 @@
-package test;
+package com.test.units;
 
 import com.kaka.notice.AsynResult;
 import com.kaka.notice.Command;

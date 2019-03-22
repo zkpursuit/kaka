@@ -1,6 +1,6 @@
-package test;
+package com.test.units;
 
-public class MyObject {
+public class MyObject1 {
 
     private int a;
     private int b;
