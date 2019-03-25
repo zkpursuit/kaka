@@ -7,7 +7,7 @@
 4. kaka-test模块为使用范例，个人认为kaka-core就事件机制而言比google的EventBus更加强大。
 5. 本项目为本人十年左右的游戏后端框架中的核心部分，可解耦业务，简化程序复杂性，提高代码可读性，降低开发维护成本。
 6. 支持同步或者异步获取事件处理结果。
-7. 不懂的可联系QQ：568049460，微信：zkpursuit。
+7. 有任何问题可联系QQ：568049460，微信：zkpursuit。
 
 https://my.oschina.net/zkpursuit/blog/2989186 此博文为本框架 + servlet基于json通信的一个简单接口服务范例，此范例模式已应用于实际生产环境！
 更多精彩博文，敬请期待！
@@ -15,7 +15,7 @@ https://my.oschina.net/zkpursuit/blog/2989186 此博文为本框架 + servlet基
 规划愿景：打造一款全新的微服务框架。望大家多多支持、鼓励，多多star！！！
 
 #### 软件架构
-1. kaka-core事件模型为单例 + 观察者模式，包含标准版本和多核版本，标准版可直接使用Facade中的静态常量facade，多核版则使用Facade.getInstance("core name")。标准版能应付绝大部分情况。
+1. kaka-core事件模型为单例 + 观察者 + 命令模式，包含标准版本和多核版本，标准版可直接使用Facade中的静态常量facade，多核版则使用Facade.getInstance("core name")。标准版能应付绝大部分情况。
 2. 本项目的核心思想是解耦业务，通过Startup实例的scan方法扫描Command、Proxy、Mediator子类的注解，并将其注册到Facade中，由Facade处理事件流向。
 3. Command、Mediator一般作为业务处理器处理业务，Proxy为数据模型（比如作为数据库service层），Command、Mediator中可通过getProxy方法获得Proxy数据模型。
 4. Command只能监听注册到Facade中的事件，可多个事件注册同一个Command（也可理解为一个Command可监听多个事件），而Mediator则是监听多个自身感兴趣的事件，具体对哪些事件感兴趣则由listMessageInterests方法的返回值决定（总结：一个事件只能对应一个Command，一个Command可以对应多个事件；一个事件可以对应多个Mediator，一个Mediator可以对应多个事件；一个事件可以同时对应一个Command和多个Mediator；Command为动态创建，但可池化，Mediator为全局唯一）；Command、Mediator是功能非常相似的事件监听器和事件派发器，强烈建议多使用Command。
