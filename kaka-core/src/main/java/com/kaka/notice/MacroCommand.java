@@ -13,7 +13,7 @@ abstract public class MacroCommand extends Command {
     /**
      * 子命令存储容器
      */
-    private Collection<Command> subCommands = null;
+    private Collection<Command> subCommands;
 
     /**
      * 构造方法
