@@ -19,4 +19,7 @@ public class AopFactory {
         return aop;
     }
 
+    private AopFactory() {
+    }
+
 }

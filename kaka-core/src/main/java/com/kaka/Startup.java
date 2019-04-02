@@ -25,7 +25,7 @@ import com.kaka.notice.detector.IDetector;
  */
 public abstract class Startup {
 
-    final Map<String, IDetector> registerList = Collections.synchronizedMap(new LinkedHashMap<>());
+    final Map<String, IDetector> detectorMap = Collections.synchronizedMap(new LinkedHashMap<>());
 
     /**
      * 构造方法
@@ -33,25 +33,25 @@ public abstract class Startup {
      * @param registers 事件通知模型注册器
      */
     public Startup(IDetector... registers) {
-        addRegister(new CommandDetector());
-        addRegister(new MediatorDetector());
-        addRegister(new ProxyDetector());
-        for (IDetector register : registers) {
-            addRegister(register);
+        addDetector(new CommandDetector());
+        addDetector(new MediatorDetector());
+        addDetector(new ProxyDetector());
+        for (IDetector detector : registers) {
+            addDetector(detector);
         }
     }
 
     /**
      * 添加事件通知模型注册器
      *
-     * @param register 事件通知模型注册器
+     * @param detector 事件通知模型注册器
      */
-    final protected void addRegister(IDetector register) {
-        String name = register.name();
+    final protected void addDetector(IDetector detector) {
+        String name = detector.name();
         if (name == null) {
-            name = register.getClass().getTypeName();
+            name = detector.getClass().getTypeName();
         }
-        registerList.put(name, register);
+        detectorMap.put(name, detector);
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class Startup {
             }
         }
         classes.forEach((Class<?> cls) -> {
-            registerList.forEach((String name, IDetector detector) -> {
+            detectorMap.forEach((String name, IDetector detector) -> {
                 detector.discern(cls);
             });
         });

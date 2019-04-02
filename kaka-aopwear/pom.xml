@@ -5,13 +5,13 @@
     <parent>
         <artifactId>kaka</artifactId>
         <groupId>com.kaka</groupId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kaka</groupId>
     <artifactId>kaka-aopwear</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.kaka</groupId>
             <artifactId>kaka-core</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

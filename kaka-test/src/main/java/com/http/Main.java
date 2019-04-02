@@ -18,8 +18,6 @@ import java.io.InputStream;
 public class Main {
 
     /**
-
-    /**
      * 手动初始化logback日志组件
      */
     static void initLogback() {
