@@ -33,10 +33,13 @@ public class JsonApiServlet extends HttpServlet {
     //令牌桶限流
     private RateLimiter limiter = null;
 
+    private JsonFilterGroup filterGroup;
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         limiter = RateLimiter.create(300); //每秒300个请求
+        filterGroup = facade.retrieveProxy(JsonFilterGroup.class);
     }
 
     /**
@@ -73,7 +76,7 @@ public class JsonApiServlet extends HttpServlet {
             requestJsonString = requestString;
         }
         HttpJsonRespWriter writer = new HttpJsonRespWriter();
-        JsonNode jn = JsonUtils.toJson(requestJsonString);
+        JsonNode jn = JsonUtils.toJsonNode(requestJsonString);
         if (jn != null) {
             String ip = getClientIpAddress(request);
             if (jn instanceof ObjectNode) {
@@ -114,7 +117,7 @@ public class JsonApiServlet extends HttpServlet {
         HttpJsonRespWriter writer = new HttpJsonRespWriter();
         try {
             processJson(cmd, jsonObj, writer);
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             ObjectNode jo = JsonUtils.createJsonObject();
             jo.put("info", "error");
             writer.write(cmd, jo);
@@ -129,8 +132,8 @@ public class JsonApiServlet extends HttpServlet {
         out.writeObject(writer);
     }
 
-    protected void processJson(String cmd, ObjectNode jsonObj, HttpJsonRespWriter writer) throws Exception {
-        facade.sendMessage(new JsonMessage(cmd, jsonObj, writer));
+    protected void processJson(String cmd, ObjectNode jsonObj, HttpJsonRespWriter writer) throws Throwable {
+        this.filterGroup.doFilter(cmd, jsonObj, writer);
     }
 
     /**

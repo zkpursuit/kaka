@@ -1,9 +1,11 @@
 package com.http.util;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.PrettyPrinter;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -24,20 +26,31 @@ public class JsonUtils {
      * 线程安全，可以全局使用
      */
     private static final ObjectMapper mapper = new ObjectMapper();
-//    static {
-//        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-//        //将属性字段全部转为小写
-//        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE);
-//    }
+
+    static {
+        //美化json输出的设置
+        SerializationConfig config = mapper.getSerializationConfig();
+        PrettyPrinter prettyPrinter = config.getDefaultPrettyPrinter();
+        DefaultPrettyPrinter defpp = (DefaultPrettyPrinter) prettyPrinter;
+        DefaultPrettyPrinter.Indenter indenter = new DefaultIndenter("\t", "\n");
+        defpp.indentArraysWith(indenter);
+        defpp.indentObjectsWith(indenter);
+        mapper.writer(defpp);
+
+        //mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        //将属性字段全部转为小写
+        //mapper.setPropertyNamingStrategy(PropertyNamingStrategy.LOWER_CASE);
+    }
 
     /**
      * 将java对象转换为json对象
+     *
      * @param javaObject java对象
-     * @param <T> json对象的限定类型
+     * @param <T>        json对象的限定类型
      * @return json对象
      */
     public final static <T extends JsonNode> T toJsonObject(Object javaObject) {
-        if(javaObject instanceof JsonNode) {
+        if (javaObject instanceof JsonNode) {
             return (T) javaObject;
         }
         //return mapper.convertValue(javaBean, JsonNode.class);
@@ -47,10 +60,11 @@ public class JsonUtils {
 
     /**
      * 判断字符串是否为一个有效的json格式
+     *
      * @param jsonInString
      * @return
      */
-    public final static boolean isValidJson(String jsonInString ) {
+    public final static boolean isValidJson(String jsonInString) {
         try {
             mapper.readTree(jsonInString);
             return true;
@@ -61,6 +75,7 @@ public class JsonUtils {
 
     /**
      * 创建一个空的JsonObject对象
+     *
      * @return
      */
     public final static ObjectNode createJsonObject() {
@@ -69,6 +84,7 @@ public class JsonUtils {
 
     /**
      * 创建一个空的JsonArray对象
+     *
      * @return
      */
     public final static ArrayNode createJsonArray() {
@@ -77,6 +93,7 @@ public class JsonUtils {
 
     /**
      * 将java对象转换为json字符串
+     *
      * @param value
      * @return
      */
@@ -89,13 +106,28 @@ public class JsonUtils {
     }
 
     /**
+     * 美化json输出
+     *
+     * @param value
+     * @return
+     */
+    public final static String toPrettyJsonString(Object value) {
+        try {
+            return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
+        } catch (JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    /**
      * 将json字符串转换为json对象
+     *
      * @param json
      * @param <T>
      * @return
      */
-    public final static <T extends JsonNode> T toJson(String json) {
-        if(json == null || "".equals(json)) return null;
+    public final static <T extends JsonNode> T toJsonNode(String json) {
+        if (json == null || "".equals(json)) return null;
         try {
             return (T) mapper.readTree(json);
         } catch (IOException e) {
@@ -105,12 +137,13 @@ public class JsonUtils {
 
     /**
      * 将json字符串转换为java对象
+     *
      * @param json
      * @param type
      * @param <T>
      * @return
      */
-    public final static <T>T toObject(String json, Class<T> type) {
+    public final static <T> T toJavaObject(String json, Class<T> type) {
         try {
             return mapper.readValue(json, type);
         } catch (IOException e) {
@@ -120,8 +153,9 @@ public class JsonUtils {
 
     /**
      * 获取集合类型描述
+     *
      * @param collectionClass 集合类型
-     * @param elementClasses 集合的元素类型
+     * @param elementClasses  集合的元素类型
      * @return 类型描述
      */
     public final static JavaType getCollectionType(Class<?> collectionClass, Class<?>... elementClasses) {
@@ -130,10 +164,11 @@ public class JsonUtils {
 
     /**
      * 将json字符串转换为java集合
-     * @param json json字符串
+     *
+     * @param json            json字符串
      * @param collectionClass 集合类型
-     * @param elementClasses 集合的元素类型
-     * @param <T> 转换后的集合限定类型
+     * @param elementClasses  集合的元素类型
+     * @param <T>             转换后的集合限定类型
      * @return 集合对象
      */
     public final static <T> Collection<T> toCollection(String json, Class<?> collectionClass, Class<T> elementClasses) {
@@ -147,14 +182,15 @@ public class JsonUtils {
 
     /**
      * 将json字符串转换为java对象
-     * @param json json字符串
-     * @param type 目标对象类型
+     *
+     * @param json           json字符串
+     * @param type           目标对象类型
      * @param elementClasses 如果目标对象类型为集合，则此参数表示集合的元素类型
      * @return 对象
      */
-    public final static Object toObject(String json, Class<?> type, Class<?>... elementClasses) {
+    public final static Object toJavaObject(String json, Class<?> type, Class<?>... elementClasses) {
         try {
-            if(elementClasses.length > 0) {
+            if (elementClasses.length > 0) {
                 JavaType javaType = getCollectionType(type, elementClasses);
                 return mapper.readValue(json, javaType);
             }

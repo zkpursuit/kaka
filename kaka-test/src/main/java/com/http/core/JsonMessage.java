@@ -16,4 +16,8 @@ public class JsonMessage extends Message {
         this.out = out;
     }
 
+    void setWhat(Object what) {
+        this.what = what;
+    }
+
 }
