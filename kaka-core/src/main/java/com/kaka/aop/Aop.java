@@ -1,39 +1,43 @@
 package com.kaka.aop;
 
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-
 abstract public class Aop {
 
     /**
-     * 包名对应包下的所有Class
+     * 注册切面类
+     *
+     * @param aspectClass
      */
-    protected final Map<String, Set<Class<?>>> packageClassMap = new ConcurrentHashMap<>();
-    /**
-     * 类名对应Class
-     */
-    protected final Map<String, Class<?>> classMap = new ConcurrentHashMap<>();
-
-    public void cache(String className, Class<?> clasz) {
-        classMap.put(className, clasz);
-    }
-
-    public void cache(String packageName, Set<Class<?>> classes) {
-        if (packageClassMap.containsKey(packageName)) {
-            Set<Class<?>> set = packageClassMap.get(packageName);
-            set.addAll(classes);
-        } else {
-            packageClassMap.put(packageName, classes);
-        }
-    }
-
-    abstract public boolean isPrepared(Class<?> clasz);
-
     abstract public void registerAspect(Class<?> aspectClass);
 
+    /**
+     * 注册被拦截的对象，此对象中的某些方法包含拦截器注解
+     *
+     * @param targetClass
+     */
     abstract public void registerInterceptTarget(Class<?> targetClass);
 
+    /**
+     * 被代理对象是否已准备被代理处置
+     *
+     * @param clasz
+     * @return
+     */
+    abstract public boolean isPrepared(Class<?> clasz);
+
+    /**
+     * 创建被切面代理后的对象
+     *
+     * @param clasz
+     * @param <T>
+     * @return
+     */
     abstract public <T> T createInstance(Class<? extends T> clasz);
+
+    /**
+     * 从类加载器中卸载相关类，此相关类表示受Aop容器管理的类
+     *
+     * @param loader 类加载器
+     */
+    abstract public void unload(ClassLoader loader);
 
 }

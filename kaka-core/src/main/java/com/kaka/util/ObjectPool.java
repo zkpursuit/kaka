@@ -1,14 +1,15 @@
 package com.kaka.util;
 
 import com.kaka.util.ObjectPool.Poolable;
+
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * 对象池
  *
- * @author zhoukai
  * @param <T> 可闲置对象类型
+ * @author zhoukai
  */
 abstract public class ObjectPool<T extends Poolable> {
 
@@ -57,10 +58,7 @@ abstract public class ObjectPool<T extends Poolable> {
      * @return 可用对象
      */
     public T obtain() {
-        if (freeObjects == null) {
-            return newObject();
-        }
-        return freeObjects.isEmpty() ? newObject() : freeObjects.poll();
+        return (freeObjects == null || freeObjects.isEmpty()) ? newObject() : freeObjects.poll();
     }
 
     /**

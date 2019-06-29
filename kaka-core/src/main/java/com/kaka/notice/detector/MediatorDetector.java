@@ -3,6 +3,7 @@ package com.kaka.notice.detector;
 import com.kaka.notice.Facade;
 import com.kaka.notice.Mediator;
 import com.kaka.notice.annotation.MultiHandler;
+
 import java.util.logging.Logger;
 
 /**

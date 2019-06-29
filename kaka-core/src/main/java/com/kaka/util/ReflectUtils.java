@@ -148,6 +148,31 @@ public class ReflectUtils {
     /**
      * 获取字段值
      *
+     * @param object 对象
+     * @param field 字段
+     * @return 字段值
+     */
+    public static final Object getFieldValue(Object object, Field field) {
+        if (object == null) {
+            return null;
+        }
+        if (field == null) {
+            return null;
+        }
+        int modif = field.getModifiers();
+        if (!Modifier.isPublic(modif) || Modifier.isFinal(modif)) {
+            field.setAccessible(true);
+        }
+        try {
+            return field.get(object);
+        } catch (IllegalArgumentException | IllegalAccessException ex) {
+            throw new Error(ex);
+        }
+    }
+
+    /**
+     * 获取字段值
+     *
      * @param obj 对象
      * @param fieldName 字段名
      * @return 字段值

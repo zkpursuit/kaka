@@ -6,6 +6,7 @@ import com.kaka.aop.annotation.Aspect;
 import com.kaka.notice.detector.ProxyDetector;
 import com.kaka.notice.detector.CommandDetector;
 import com.kaka.notice.detector.MediatorDetector;
+import com.kaka.numerical.NumericDetector;
 import com.kaka.util.ClassScaner;
 
 import java.util.Collections;
@@ -36,6 +37,7 @@ public abstract class Startup {
         addDetector(new CommandDetector());
         addDetector(new MediatorDetector());
         addDetector(new ProxyDetector());
+        addDetector(new NumericDetector());
         for (IDetector detector : registers) {
             addDetector(detector);
         }
@@ -90,12 +92,12 @@ public abstract class Startup {
             if (!delIdxs.contains(i)) {
                 Set<Class<?>> _classes = ClassScaner.getClasses(loader, packages[i]);
                 if (!_classes.isEmpty()) {
-                    if (aop != null) {
-                        for (Class cls : _classes) {
-                            aop.cache(cls.getTypeName(), cls);
-                        }
-                        aop.cache(packages[i], _classes);
-                    }
+//                    if (aop != null) {
+//                        for (Class cls : _classes) {
+//                            aop.cache(cls.getTypeName(), cls);
+//                        }
+//                        aop.cache(packages[i], _classes);
+//                    }
                     classes.addAll(_classes);
                 }
             }

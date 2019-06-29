@@ -32,10 +32,6 @@ public class CglibAop extends Aop {
      * Class对应CgLib中的Enhancer对象
      */
     final Map<Class<?>, Enhancer> class_enhancer_map = new ConcurrentHashMap<>();
-    /**
-     * Class对应《方法对应切面方法信息》
-     */
-    //final Map<Class<?>, Map<Method, MethodAdvices>> class_aspect_method_map = new ConcurrentHashMap<>();
 
     /**
      * 方法完全限定名与其切面方法集合的映射
@@ -65,67 +61,67 @@ public class CglibAop extends Aop {
         return null;
     }
 
-    /**
-     * 根据类名获取Class
-     *
-     * @param className
-     * @param classLoader
-     * @return
-     */
-    private Class<?> getClassByName(String className, ClassLoader classLoader) {
-        Class<?> clasz = classMap.get(className);
-        if (clasz == null) {
-            try {
-                clasz = classLoader.loadClass(className);
-                classMap.put(className, clasz);
-                Package _package = clasz.getPackage();
-                String packageName = _package.getName();
-                Set<Class<?>> classes = packageClassMap.get(packageName);
-                if (classes == null) {
-                    packageClassMap.put(packageName, classes);
-                } else {
-                    classes.add(clasz);
-                }
-            } catch (ClassNotFoundException ex) {
-            }
-        }
-        return clasz;
-    }
+//    /**
+//     * 根据类名获取Class
+//     *
+//     * @param className
+//     * @param classLoader
+//     * @return
+//     */
+//    private Class<?> getClassByName(String className, ClassLoader classLoader) {
+//        Class<?> clasz = classMap.get(className);
+//        if (clasz == null) {
+//            try {
+//                clasz = classLoader.loadClass(className);
+//                classMap.put(className, clasz);
+//                Package _package = clasz.getPackage();
+//                String packageName = _package.getName();
+//                Set<Class<?>> classes = packageClassMap.get(packageName);
+//                if (classes == null) {
+//                    packageClassMap.put(packageName, classes);
+//                } else {
+//                    classes.add(clasz);
+//                }
+//            } catch (ClassNotFoundException ex) {
+//            }
+//        }
+//        return clasz;
+//    }
 
-    /**
-     * 根据包名获取类集合
-     *
-     * @param packageName 包名
-     * @param classLoader 类加载器
-     * @return 类集合
-     */
-    private Set<Class<?>> getClassesByPackageName(String packageName, ClassLoader classLoader) {
-        if (packageClassMap.containsKey(packageName)) {
-            return packageClassMap.get(packageName);
-        }
-        //提供的包名有父级包名已获得旗下的所有类
-        int idx;
-        String pname = packageName;
-        while ((idx = pname.lastIndexOf('.')) > 0) {
-            pname = pname.substring(0, idx);
-            if (packageClassMap.containsKey(pname)) {
-                return packageClassMap.get(pname);
-            }
-        }
-        //存在子级类包的映射则删除子集类包
-        Set<String> keys = packageClassMap.keySet();
-        for (String key : keys) {
-            if (key.startsWith(packageName)) {
-                packageClassMap.remove(key);
-            }
-        }
-        //获取本类包和旗下后代类包下的所有类
-        Set<Class<?>> _classes = ClassScaner.getClasses(classLoader, packageName);
-        if (!_classes.isEmpty()) {
-            packageClassMap.put(packageName, _classes);
-        }
-        return _classes;
-    }
+//    /**
+//     * 根据包名获取类集合
+//     *
+//     * @param packageName 包名
+//     * @param classLoader 类加载器
+//     * @return 类集合
+//     */
+//    private Set<Class<?>> getClassesByPackageName(String packageName, ClassLoader classLoader) {
+//        if (packageClassMap.containsKey(packageName)) {
+//            return packageClassMap.get(packageName);
+//        }
+//        //提供的包名有父级包名已获得旗下的所有类
+//        int idx;
+//        String pname = packageName;
+//        while ((idx = pname.lastIndexOf('.')) > 0) {
+//            pname = pname.substring(0, idx);
+//            if (packageClassMap.containsKey(pname)) {
+//                return packageClassMap.get(pname);
+//            }
+//        }
+//        //存在子级类包的映射则删除子集类包
+//        Set<String> keys = packageClassMap.keySet();
+//        for (String key : keys) {
+//            if (key.startsWith(packageName)) {
+//                packageClassMap.remove(key);
+//            }
+//        }
+//        //获取本类包和旗下后代类包下的所有类
+//        Set<Class<?>> _classes = ClassScaner.getClasses(classLoader, packageName);
+//        if (!_classes.isEmpty()) {
+//            packageClassMap.put(packageName, _classes);
+//        }
+//        return _classes;
+//    }
 
     /**
      * 利用正则表达式匹配方法的完全限定名
@@ -213,13 +209,22 @@ public class CglibAop extends Aop {
                     packageName = packageName.substring(0, idx);
                 }
                 if (!"".equals(packageName)) {
-                    Set<Class<?>> classes = getClassesByPackageName(packageName, classLoader);
+//                    Set<Class<?>> classes = getClassesByPackageName(packageName, classLoader);
+                    Set<Class<?>> classes = ClassScaner.getClasses(classLoader, packageName);
+
                     classes.forEach((clasz) -> {
                         analyseAopClassMethod(clasz, _pattern, classMethodsMap);
                     });
                 }
             } else {
-                Class<?> clasz = getClassByName(fullClassName, classLoader);
+//                Class<?> clasz = getClassByName(fullClassName, classLoader);
+                Class<?> clasz;
+                try {
+                    clasz = classLoader.loadClass(fullClassName);
+                } catch (ClassNotFoundException ex) {
+                    clasz = null;
+                }
+
                 analyseAopClassMethod(clasz, _pattern, classMethodsMap);
             }
         }
@@ -376,6 +381,12 @@ public class CglibAop extends Aop {
         }
     }
 
+    /**
+     * 根据拦截器Class获得拦截器对象
+     *
+     * @param clasz 拦截器Class
+     * @return 拦截器对象
+     */
     private MethodInterceptor getInterceptor(Class<? extends MethodInterceptor> clasz) {
         if (!class_interceptor_map.containsKey(clasz)) {
             MethodInterceptor interceptor = (MethodInterceptor) ReflectUtils.newInstance(clasz);
@@ -431,6 +442,11 @@ public class CglibAop extends Aop {
             return enhancer.create();
         }
         return null;
+    }
+
+    @Override
+    public void unload(ClassLoader loader) {
+
     }
 
 }

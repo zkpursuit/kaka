@@ -4,6 +4,7 @@ import com.kaka.notice.Command;
 import com.kaka.notice.Facade;
 import com.kaka.notice.annotation.Handler;
 import com.kaka.util.StringUtils;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +26,7 @@ public class CommandDetector implements IDetector {
      * 识别业务处理器相关的类并注册到{@link com.kaka.notice.Facade}
      *
      * @param cls 待识别的类
-     * @return 注册后的{@link com.kaka.notice.Command}
+     * @return 注册后的 {@link com.kaka.notice.Command}
      */
     @Override
     public Object discern(Class<?> cls) {
