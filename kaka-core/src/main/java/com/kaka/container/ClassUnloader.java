@@ -9,5 +9,5 @@ public interface ClassUnloader {
      *
      * @param loader 类加载器
      */
-    void unload(ClassLoader loader);
+    void unloadOf(ClassLoader loader);
 }

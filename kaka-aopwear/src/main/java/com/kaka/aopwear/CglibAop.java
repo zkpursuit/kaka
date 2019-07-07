@@ -444,7 +444,7 @@ public class CglibAop extends Aop {
         return null;
     }
 
-    private boolean unload(final ClassLoader loader, List<MethodWrap> wraps) {
+    private boolean unloadOf(final ClassLoader loader, List<MethodWrap> wraps) {
         if (wraps == null) {
             return false;
         }
@@ -468,18 +468,18 @@ public class CglibAop extends Aop {
      * @param loader 类加载器
      */
     @Override
-    public void unload(final ClassLoader loader) {
+    public void unloadOf(final ClassLoader loader) {
         Set<String> keys1 = method_advices_map.keySet();
         Iterator<String> iterator1 = keys1.iterator();
         while (iterator1.hasNext()) {
             String key = iterator1.next();
             MethodAdvices advices = method_advices_map.get(key);
             if (advices != null) {
-                unload(loader, advices.before);
-                unload(loader, advices.after);
-                unload(loader, advices.afterReturning);
-                unload(loader, advices.afterThrowing);
-                unload(loader, advices.around);
+                unloadOf(loader, advices.before);
+                unloadOf(loader, advices.after);
+                unloadOf(loader, advices.afterReturning);
+                unloadOf(loader, advices.afterThrowing);
+                unloadOf(loader, advices.around);
             }
         }
 

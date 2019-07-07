@@ -517,7 +517,7 @@ public class ContextClassLoader extends URLClassLoader {
     public void close() throws IOException {
         Aop aop = AopFactory.getAop();
         if (aop != null) {
-            aop.unload(this);
+            aop.unloadOf(this);
         }
         super.close();
     }

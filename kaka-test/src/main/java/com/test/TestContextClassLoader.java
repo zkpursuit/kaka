@@ -126,10 +126,10 @@ public class TestContextClassLoader extends Startup {
         //扫描插件中的类包
         startup.init(loader, packages);
 
-        // Facade.unloadAll(loader);
+        // Facade.unloadAllOf(loader);
         // Aop aop = AopFactory.getAop();
         // if(aop != null) {
-        //     aop.unload(loader);
+        //     aop.unloadOf(loader);
         // }
 
         //向插件中的Command发送事件通知

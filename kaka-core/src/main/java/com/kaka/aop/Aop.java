@@ -40,6 +40,6 @@ abstract public class Aop implements ClassUnloader {
      *
      * @param loader 类加载器
      */
-    abstract public void unload(ClassLoader loader);
+    abstract public void unloadOf(ClassLoader loader);
 
 }

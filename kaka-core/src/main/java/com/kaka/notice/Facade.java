@@ -769,7 +769,7 @@ public class Facade implements INotifier, ClassUnloader {
     }
 
     @Override
-    public void unload(ClassLoader loader) {
+    public void unloadOf(ClassLoader loader) {
         if (this.getClass().getClassLoader() == loader) {
             this.dispose();
             return;
@@ -836,9 +836,9 @@ public class Facade implements INotifier, ClassUnloader {
 
     }
 
-    public synchronized final static void unloadAll(ClassLoader loader) {
+    public synchronized final static void unloadAllOf(ClassLoader loader) {
         instanceMap.forEach((String n, Facade f) -> {
-            f.unload(loader);
+            f.unloadOf(loader);
         });
     }
 
