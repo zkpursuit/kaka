@@ -13,7 +13,7 @@ public class InitListener extends Startup implements ServletContextListener {
         //扫描自动注册Command、Proxy、Mediator
         this.scan("com.http.business");
         //手动注册Proxy
-        JsonFilterGroup filterGroup = facade.registProxy(JsonFilterGroup.class);
+        JsonFilterGroup filterGroup = facade.registerProxy(JsonFilterGroup.class);
         //自行实现添加其它过滤器
         //filterGroup.addFilter
     }

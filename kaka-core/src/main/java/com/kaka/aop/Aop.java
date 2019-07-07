@@ -1,6 +1,8 @@
 package com.kaka.aop;
 
-abstract public class Aop {
+import com.kaka.container.ClassUnloader;
+
+abstract public class Aop implements ClassUnloader {
 
     /**
      * 注册切面类

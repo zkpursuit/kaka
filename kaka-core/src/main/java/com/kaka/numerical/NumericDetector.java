@@ -43,6 +43,6 @@ public class NumericDetector implements IDetector {
         } else {
             cotx = Facade.getInstance(sc.context());
         }
-        return cotx.registProxy((Class<? extends Proxy>) cls, sc.src());
+        return cotx.registerProxy((Class<? extends Proxy>) cls, sc.src());
     }
 }

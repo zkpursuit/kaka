@@ -48,10 +48,10 @@ public class ProxyDetector implements IDetector {
         Proxy proxy;
         String modelName = model.value();
         if (!"".equals(modelName)) {
-            proxy = cotx.registProxy((Class<? extends Proxy>) cls, modelName);
+            proxy = cotx.registerProxy((Class<? extends Proxy>) cls, modelName);
             logger.log(Level.INFO, "注册业务数据模型：Proxy（{0}）==>>>  {1}", new Object[]{proxy.name, cls});
         } else {
-            proxy = cotx.registProxy((Class<? extends Proxy>) cls);
+            proxy = cotx.registerProxy((Class<? extends Proxy>) cls);
             logger.log(Level.INFO, "注册业务数据模型：Proxy（{0}）==>>>  {1}", new Object[]{proxy.name, cls});
         }
         return proxy;

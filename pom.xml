@@ -7,7 +7,7 @@
     <groupId>com.kaka</groupId>
     <artifactId>kaka</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.3</version>
+    <version>2.0.0</version>
     <modules>
         <module>kaka-core</module>
         <module>kaka-aopwear</module>

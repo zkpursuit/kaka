@@ -126,8 +126,8 @@ public class CglibAop extends Aop {
     /**
      * 利用正则表达式匹配方法的完全限定名
      *
-     * @param clasz 被切面的类
-     * @param pattern 切点表达式的正则表示
+     * @param clasz           被切面的类
+     * @param pattern         切点表达式的正则表示
      * @param classMethodsMap 被切面的类映射其被切面的方法
      */
     private void analyseAopClassMethod(Class clasz, Pattern pattern, Map<Class<?>, Set<Method>> classMethodsMap) {
@@ -168,7 +168,7 @@ public class CglibAop extends Aop {
     /**
      * 分析切点表达式
      *
-     * @param pointcut 切点表达式
+     * @param pointcut    切点表达式
      * @param classLoader 类加载器
      * @return
      */
@@ -235,10 +235,10 @@ public class CglibAop extends Aop {
      * 处理切面类和被切面类之间的各种映射关系
      *
      * @param classMethodsMap 被切面代理类和其所有将被代理方法的映射
-     * @param aspectObject 切面对象
-     * @param aspectMethod 切面对象中的切面方法
-     * @param aspectAdvice 切面通知的字符串表示
-     * @param order 切面通知执行优先级
+     * @param aspectObject    切面对象
+     * @param aspectMethod    切面对象中的切面方法
+     * @param aspectAdvice    切面通知的字符串表示
+     * @param order           切面通知执行优先级
      */
     private void aspectMethodMapping(Map<Class<?>, Set<Method>> classMethodsMap, Object aspectObject, Method aspectMethod, int order, String aspectAdvice) {
         if (classMethodsMap == null || classMethodsMap.isEmpty()) {
@@ -444,9 +444,75 @@ public class CglibAop extends Aop {
         return null;
     }
 
-    @Override
-    public void unload(ClassLoader loader) {
+    private boolean unload(final ClassLoader loader, List<MethodWrap> wraps) {
+        if (wraps == null) {
+            return false;
+        }
+        if (wraps.isEmpty()) {
+            return false;
+        }
+        Iterator<MethodWrap> iterator = wraps.iterator();
+        while (iterator.hasNext()) {
+            MethodWrap wrap = iterator.next();
+            Class<?> cls = wrap.object.getClass();
+            if (cls.getClassLoader() == loader) {
+                iterator.remove();
+            }
+        }
+        return wraps.isEmpty();
+    }
 
+    /**
+     * 从ClassLoader中卸载相关类引用
+     *
+     * @param loader 类加载器
+     */
+    @Override
+    public void unload(final ClassLoader loader) {
+        Set<String> keys1 = method_advices_map.keySet();
+        Iterator<String> iterator1 = keys1.iterator();
+        while (iterator1.hasNext()) {
+            String key = iterator1.next();
+            MethodAdvices advices = method_advices_map.get(key);
+            if (advices != null) {
+                unload(loader, advices.before);
+                unload(loader, advices.after);
+                unload(loader, advices.afterReturning);
+                unload(loader, advices.afterThrowing);
+                unload(loader, advices.around);
+            }
+        }
+
+        Set<String> keys2 = class_method_interceptor_map.keySet();
+        Iterator<String> iterator2 = keys2.iterator();
+        while (iterator2.hasNext()) {
+            String key = iterator2.next();
+            MethodInterceptor interceptor = class_method_interceptor_map.get(key);
+            if (interceptor != null) {
+                Class<?> cls = interceptor.getClass();
+                if (cls.getClassLoader() == loader) {
+                    iterator2.remove();
+                }
+            }
+        }
+
+        Set<Class<?>> keys3 = class_interceptor_map.keySet();
+        Iterator<Class<?>> iterator3 = keys3.iterator();
+        while (iterator3.hasNext()) {
+            Class<?> cls = iterator3.next();
+            if (cls.getClassLoader() == loader) {
+                iterator3.remove();
+            }
+        }
+
+        Set<Class<?>> keys4 = class_enhancer_map.keySet();
+        Iterator<Class<?>> iterator4 = keys4.iterator();
+        while (iterator4.hasNext()) {
+            Class<?> cls = iterator4.next();
+            if (cls.getClassLoader() == loader) {
+                iterator4.remove();
+            }
+        }
     }
 
 }

@@ -41,7 +41,7 @@ public class MediatorDetector implements IDetector {
         } else {
             cotx = Facade.getInstance(sc.context());
         }
-        Mediator observer = cotx.registMediator((Class<? extends Mediator>) cls);
+        Mediator observer = cotx.registerMediator((Class<? extends Mediator>) cls);
         logger.info("注册事件观察者：Mediator（" + observer.name + "）==>>>  " + cls);
         return observer;
     }

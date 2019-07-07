@@ -11,7 +11,7 @@ import com.kaka.util.ObjectPool;
 class CommandPool extends ObjectPool<Command> {
 
     private final Facade context;
-    private final Class<? extends Command> cls;
+    final Class<? extends Command> cls;
 
     CommandPool(Facade context, int maxSize, Class<? extends Command> cls) {
         super(maxSize);

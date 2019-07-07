@@ -2,6 +2,7 @@ package com.kaka.notice;
 
 import com.kaka.aop.Aop;
 import com.kaka.aop.AopFactory;
+import com.kaka.container.ClassUnloader;
 import com.kaka.util.ReflectUtils;
 import com.kaka.util.StringUtils;
 
@@ -12,7 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @author zkpursuit
  */
-public class Facade implements INotifier {
+public class Facade implements INotifier, ClassUnloader {
 
     private static final Map<String, Facade> instanceMap = new HashMap<>();
 
@@ -65,7 +65,7 @@ public class Facade implements INotifier {
     private String __name;
     private final Map<String, Proxy> proxyMap = new ConcurrentHashMap<>();
     private final Map<String, Mediator> mediaMap = new ConcurrentHashMap<>();
-    private final Map<Object, List<Mediator>> notiMediMap = new ConcurrentHashMap<>();
+    private final ConcurrentListMap<Object, Mediator> notiMediMap = new ConcurrentListMap<>();
     private final Map<Object, CommandPool> cmdPoolMap = new ConcurrentHashMap<>();
     private Executor threadPool;
     private ScheduledExecutorService scheduleThreadPool;
@@ -146,11 +146,11 @@ public class Facade implements INotifier {
      *
      * @param obj 消息发送者
      */
-    final void regist(Notifier obj) {
+    final void register(Notifier obj) {
         if (obj instanceof Mediator) {
-            this.registMediator((Mediator) obj);
+            this.registerMediator((Mediator) obj);
         } else if (obj instanceof Proxy) {
-            this.registProxy((Proxy) obj);
+            this.registerProxy((Proxy) obj);
         }
     }
 
@@ -160,7 +160,7 @@ public class Facade implements INotifier {
      * @param name  数据代理唯一标识名
      * @param proxy 数据处理集中代理器，当并发高的情况下需手动处理数据同步访问问题
      */
-    final void registProxy(String name, Proxy proxy) {
+    final void registerProxy(String name, Proxy proxy) {
         if (proxy == null) {
             return;
         }
@@ -181,15 +181,15 @@ public class Facade implements INotifier {
      * @param names      数据代理的唯一名称，可以为null，为null则将类限定名作为唯一名称
      * @return 数据代理模型对象
      */
-    public <T extends Proxy> T registProxy(Class<T> proxyClass, String... names) {
+    public <T extends Proxy> T registerProxy(Class<T> proxyClass, String... names) {
         Proxy _proxy = (Proxy) createObject(proxyClass);
         final Proxy proxy = _proxy;
         String _name1 = proxy.name;
         String _name2 = proxyClass.getTypeName();
         if (_name1 != null) {
-            registProxy(_name1, proxy);
+            registerProxy(_name1, proxy);
             if (!_name1.equals(_name2)) {
-                registProxy(_name2, proxy);
+                registerProxy(_name2, proxy);
                 proxy.addAlias(_name2);
             }
             if (names.length > 0) {
@@ -200,19 +200,19 @@ public class Facade implements INotifier {
                     }
                 }
                 set.forEach((String name) -> {
-                    registProxy(name, proxy);
+                    registerProxy(name, proxy);
                     proxy.addAlias(name);
                 });
             }
         } else {
             ReflectUtils.setFieldValue(proxy, "name", _name2);
-            registProxy(proxy.name, proxy);
+            registerProxy(proxy.name, proxy);
             if (names.length > 0) {
                 Set<String> set = new HashSet<>(names.length);
                 set.addAll(Arrays.asList(names));
                 set.forEach((String name) -> {
                     if (name != null && !name.equals(_name2)) {
-                        registProxy(name, proxy);
+                        registerProxy(name, proxy);
                         proxy.addAlias(name);
                     }
                 });
@@ -230,8 +230,8 @@ public class Facade implements INotifier {
      * @param proxyClass 数据处理集中代理器
      * @return 数据代理模型对象
      */
-    final public <T extends Proxy> T registProxy(Class<T> proxyClass) {
-        return registProxy(proxyClass, (String) null);
+    final public <T extends Proxy> T registerProxy(Class<T> proxyClass) {
+        return registerProxy(proxyClass, (String) null);
     }
 
     /**
@@ -241,10 +241,10 @@ public class Facade implements INotifier {
      * @param proxy 数据处理集中代理器，当并发高的情况下需手动处理数据同步访问问题
      * @return 数据处理
      */
-    final public <T extends Proxy> T registProxy(Proxy proxy) {
+    final public <T extends Proxy> T registerProxy(Proxy proxy) {
         Proxy _proxy = (Proxy) createObject(proxy.getClass());
         //Proxy _proxy = proxy;
-        registProxy(_proxy.name, _proxy);
+        registerProxy(_proxy.name, _proxy);
         _proxy.facade = this;
         _proxy.onRegister();
         return (T) _proxy;
@@ -346,10 +346,10 @@ public class Facade implements INotifier {
      * 注册事件观察者
      *
      * @param name     事件观察者名称
-     * @param observer 事件观察者
+     * @param mediator 事件观察者
      */
-    final void registMediator(String name, Mediator observer) {
-        if (observer == null) {
+    final void registerMediator(String name, Mediator mediator) {
+        if (mediator == null) {
             return;
         }
         if (!StringUtils.isNotEmpty(name)) {
@@ -358,31 +358,24 @@ public class Facade implements INotifier {
         if (hasMediator(name)) {
             removeMediator(name);
         }
-        mediaMap.put(name, observer);
+        mediaMap.put(name, mediator);
     }
 
     /**
      * 注册事件观察者感兴趣的事件
      *
-     * @param observer 事件观察者
+     * @param mediator 事件观察者
      */
-    final void registMediatorMessageInterests(Mediator observer) {
-        Object[] notiIds = observer.listMessageInterests();
+    final void registerMediatorMessageInterests(Mediator mediator) {
+        Object[] notiIds = mediator.listMessageInterests();
         if (notiIds == null || notiIds.length == 0) {
             return;
         }
         for (Object notiId : notiIds) {
-            List<Mediator> list = notiMediMap.get(notiId);
-            if (list == null) {
-                list = new Stack<>();
-                notiMediMap.put(notiId, list);
-            }
-            if (list.contains(observer) == false) {
-                list.add(observer);
-            }
+            notiMediMap.put(notiId, mediator);
         }
-        observer.facade = this;
-        observer.onRegister();
+        mediator.facade = this;
+        mediator.onRegister();
     }
 
     /**
@@ -391,19 +384,19 @@ public class Facade implements INotifier {
      * 事件观察者能集中监听通知消息，可理解为可处理多个Command的对象
      *
      * @param <T>           限定类型
-     * @param observerClass 事件观察者
+     * @param mediatorClass 事件观察者
      * @param names         事件观察者的唯一名称，可以为null，为null则将类限定名作为唯一名称
      * @return 事件观察者对象
      */
-    <T extends Mediator> T registMediator(Class<T> observerClass, String... names) {
-        Mediator _observer = (Mediator) createObject(observerClass);
+    <T extends Mediator> T registerMediator(Class<T> mediatorClass, String... names) {
+        Mediator _observer = (Mediator) createObject(mediatorClass);
         final Mediator observer = _observer;
         String _name1 = observer.name;
-        String _name2 = observerClass.getTypeName();
+        String _name2 = mediatorClass.getTypeName();
         if (_name1 != null) {
-            registMediator(_name1, observer);
+            registerMediator(_name1, observer);
             if (!_name1.equals(_name2)) {
-                registMediator(_name2, observer);
+                registerMediator(_name2, observer);
                 observer.addAlias(_name2);
             }
             if (names.length > 0) {
@@ -414,25 +407,25 @@ public class Facade implements INotifier {
                     }
                 }
                 set.forEach((String name) -> {
-                    registMediator(name, observer);
+                    registerMediator(name, observer);
                     observer.addAlias(name);
                 });
             }
         } else {
             ReflectUtils.setFieldValue(observer, "name", _name2);
-            registMediator(observer.name, observer);
+            registerMediator(observer.name, observer);
             if (names.length > 0) {
                 Set<String> set = new HashSet<>(names.length);
                 set.addAll(Arrays.asList(names));
                 set.forEach((String name) -> {
                     if (name != null && !name.equals(_name2)) {
-                        registMediator(name, observer);
+                        registerMediator(name, observer);
                         observer.addAlias(name);
                     }
                 });
             }
         }
-        registMediatorMessageInterests(observer);
+        registerMediatorMessageInterests(observer);
         return (T) observer;
     }
 
@@ -440,66 +433,60 @@ public class Facade implements INotifier {
      * 注册事件观察者
      *
      * @param <T>           限定类型
-     * @param observerClass 事件观察者，能集中监听通知消息，可理解为可处理多个Command的对象
+     * @param mediatorClass 事件观察者，能集中监听通知消息，可理解为可处理多个Command的对象
      * @return 事件观察者
      */
-    final public <T extends Mediator> T registMediator(Class<T> observerClass) {
-        return registMediator(observerClass, (String) null);
+    final public <T extends Mediator> T registerMediator(Class<T> mediatorClass) {
+        return registerMediator(mediatorClass, (String) null);
     }
 
     /**
      * 注册事件观察者
      *
      * @param <T>      限定类型
-     * @param observer 视图代理，能集中监听通知消息，可理解为可处理多个Command的对象
+     * @param mediator 视图代理，能集中监听通知消息，可理解为可处理多个Command的对象
      * @return 事件观察者
      */
-    final <T extends Mediator> T registMediator(Mediator observer) {
-        registMediator(observer.name, observer);
-        registMediatorMessageInterests(observer);
-        return (T) observer;
+    final <T extends Mediator> T registerMediator(Mediator mediator) {
+        registerMediator(mediator.name, mediator);
+        registerMediatorMessageInterests(mediator);
+        return (T) mediator;
     }
 
     /**
      * 是否已经注册了名为observerName的事件观察者
      *
-     * @param observerName 视图代理处理唯一标识
+     * @param mediatorName 视图代理处理唯一标识
      * @return true 存在
      */
-    final public boolean hasMediator(String observerName) {
-        return mediaMap.containsKey(observerName);
+    final public boolean hasMediator(String mediatorName) {
+        return mediaMap.containsKey(mediatorName);
     }
 
     /**
      * 是否存在相应的事件观察者
      *
-     * @param observerClass 事件观察者类
+     * @param mediatorClass 事件观察者类
      * @return true 存在
      */
-    final public boolean hasMediator(Class<? extends Mediator> observerClass) {
-        return mediaMap.containsKey(observerClass.getTypeName());
+    final public boolean hasMediator(Class<? extends Mediator> mediatorClass) {
+        return mediaMap.containsKey(mediatorClass.getTypeName());
     }
 
     /**
      * 移除事件观察者
      *
-     * @param observerName 事件观察者处理唯一标识
+     * @param mediatorName 事件观察者处理唯一标识
      */
-    final <T extends Mediator> T removeMediator(String observerName) {
-        Mediator observer = mediaMap.remove(observerName);
+    final <T extends Mediator> T removeMediator(String mediatorName) {
+        Mediator observer = mediaMap.remove(mediatorName);
         if (observer != null) {
             Object[] notiIds = observer.listMessageInterests();
             if (notiIds == null) {
                 return (T) observer;
             }
             for (Object notiId : notiIds) {
-                List<Mediator> list = notiMediMap.get(notiId);
-                if (list != null) {
-                    list.remove(observer);
-                    if (list.isEmpty()) {
-                        notiMediMap.remove(notiId);
-                    }
-                }
+                notiMediMap.remove(notiId, observer);
             }
             observer.facade = null;
             observer.onRemove();
@@ -511,32 +498,32 @@ public class Facade implements INotifier {
      * 移除事件观察者
      *
      * @param <T>      限定类型
-     * @param observer 事件观察者
+     * @param mediator 事件观察者
      * @return 事件观察者
      */
-    final <T extends Mediator> T removeMediator(Mediator observer) {
-        if (observer == null) {
+    final <T extends Mediator> T removeMediator(Mediator mediator) {
+        if (mediator == null) {
             return null;
         }
         //因为是注册的相同的事件，所以此处注册的别名对应的观察者也一并清除
-        String[] alis = observer.getAliases();
+        String[] alis = mediator.getAliases();
         if (alis != null && alis.length > 0) {
             for (String alisName : alis) {
                 mediaMap.remove(alisName);
             }
         }
-        return removeMediator(observer.name);
+        return removeMediator(mediator.name);
     }
 
     /**
      * 移除事件观察者
      *
      * @param <T>           限定类型
-     * @param observerClass 事件观察者类型
+     * @param mediatorClass 事件观察者类型
      * @return 事件观察者
      */
-    final public <T extends Mediator> T removeMediator(Class<T> observerClass) {
-        Mediator observer = retrieveMediator(observerClass.getTypeName());
+    final public <T extends Mediator> T removeMediator(Class<T> mediatorClass) {
+        Mediator observer = retrieveMediator(mediatorClass.getTypeName());
         removeMediator(observer);
         return (T) observer;
     }
@@ -545,22 +532,22 @@ public class Facade implements INotifier {
      * 获取事件观察者
      *
      * @param <T>          限定类型
-     * @param observerName 事件观察者处理唯一标识
+     * @param mediatorName 事件观察者处理唯一标识
      * @return 事件观察者�
      */
-    final <T extends Mediator> T retrieveMediator(String observerName) {
-        return (T) mediaMap.get(observerName);
+    final <T extends Mediator> T retrieveMediator(String mediatorName) {
+        return (T) mediaMap.get(mediatorName);
     }
 
     /**
      * 获取数据代理
      *
      * @param <T>           限定类型
-     * @param observerClass 事件观察者类型
+     * @param mediatorClass 事件观察者类型
      * @return 事件观察者
      */
-    final public <T extends Mediator> T retrieveMediator(Class<T> observerClass) {
-        return retrieveMediator(observerClass.getTypeName());
+    final public <T extends Mediator> T retrieveMediator(Class<T> mediatorClass) {
+        return retrieveMediator(mediatorClass.getTypeName());
     }
 
     /**
@@ -656,21 +643,18 @@ public class Facade implements INotifier {
             }
         }
         if (notiMediMap.containsKey(msg.getWhat())) {
-            List<Mediator> list = notiMediMap.get(msg.getWhat());
-            if (list != null && !list.isEmpty()) {
-                list.stream().forEach((observer) -> {
-                    if (!asyn) {
-                        observer.handleMessage(msg);
-                    } else {
-                        if (threadPool == null) {
-                            throw new Error(String.format("执行异步sendMessage操作前请先调用 %s.initThreadPool方法初始化线程池", this.getClass().toString()));
-                        }
-                        threadPool.execute(() -> {
-                            observer.handleMessage(msg);
-                        });
+            notiMediMap.forEach(msg.getWhat(), (observer) -> {
+                if (!asyn) {
+                    observer.handleMessage(msg);
+                } else {
+                    if (threadPool == null) {
+                        throw new Error(String.format("执行异步sendMessage操作前请先调用 %s.initThreadPool方法初始化线程池", this.getClass().toString()));
                     }
-                });
-            }
+                    threadPool.execute(() -> {
+                        observer.handleMessage(msg);
+                    });
+                }
+            });
         }
     }
 
@@ -753,15 +737,7 @@ public class Facade implements INotifier {
      * 释放内存
      */
     final public void dispose() {
-        Iterator<Object> ks = notiMediMap.keySet().iterator();
-        while (ks.hasNext()) {
-            Object key = ks.next();
-            List<Mediator> list = notiMediMap.remove(key);
-            if (list != null) {
-                list.clear();
-            }
-        }
-        ks = cmdPoolMap.keySet().iterator();
+        Iterator<Object> ks = cmdPoolMap.keySet().iterator();
         while (ks.hasNext()) {
             Object key = ks.next();
             CommandPool cmdPool = cmdPoolMap.get(key);
@@ -772,18 +748,12 @@ public class Facade implements INotifier {
         Iterator<String> keys = mediaMap.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            Mediator observer = mediaMap.remove(key);
-            if (observer != null) {
-                observer.onRemove();
-            }
+            mediaMap.remove(key);
         }
         keys = proxyMap.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
-            Proxy proxy = proxyMap.remove(key);
-            if (proxy != null) {
-                proxy.onRemove();
-            }
+            proxyMap.remove(key);
         }
         notiMediMap.clear();
         cmdPoolMap.clear();
@@ -796,6 +766,80 @@ public class Facade implements INotifier {
             this.cancelSchedule(key);
         }
         this.scheduleThreadPool = null;
+    }
+
+    @Override
+    public void unload(ClassLoader loader) {
+        if (this.getClass().getClassLoader() == loader) {
+            this.dispose();
+            return;
+        }
+        Set<String> keys1 = proxyMap.keySet();
+        Iterator<String> iterator1 = keys1.iterator();
+        while (iterator1.hasNext()) {
+            String key = iterator1.next();
+            Proxy proxy = proxyMap.get(key);
+            if (proxy.getClass().getClassLoader() == loader) {
+                iterator1.remove();
+            }
+        }
+
+        Set<String> keys2 = mediaMap.keySet();
+        Iterator<String> iterator2 = keys2.iterator();
+        while (iterator2.hasNext()) {
+            String key = iterator2.next();
+            Mediator mediator = mediaMap.get(key);
+            if (mediator.getClass().getClassLoader() == loader) {
+                iterator2.remove();
+            }
+        }
+
+        Set<Object> keys3 = cmdPoolMap.keySet();
+        Iterator<Object> iterator3 = keys3.iterator();
+        while (iterator3.hasNext()) {
+            Object key = iterator3.next();
+            CommandPool pool = cmdPoolMap.get(key);
+            if (pool.cls.getClassLoader() == loader) {
+                iterator3.remove();
+            }
+        }
+
+
+        Set<Object> keys4 = notiMediMap.keySet();
+        Iterator<Object> iterator4 = keys4.iterator();
+        while (iterator4.hasNext()) {
+            Object key = iterator4.next();
+            List<Mediator> list = notiMediMap.get(key);
+            if (list != null && !list.isEmpty()) {
+                Iterator<Mediator> iter = list.iterator();
+                while (iter.hasNext()) {
+                    Mediator mediator = iter.next();
+                    if (mediator.getClass().getClassLoader() == loader) {
+                        iter.remove();
+                    }
+                }
+                if (list.isEmpty()) {
+                    iterator4.remove();
+                }
+            }
+        }
+
+        Set<String> keys5 = scheduleFutureMap.keySet();
+        Iterator<String> iterator5 = keys5.iterator();
+        while (iterator5.hasNext()) {
+            String key = iterator5.next();
+            ScheduledFuture<?> future = scheduleFutureMap.get(key);
+            if (future.getClass().getClassLoader() == loader) {
+                iterator5.remove();
+            }
+        }
+
+    }
+
+    public synchronized final static void unloadAll(ClassLoader loader) {
+        instanceMap.forEach((String n, Facade f) -> {
+            f.unload(loader);
+        });
     }
 
 }
