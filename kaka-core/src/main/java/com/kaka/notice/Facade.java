@@ -583,7 +583,7 @@ public class Facade implements INotifier, ClassUnloader {
      * @param clasz      命令执行器类对象
      * @param pooledSize 池化大小
      */
-    final public void registCommand(Object cmd, Class<? extends Command> clasz, int pooledSize) {
+    final public void registerCommand(Object cmd, Class<? extends Command> clasz, int pooledSize) {
         if (cmdPoolMap.containsKey(cmd)) {
             cmdPoolMap.remove(cmd);
         }
@@ -596,8 +596,8 @@ public class Facade implements INotifier, ClassUnloader {
      * @param cmd   命令执行器唯一标识
      * @param clasz 命令执行器类对象
      */
-    final public void registCommand(Object cmd, Class<? extends Command> clasz) {
-        registCommand(cmd, clasz, -1);
+    final public void registerCommand(Object cmd, Class<? extends Command> clasz) {
+        registerCommand(cmd, clasz, -1);
     }
 
     /**

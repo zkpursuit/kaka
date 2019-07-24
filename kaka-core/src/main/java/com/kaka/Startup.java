@@ -3,21 +3,14 @@ package com.kaka;
 import com.kaka.aop.Aop;
 import com.kaka.aop.AopFactory;
 import com.kaka.aop.annotation.Aspect;
-import com.kaka.notice.detector.ProxyDetector;
 import com.kaka.notice.detector.CommandDetector;
+import com.kaka.notice.detector.IDetector;
 import com.kaka.notice.detector.MediatorDetector;
+import com.kaka.notice.detector.ProxyDetector;
 import com.kaka.numerical.NumericDetector;
 import com.kaka.util.ClassScaner;
 
-import java.util.Collections;
-
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Set;
-
-import java.util.Map;
-
-import com.kaka.notice.detector.IDetector;
+import java.util.*;
 
 /**
  * 启动器，其中包含类扫描及事件通知模型的注册
@@ -38,6 +31,17 @@ public abstract class Startup {
         addDetector(new MediatorDetector());
         addDetector(new ProxyDetector());
         addDetector(new NumericDetector());
+
+        IDetector httpServletDetector = null;
+        try {
+            Class<? extends IDetector> httpServletDetectorClass = (Class<? extends IDetector>) Class.forName("com.kaka.net.http.HttpServletDetector");
+            httpServletDetector = (IDetector) com.kaka.util.ReflectUtils.newInstance(httpServletDetectorClass);
+        } catch (ClassNotFoundException e) {
+        }
+        if (httpServletDetector != null) {
+            addDetector(httpServletDetector);
+        }
+
         for (IDetector detector : registers) {
             addDetector(detector);
         }

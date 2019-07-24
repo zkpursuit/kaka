@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+<web-app version="3.1" xmlns="com.kaka.net.http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="com.kaka.net.http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="com.kaka.net.http://xmlns.jcp.org/xml/ns/javaee com.kaka.net.http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <!-- ajax访问，当访问客户端与服务器的域名不一致时就存在跨域访问的问题 
-    http://www.eclipse.org/jetty/documentation/current/cross-origin-filter.html
+    com.kaka.net.http://www.eclipse.org/jetty/documentation/current/cross-origin-filter.html
     -->
     <listener>
-        <listener-class>com.http.core.InitListener</listener-class>
+        <listener-class>com.com.kaka.net.http.core.InitListener</listener-class>
     </listener>
 
     <filter>
@@ -31,7 +31,7 @@
 
     <servlet>
         <servlet-name>JsonApiServlet</servlet-name>
-        <servlet-class>com.http.core.JsonApiServlet</servlet-class>
+        <servlet-class>com.com.kaka.net.http.core.JsonApiServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
