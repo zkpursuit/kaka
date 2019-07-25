@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="com.kaka.net.http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="com.kaka.net.http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="com.kaka.net.http://maven.apache.org/POM/4.0.0 com.kaka.net.http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>kaka</artifactId>
         <groupId>com.kaka</groupId>
@@ -29,6 +29,12 @@
             <artifactId>kaka-aopwear</artifactId>
             <version>2.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.kaka</groupId>
+            <artifactId>kaka-net</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
@@ -62,6 +68,13 @@
             <version>2.9.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.37.Final</version>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- jetty相关 -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
@@ -70,7 +83,7 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-com.kaka.net.http</artifactId>
+            <artifactId>jetty-http</artifactId>
             <version>9.4.11.v20180605</version>
         </dependency>
         <dependency>

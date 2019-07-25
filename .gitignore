@@ -3,6 +3,7 @@
 /kaka-aopwear/target/maven-status
 /kaka-aopwear/target/classes
 /kaka-aopwear/target/generated-sources
+/kaka-aopwear/target/lib
 /kaka-core/target/maven-archiver
 /kaka-core/target/maven-status
 /kaka-core/target/classes
@@ -11,4 +12,9 @@
 /kaka-test/target/classes
 /kaka-test/target/generated-sources
 /kaka-test/target/maven-archiver
-/kaka-aopwear/target/lib
+/kaka-net/target/maven-status/maven-compiler-plugin/compile/default-cli/*.lst
+/kaka-net/target/classes
+/kaka-net/target/maven-archiver
+/kaka-net/target/maven-status
+/kaka-net/target/generated-sources
+/kaka-net/target/lib
