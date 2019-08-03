@@ -383,7 +383,8 @@ public class ReflectUtils {
     }
 
     /**
-     * 获取泛型参数类型
+     * 获取泛型参数类型 </br>
+     * 此方法仅对编码时显示写入泛型有效，动态创建对象时无法获得泛型 </br>
      *
      * @param cls 带泛型的类
      * @return 泛型参数类型，找不到泛型类时默认使用Object.class
@@ -393,18 +394,32 @@ public class ReflectUtils {
     }
 
     /**
-     * 获取泛型参数类型
+     * 获取泛型参数类型 </br>
+     * 此方法仅对编码时显示写入泛型有效，动态创建对象时无法获得泛型 </br>
      *
      * @param cls 带泛型的类
      * @param defaultClass 如果从带泛型的类这个参数中未找到泛型类，将指定此类
      * @return 泛型类
      */
     public final static Class<?> getGenericParadigmClass(Class cls, Class defaultClass) {
+        return getGenericParadigmClass(cls, 0, defaultClass);
+    }
+
+    /**
+     * 获取泛型参数类型 </br>
+     * 此方法仅对编码时显示写入泛型有效，动态创建对象时无法获得泛型 </br>
+     *
+     * @param cls 带泛型的类
+     * @param genericIndex 泛型约束索引，表示第几个泛型
+     * @param defaultClass 如果从带泛型的类这个参数中未找到泛型类，将指定此类
+     * @return 泛型类
+     */
+    public final static Class<?> getGenericParadigmClass(Class cls, int genericIndex, Class defaultClass) {
         do {
             Type genType = cls.getGenericSuperclass();
             if (genType instanceof ParameterizedType) {
                 Type[] params = ((ParameterizedType) genType).getActualTypeArguments();
-                Class<?> entityClass = (Class) params[0];
+                Class<?> entityClass = (Class) params[genericIndex];
                 return entityClass;
             }
             cls = (Class) genType;
