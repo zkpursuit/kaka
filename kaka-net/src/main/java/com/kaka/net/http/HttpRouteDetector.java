@@ -1,7 +1,7 @@
 package com.kaka.net.http;
 
 import com.kaka.net.http.annotation.WebInitParam;
-import com.kaka.net.http.annotation.WebServlet;
+import com.kaka.net.http.annotation.WebRoute;
 import com.kaka.notice.Facade;
 import com.kaka.notice.detector.IDetector;
 import com.kaka.util.ReflectUtils;
@@ -10,17 +10,17 @@ import com.kaka.util.StringUtils;
 import java.util.Map;
 
 /**
- * 基于{@link HttpServlet}的注册器
+ * 基于{@link HttpRoute}的注册器
  *
  * @author zkpursuit
  */
-public class HttpServletDetector implements IDetector {
+public class HttpRouteDetector implements IDetector {
 
     private final Facade httpFacade = Facade.getInstance("HTTP_FACADE");
 
     @Override
     public String name() {
-        return "servlet";
+        return "httpRoute";
     }
 
     /**
@@ -31,10 +31,10 @@ public class HttpServletDetector implements IDetector {
      */
     @Override
     public Object discern(Class<?> cls) {
-        if (!HttpServlet.class.isAssignableFrom(cls)) {
+        if (!HttpRoute.class.isAssignableFrom(cls)) {
             return null;
         }
-        WebServlet ws = cls.getAnnotation(WebServlet.class);
+        WebRoute ws = cls.getAnnotation(WebRoute.class);
         if (ws == null) {
             return null;
         }
@@ -61,7 +61,7 @@ public class HttpServletDetector implements IDetector {
         } else {
             names = new String[]{url};
         }
-        HttpServlet servlet = httpFacade.registerProxy((Class<? extends HttpServlet>) cls, names);
+        HttpRoute servlet = httpFacade.registerProxy((Class<? extends HttpRoute>) cls, names);
         WebInitParam[] params = ws.initParams();
         if (params != null && params.length > 0) {
             Map<String, String> paramsMap = (Map<String, String>) ReflectUtils.getFieldValue(servlet, "params");

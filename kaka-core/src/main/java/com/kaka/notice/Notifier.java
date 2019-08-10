@@ -78,7 +78,7 @@ abstract public class Notifier implements INotifier {
      * @param name 数据模型名
      * @return 数据模型
      */
-    protected <T extends Proxy> T getProxy(String name) {
+    protected <T extends Proxy> T retrieveProxy(String name) {
         if (facade == null) {
             return null;
         }
@@ -92,7 +92,7 @@ abstract public class Notifier implements INotifier {
      * @param cls 数据模型类型
      * @return 数据模型
      */
-    protected <T extends Proxy> T getProxy(Class<T> cls) {
+    protected <T extends Proxy> T retrieveProxy(Class<T> cls) {
         if (facade == null) {
             return null;
         }
@@ -106,7 +106,7 @@ abstract public class Notifier implements INotifier {
      * @param mediatorName 事件观察者唯一标识
      * @return 事件观察者
      */
-    protected <T extends Mediator> T getMediator(String mediatorName) {
+    protected <T extends Mediator> T retrieveMediator(String mediatorName) {
         if (facade == null) {
             return null;
         }
@@ -120,7 +120,7 @@ abstract public class Notifier implements INotifier {
      * @param mediatorClass 事件观察者类型
      * @return 事件观察者
      */
-    protected <T extends Mediator> T getMediator(Class<T> mediatorClass) {
+    protected <T extends Mediator> T retrieveMediator(Class<T> mediatorClass) {
         if (facade == null) {
             return null;
         }

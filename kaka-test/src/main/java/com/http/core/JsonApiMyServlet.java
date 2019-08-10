@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.http.util.JsonUtils;
-import com.kaka.net.http.HttpServlet;
+import com.kaka.net.http.HttpRoute;
 import com.kaka.net.http.annotation.WebInitParam;
-import com.kaka.net.http.annotation.WebServlet;
+import com.kaka.net.http.annotation.WebRoute;
 import com.kaka.util.Charsets;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.*;
@@ -18,8 +18,8 @@ import java.net.URLDecoder;
 
 import static com.kaka.notice.Facade.facade;
 
-@WebServlet(url = "/myservlet", initParams = {@WebInitParam(name = "a", value = "100")})
-public class JsonApiMyServlet extends HttpServlet {
+@WebRoute(url = "/myservlet", initParams = {@WebInitParam(name = "a", value = "100")})
+public class JsonApiMyServlet extends HttpRoute {
 
     protected static final Logger logger = (Logger) LoggerFactory.getLogger(JsonApiMyServlet.class);
 

@@ -1,6 +1,8 @@
 package com.kaka.util;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -304,6 +306,208 @@ public class StringUtils {
             return false;
         }
         return !"".equals(src);
+    }
+
+    //private static final char[] DIGITS_LOWER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    private static final char[] DIGITS_UPPER = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+
+    /**
+     * 将字符转换为16进制的数字
+     *
+     * @param ch    字符
+     * @param index 字符数组中的索引位置
+     * @return 16进制数字
+     */
+    private static int toDigit(final char ch, final int index) {
+        final int digit = Character.digit(ch, 16);
+        if (digit == -1) {
+            throw new Error("Illegal hexadecimal character " + ch + " at index " + index);
+        }
+        return digit;
+    }
+
+    /**
+     * 任意字符串转数字
+     *
+     * @param src 字符串
+     * @return 转换后的数字
+     */
+    public final static long toNumber(final String src) {
+        byte[] source = src.getBytes(Charsets.utf8);
+        String s = null;
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(source);
+            byte tmp[] = md.digest();
+            char str[] = new char[16];
+            int k = 0;
+            for (int i = 0; i < 16; i++) {
+                byte byte0 = tmp[i];
+                //只取高位
+                str[k++] = hexDigits[(byte0 >>> 4 & 0xf) % 10];
+                //str[k++] = hexDigits[byte0 & 0xf];
+            }
+            s = new String(str);  // 换后的结果转换为字符串
+        } catch (Exception e) {
+        }
+        if (s == null) {
+            return 0;
+        }
+        return Long.parseLong(s);
+    }
+
+    /**
+     * 编码字节数组为16进制字符
+     *
+     * @param data     字节数组
+     * @param toDigits 基础编码数据
+     * @return 编码后的字符数组
+     */
+    private static char[] encodeByteToHex(final byte[] data, final char[] toDigits) {
+        final int len = data.length;
+        final char[] out = new char[len << 1];
+        //两个字符构成十六进制值。
+        for (int i = 0, j = 0; i < len; i++) {
+            out[j++] = toDigits[(0xF0 & data[i]) >>> 4];
+            out[j++] = toDigits[0x0F & data[i]];
+        }
+        return out;
+    }
+
+    /**
+     * 编码字节数组为16进制字符
+     *
+     * @param data 字节数组
+     * @return 编码后的字符数组
+     */
+    public static char[] encodeByteToHex(final byte[] data) {
+        return encodeByteToHex(data, DIGITS_UPPER);
+    }
+
+    /**
+     * 编码字节数组为16进制字符
+     *
+     * @param data 字节数组
+     * @return 编码后的字符串
+     */
+    public static String encodeByteToHexString(final byte[] data) {
+        return new String(encodeByteToHex(data));
+    }
+
+    /**
+     * 将16进制字符编码为字节
+     *
+     * @param data 字符数组
+     * @return 字节数组
+     */
+    public static byte[] decodeHexToByte(final char[] data) {
+        final int len = data.length;
+        if ((len & 0x01) != 0) {
+            throw new Error("字符数组长度必然为偶数。");
+        }
+        final byte[] out = new byte[len >> 1];
+        for (int i = 0, j = 0; j < len; i++) {
+            int f = toDigit(data[j], j) << 4;
+            j++;
+            f = f | toDigit(data[j], j);
+            j++;
+            out[i] = (byte) (f & 0xFF);
+        }
+        return out;
+    }
+
+    /**
+     * 将16进制字符编码为字节
+     *
+     * @param data 字符串
+     * @return 字节数组
+     */
+    public static byte[] decodeHexToByte(final String data) {
+        return decodeHexToByte(data.toCharArray());
+    }
+
+    /**
+     * 判断字符是否为中文字符
+     *
+     * @param c 字符
+     * @return 为中文字符返回true，否则为false
+     */
+    final public static boolean isChinese(char c) {
+        Character.UnicodeBlock ub = Character.UnicodeBlock.of(c);
+        return ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_COMPATIBILITY_IDEOGRAPHS
+                || ub == Character.UnicodeBlock.CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A
+                || ub == Character.UnicodeBlock.GENERAL_PUNCTUATION
+                || ub == Character.UnicodeBlock.CJK_SYMBOLS_AND_PUNCTUATION
+                || ub == Character.UnicodeBlock.HALFWIDTH_AND_FULLWIDTH_FORMS;
+    }
+
+    /**
+     * 判断字符串中是否包含中文字符
+     *
+     * @param src 待判断的源字符串
+     * @return 包含中文字符返回true， 否则返回false
+     */
+    final public static boolean hasChinese(String src) {
+        char[] ch = src.toCharArray();
+        for (int i = 0; i < ch.length; i++) {
+            char c = ch[i];
+            if (isChinese(c)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 组合列表元素为字符串
+     *
+     * @param list      数据列表
+     * @param open      开始字符串
+     * @param separator 分隔符
+     * @param close     关闭字符串
+     * @return 组合后的字符串
+     */
+    final public static String group(Collection<?> list, String open, String separator, String close) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(open);
+        int size = list.size();
+        list.forEach((v) -> {
+            sb.append(v).append(separator);
+        });
+        if (size > 0) {
+            int len = sb.length();
+            sb.delete(len - separator.length(), len);
+        }
+        sb.append(close);
+        return sb.toString();
+    }
+
+    /**
+     * 组合数组元素为字符串
+     *
+     * @param array     待组合的数组
+     * @param open      开始字符串
+     * @param separator 分隔符
+     * @param close     关闭字符串
+     * @return 组合后的字符串
+     */
+    final public static String group(Object array, String open, String separator, String close) {
+        if (!array.getClass().isArray()) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(open);
+        int size = ArrayUtils.getLength(array);
+        for (int i = 0; i < size; i++) {
+            if (i > 0) {
+                sb.append(separator);
+            }
+            sb.append(ArrayUtils.get(array, i));
+        }
+        sb.append(close);
+        return sb.toString();
     }
 
 }

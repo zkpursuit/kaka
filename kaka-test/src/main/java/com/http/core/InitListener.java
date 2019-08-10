@@ -11,7 +11,7 @@ public class InitListener extends Startup implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         //扫描自动注册Command、Proxy、Mediator
-        this.scan("com.com.kaka.net.http.business");
+        this.scan("com.http.business");
         //手动注册Proxy
         JsonFilterGroup filterGroup = facade.registerProxy(JsonFilterGroup.class);
         //自行实现添加其它过滤器
