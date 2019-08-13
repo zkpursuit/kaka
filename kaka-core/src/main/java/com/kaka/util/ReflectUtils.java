@@ -1,6 +1,7 @@
 package com.kaka.util;
 
 import java.lang.reflect.*;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,7 +20,7 @@ public class ReflectUtils {
     /**
      * 设置对象字段值
      *
-     * @param obj 对象
+     * @param obj   对象
      * @param field 字段
      * @param value 新的字段值
      */
@@ -49,9 +50,9 @@ public class ReflectUtils {
     /**
      * 设置对象字段值
      *
-     * @param obj 对象
+     * @param obj       对象
      * @param fieldName 字段名
-     * @param value 新的字段值
+     * @param value     新的字段值
      */
     public static final void setFieldValue(Object obj, String fieldName, Object value) {
         if (obj == null) {
@@ -70,9 +71,9 @@ public class ReflectUtils {
     /**
      * 通过set方法设置字段值
      *
-     * @param obj 对象
+     * @param obj       对象
      * @param fieldName 字段名
-     * @param value 新的字段值
+     * @param value     新的字段值
      */
     public static final void setFieldValueByMethod(Object obj, String fieldName, Object value) {
         if (obj == null) {
@@ -115,8 +116,8 @@ public class ReflectUtils {
      * 通过字段名获取set或get方法名
      *
      * @param attribute 字段名
-     * @param objClass 对象类型
-     * @param isSet 是否为set方法
+     * @param objClass  对象类型
+     * @param isSet     是否为set方法
      * @return set或get方法名
      */
     public static final String convertToMethodName(String attribute, Class<?> objClass, boolean isSet) {
@@ -149,7 +150,7 @@ public class ReflectUtils {
      * 获取字段值
      *
      * @param object 对象
-     * @param field 字段
+     * @param field  字段
      * @return 字段值
      */
     public static final Object getFieldValue(Object object, Field field) {
@@ -173,7 +174,7 @@ public class ReflectUtils {
     /**
      * 获取字段值
      *
-     * @param obj 对象
+     * @param obj       对象
      * @param fieldName 字段名
      * @return 字段值
      */
@@ -217,9 +218,9 @@ public class ReflectUtils {
     /**
      * 通过方法名设置值
      *
-     * @param obj 类实例
+     * @param obj        类实例
      * @param methodName 方法名
-     * @param args 方法参数
+     * @param args       方法参数
      */
     public static final void setValueByMethod(Object obj, String methodName, Object... args) {
         try {
@@ -248,7 +249,7 @@ public class ReflectUtils {
     /**
      * 通过方法名获得值，保证方法不带参数
      *
-     * @param obj 类实例
+     * @param obj        类实例
      * @param methodName 方法名
      * @return 方法返回值
      */
@@ -272,7 +273,7 @@ public class ReflectUtils {
      * 循环向上转型, 获 * @param object : 子类对象
      *
      * @param srcClass
-     * @param methodName : 父类中的方法名
+     * @param methodName     : 父类中的方法名
      * @param parameterTypes : 父类中的方法参数类型
      * @return 父类中的方法对象
      */
@@ -310,7 +311,7 @@ public class ReflectUtils {
      * 获取已声明的属性
      *
      * @param beanClass 类对象
-     * @param ancestor 是否向父级追溯
+     * @param ancestor  是否向父级追溯
      * @return 已声明的方法集合
      */
     public final static Field[] getDeclaredFields(Class beanClass, boolean ancestor) {
@@ -347,7 +348,7 @@ public class ReflectUtils {
     /**
      * 获取已声明的方法，包括父级以及其上
      *
-     * @param clasz 类对象
+     * @param clasz    类对象
      * @param ancestor 是否向父级追溯
      * @return 已声明的方法集合
      */
@@ -397,7 +398,7 @@ public class ReflectUtils {
      * 获取泛型参数类型 </br>
      * 此方法仅对编码时显示写入泛型有效，动态创建对象时无法获得泛型 </br>
      *
-     * @param cls 带泛型的类
+     * @param cls          带泛型的类
      * @param defaultClass 如果从带泛型的类这个参数中未找到泛型类，将指定此类
      * @return 泛型类
      */
@@ -409,7 +410,7 @@ public class ReflectUtils {
      * 获取泛型参数类型 </br>
      * 此方法仅对编码时显示写入泛型有效，动态创建对象时无法获得泛型 </br>
      *
-     * @param cls 带泛型的类
+     * @param cls          带泛型的类
      * @param genericIndex 泛型约束索引，表示第几个泛型
      * @param defaultClass 如果从带泛型的类这个参数中未找到泛型类，将指定此类
      * @return 泛型类
@@ -430,18 +431,23 @@ public class ReflectUtils {
     /**
      * 实例化对象
      *
-     * @param cls 对象类型
+     * @param cls  对象类型
      * @param args 构造方法参数
      * @return 对象实例
      */
     public static final Object newInstance(Class cls, Object... args) {
-        Constructor con = null;
+        Constructor con;
         if (args.length == 0) {
             try {
                 con = cls.getDeclaredConstructor();
-            } catch (NoSuchMethodException | SecurityException ex) {
-                throw new Error("无法找到无参构造方法", ex);
+            } catch (NoSuchMethodException | SecurityException e) {
+                try {
+                    return cls.newInstance();
+                } catch (InstantiationException | IllegalAccessException ex) {
+                    throw new Error("无法找到无参构造方法", e);
+                }
             }
+
         } else {
             Class[] argTypes = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
@@ -468,6 +474,15 @@ public class ReflectUtils {
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             throw new Error(ex);
         }
+    }
+
+    public class A {
+
+    }
+
+    public static void main(String[] args) {
+        A a = (A) ReflectUtils.newInstance(A.class, new Object[0]);
+        System.out.println(a);
     }
 
 }
