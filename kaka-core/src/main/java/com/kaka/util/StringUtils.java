@@ -510,4 +510,48 @@ public class StringUtils {
         return sb.toString();
     }
 
+    /**
+     * 求解两字符串的最长公共子串 <br/>
+     * 原理：二维矩阵中，将str1的每个字符置于行首，str2的每个字符置于列首，
+     * 再于矩阵中查询出连续行列值。
+     *
+     * @param str1 字符串
+     * @param str2 字符串
+     * @return 最长公共子串
+     */
+    final public static String getMaxSubstring(String str1, String str2) {
+        int row = 0;
+        int col = str2.length();
+        int end_index = 0;
+        int max_len = 0;
+        while (row < str1.length()) {
+            int i = row;
+            int j = col;
+            int pre = 0;
+            while (i < str1.length() && j < str2.length()) {
+                if (str1.charAt(i) == str2.charAt(j)) {
+                    pre += 1;
+                    if (pre > max_len) {
+                        max_len = pre;
+                        end_index = i;
+                    }
+                } else {
+                    pre = 0;
+                }
+                i++;
+                j++;
+            }
+            if (col > 0) {
+                col--;
+            } else {
+                row++;
+            }
+        }
+        StringBuilder sb = new StringBuilder(max_len);
+        for (int i = end_index - max_len + 1; i <= end_index; i++) {
+            sb.append(str1.charAt(i));
+        }
+        return sb.toString();
+    }
+
 }
