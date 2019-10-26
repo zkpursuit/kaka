@@ -547,11 +547,18 @@ public class StringUtils {
                 row++;
             }
         }
-        StringBuilder sb = new StringBuilder(max_len);
-        for (int i = end_index - max_len + 1; i <= end_index; i++) {
-            sb.append(str1.charAt(i));
+        //最长子串长度即为max_len
+        if (max_len > 0) {
+            int start = end_index - max_len + 1;
+            int end = end_index + 1;
+            return str1.substring(start, end);
         }
-        return sb.toString();
+        return null;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getMaxSubstring("dsafjdsafdf3qewrdf", "rrqrewqfjdsafdf3qewjdlfaj"));
+        System.out.println(getMaxSubstring("ab", "b"));
     }
 
 }
