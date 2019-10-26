@@ -2,9 +2,7 @@ package com.kaka.util;
 
 import com.kaka.util.math.Rect;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
@@ -53,7 +51,7 @@ public final class MathUtils {
      * 通过{@link Math}生成[start, end]的随机数
      *
      * @param start 最小值
-     * @param end 最大值
+     * @param end   最大值
      * @return [start, end]的随机数
      */
     static final public int getRandom(int start, int end) {
@@ -65,7 +63,7 @@ public final class MathUtils {
      * 返回一个[start, end]之间的随机数
      *
      * @param start 闭区间起始范围值
-     * @param end 闭区间结束范围值
+     * @param end   闭区间结束范围值
      * @return 随机数
      */
     static final public int random(int start, int end) {
@@ -86,7 +84,7 @@ public final class MathUtils {
      * 返回一个[start, end]之间的随机数
      *
      * @param start 闭区间起始范围值
-     * @param end 闭区间结束范围值
+     * @param end   闭区间结束范围值
      * @return 随机数
      */
     static final public long random(long start, long end) {
@@ -135,7 +133,7 @@ public final class MathUtils {
      * 返回一个[start, end)之间的随机数
      *
      * @param start 区间起始范围值（包括）
-     * @param end 区间结束范围值（不包括）
+     * @param end   区间结束范围值（不包括）
      * @return 随机数
      */
     static final public float random(float start, float end) {
@@ -160,7 +158,7 @@ public final class MathUtils {
         value |= value >> 16;
         return value + 1;
     }
-    
+
     /**
      * 判断一个数是否为2的次幂数
      *
@@ -197,10 +195,10 @@ public final class MathUtils {
     /**
      * 圆周上等分点
      *
-     * @param circleCenterX 圆心X坐标
-     * @param circleCenterY 圆心Y坐标
-     * @param radius 半径
-     * @param num 等分点数量
+     * @param circleCenterX  圆心X坐标
+     * @param circleCenterY  圆心Y坐标
+     * @param radius         半径
+     * @param num            等分点数量
      * @param deviationAngle 起始角度，偏移角度,影响起始坐标，360/等分数量/4为正位置
      * @return 等分点数组集合
      */
@@ -226,12 +224,12 @@ public final class MathUtils {
      * 则看线段的两个点是否在矩形的同一边（即两点的x(y)坐标都比矩形的小x(y)坐标小，或者大）, 若在同一边则返回false， 否则就是相交的情况。
      * </p>
      *
-     * @param linePointX1 线段起始点x坐标
-     * @param linePointY1 线段起始点y坐标
-     * @param linePointX2 线段结束点x坐标
-     * @param linePointY2 线段结束点y坐标
-     * @param rectangleLeftTopX 矩形左上点x坐标
-     * @param rectangleLeftTopY 矩形左上点y坐标
+     * @param linePointX1           线段起始点x坐标
+     * @param linePointY1           线段起始点y坐标
+     * @param linePointX2           线段结束点x坐标
+     * @param linePointY2           线段结束点y坐标
+     * @param rectangleLeftTopX     矩形左上点x坐标
+     * @param rectangleLeftTopY     矩形左上点y坐标
      * @param rectangleRightBottomX 矩形右下点x坐标
      * @param rectangleRightBottomY 矩形右下点y坐标
      * @return 是否相交，true相交
@@ -324,7 +322,7 @@ public final class MathUtils {
      * @param p3y 线段2端点Y坐标
      * @param p4x 线段2端点X坐标
      * @param p4y 线段2端点Y坐标
-     * @return 平面两线交点(x,y)坐标
+     * @return 平面两线交点(x, y)坐标
      */
     public static final float[] getCrossPoint(
             float p1x, float p1y, float p2x, float p2y,
@@ -351,12 +349,12 @@ public final class MathUtils {
     /**
      * 点线位置关系
      *
-     * @param px 点X坐标
-     * @param py 点Y坐标
+     * @param px            点X坐标
+     * @param py            点Y坐标
      * @param linePotStartX 线段1端点X坐标
      * @param linePotStartY 线段1端点Y坐标
-     * @param linePotEndX 线段1端点X坐标
-     * @param linePotEndY 线段1端点Y坐标
+     * @param linePotEndX   线段1端点X坐标
+     * @param linePotEndY   线段1端点Y坐标
      * @return -1: 点在线段左侧; 0: 点在线段上; 1: 点在线段右侧
      */
     public final static int pointLinePositionRelation(float px, float py, float linePotStartX, float linePotStartY, float linePotEndX, float linePotEndY) {
@@ -380,12 +378,12 @@ public final class MathUtils {
     /**
      * 组合，递归实现
      *
-     * @param src 数组对象
-     * @param begin 从源数组中的此索引处取得一个数据并存入result中
-     * @param number 组合数量
-     * @param result 一组组合数据
+     * @param src       数组对象
+     * @param begin     从源数组中的此索引处取得一个数据并存入result中
+     * @param number    组合数量
+     * @param result    一组组合数据
      * @param resultIdx result中索引变更，即每组组合数据共用result对象，仅改变此索引
-     * @param action 一组组合数据的访问器
+     * @param action    一组组合数据的访问器
      */
     private static void combine(int[] src, int begin, int number, int[] result, int resultIdx, Consumer<int[]> action) {
         if (number == 0) {
@@ -406,10 +404,10 @@ public final class MathUtils {
      * 组合的递归实现，在src数组元素比较多的时候极易内存溢出，数据量少的情况比非递归实现快80%左右<br>
      * 小数据优于combinate1，弱于combinate2，大数据内存溢出
      *
-     * @param src 数组对象
-     * @param num 最小数量的组合
+     * @param src         数组对象
+     * @param num         最小数量的组合
      * @param surplus_num 是否允许大于最小数量的组合
-     * @param action 组合访问器，每个组合共用一个int[]实例
+     * @param action      组合访问器，每个组合共用一个int[]实例
      */
     public final static void combinate3(int[] src, int num, boolean surplus_num, Consumer<int[]> action) {
         if (!surplus_num) {
@@ -426,10 +424,10 @@ public final class MathUtils {
      * 可以用0代表不存在，1代表存在 。001 即（a*0）(b*0)(c*1) 也就是c ,010为b 以此类推 111为abc<br>
      * 此方法求得的结果散漫，小数据优于combinate3，弱于combinate1，大数据最优
      *
-     * @param src 数组对象
-     * @param num 最小数量的组合
+     * @param src         数组对象
+     * @param num         最小数量的组合
      * @param surplus_num 是否允许大于最小数量的组合
-     * @param action 组合访问器
+     * @param action      组合访问器
      */
     public static final void combinate2(int[] src, int num, boolean surplus_num, Consumer<int[]> action) {
         final int len = src.length;
@@ -462,8 +460,8 @@ public final class MathUtils {
      * 组合<br>
      * 模拟num层for循环
      *
-     * @param src 数组对象
-     * @param num 组合的数量
+     * @param src    数组对象
+     * @param num    组合的数量
      * @param action 组合访问器
      */
     private static void combinate(int[] src, int num, Consumer<int[]> action) {
@@ -513,10 +511,10 @@ public final class MathUtils {
     /**
      * 组合的非递归实现，数据量小的情况请使用递归实现，数据量大运行效率也不是很高，但不会内存溢出
      *
-     * @param src 数组对象
-     * @param num 最小数量的组合
+     * @param src         数组对象
+     * @param num         最小数量的组合
      * @param surplus_num 是否允许大于最小数量的组合
-     * @param action 组合访问器，每个组合为独立的int[]实例
+     * @param action      组合访问器，每个组合为独立的int[]实例
      */
     public final static void combinate1(int[] src, int num, boolean surplus_num, Consumer<int[]> action) {
         if (!surplus_num) {
@@ -531,12 +529,12 @@ public final class MathUtils {
     /**
      * 类型聚合的排列组合，递归实现
      *
-     * @param src 数组对象
-     * @param begin 从源数组中的此索引处取得一个数据并存入result中
-     * @param number 组合数量
-     * @param result 一组组合数据
+     * @param src       数组对象
+     * @param begin     从源数组中的此索引处取得一个数据并存入result中
+     * @param number    组合数量
+     * @param result    一组组合数据
      * @param resultIdx result中索引变更，即每组组合数据共用result对象，仅改变此索引
-     * @param action 一组组合数据的访问器
+     * @param action    一组组合数据的访问器
      */
     private static void combine(KeyValue[] src, int begin, int number, KeyValue[] result, int resultIdx, Consumer<KeyValue[]> action) {
         if (number == 0) {
@@ -568,7 +566,7 @@ public final class MathUtils {
     /**
      * 类型聚合的排列组合
      *
-     * @param src 其中的KeyValue对象，key表示类型，value表示类型所指向的内容
+     * @param src    其中的KeyValue对象，key表示类型，value表示类型所指向的内容
      * @param action 组合访问器
      */
     public final static void combinate(KeyValue[] src, Consumer<KeyValue[]> action) {
@@ -590,11 +588,11 @@ public final class MathUtils {
     /**
      * 组合，笛卡尔积，递归实现
      *
-     * @param <T> 数据限定类型
+     * @param <T>      数据限定类型
      * @param dimvalue 原始数据
-     * @param layer 原始数据递归中的索引
-     * @param curList 当前组合
-     * @param action 当前组合访问器
+     * @param layer    原始数据递归中的索引
+     * @param curList  当前组合
+     * @param action   当前组合访问器
      */
     private static <T> void descartes(List<List<T>> dimvalue, int layer, List<T> curList, Consumer<List<T>> action) {
         if (layer < dimvalue.size() - 1) {
@@ -625,9 +623,9 @@ public final class MathUtils {
     /**
      * 组合，笛卡尔积，递归实现
      *
-     * @param <T> 数据限定类型
+     * @param <T>      数据限定类型
      * @param dimvalue 原始数据
-     * @param action 当前组合访问器
+     * @param action   当前组合访问器
      */
     public final static <T> void descartes(List<List<T>> dimvalue, Consumer<List<T>> action) {
         MathUtils.descartes(dimvalue, 0, new ArrayList<>(dimvalue.size()), action);
@@ -652,8 +650,8 @@ public final class MathUtils {
      * 按src下标索引有序的排列组合
      *
      * @param <T>
-     * @param src 列表对象
-     * @param num 最小数量的组合
+     * @param src    列表对象
+     * @param num    最小数量的组合
      * @param action 组合访问器
      */
     public final static <T> void delineate(List<T> src, int num, Consumer<List<T>> action) {
@@ -676,10 +674,10 @@ public final class MathUtils {
      * 按src下标索引有序的排列组合
      *
      * @param <T>
-     * @param src 列表对象
-     * @param min_num 最小数量的组合
+     * @param src             列表对象
+     * @param min_num         最小数量的组合
      * @param surplus_min_num 是否允许大于最小数量的组合
-     * @param action 组合访问器
+     * @param action          组合访问器
      */
     public final static <T> void delineate(List<T> src, int min_num, boolean surplus_min_num, Consumer<List<T>> action) {
         if (!surplus_min_num) {
@@ -694,8 +692,8 @@ public final class MathUtils {
     /**
      * 按src下标索引有序的排列组合
      *
-     * @param src 数组对象
-     * @param num 圈定数量
+     * @param src    数组对象
+     * @param num    圈定数量
      * @param action 组合访问器
      */
     public final static void delineate(int[] src, int num, Consumer<int[]> action) {
@@ -714,10 +712,10 @@ public final class MathUtils {
     /**
      * 按src下标索引有序的排列组合
      *
-     * @param src 数组对象
-     * @param min_num 最小数量的组合
+     * @param src             数组对象
+     * @param min_num         最小数量的组合
      * @param surplus_min_num 是否允许大于最小数量的组合
-     * @param action 组合访问器
+     * @param action          组合访问器
      */
     public final static void delineate(int[] src, int min_num, boolean surplus_min_num, Consumer<int[]> action) {
         if (!surplus_min_num) {
@@ -732,7 +730,7 @@ public final class MathUtils {
     /**
      * 概率命中
      *
-     * @param rate 概率值（大于0)
+     * @param rate  概率值（大于0)
      * @param total 总值
      * @return true命中
      */
@@ -794,8 +792,8 @@ public final class MathUtils {
      * 二维矩阵旋转
      *
      * @param matrix 二维矩阵（二维数组）
-     * @param angle 旋转角度，仅限于0度或者90的倍数
-     * @param txy 平移量（依据此点旋转）
+     * @param angle  旋转角度，仅限于0度或者90的倍数
+     * @param txy    平移量（依据此点旋转）
      * @return 旋转后的二维矩阵
      */
     private static int[][] rotate(int[][] matrix, int angle, float[] txy) {
@@ -857,7 +855,7 @@ public final class MathUtils {
      * 二维矩阵旋转
      *
      * @param matrix 二维矩阵（二维数组）
-     * @param angle 旋转角度，仅限于0度或者90的倍数
+     * @param angle  旋转角度，仅限于0度或者90的倍数
      * @return 旋转后的二维矩阵
      */
     public static final int[][] rotate(int[][] matrix, int angle) {
@@ -866,7 +864,110 @@ public final class MathUtils {
         }
         return rotate(matrix, angle, null);
     }
-    
+
+    /**
+     * 动态规划01背包算法，求解最大价值时的最优组合
+     *
+     * @param val 价值数组，必须与权重数组数量相同，一个价值和权重构成一个物品
+     * @param wt  权重数组，必须与价值数组数量相同，一个价值和权重构成一个物品
+     * @param W   总权重
+     * @return 最优项集合，索引从1开始，0号索引为最优时的最大价值；集合中的每项0号下标为价值，1号下标为权重
+     */
+    public static List<int[]> knapsack(int val[], int wt[], int W) {
+        //物品数量总和
+        int N = wt.length;
+        //创建一个二维数组
+        //行最多存储N个物品，列最多为总权重W，下边N+1和W+1是保证从1开始
+        int[][] V = new int[N + 1][W + 1];
+        //将行为 0或者列为0的值，都设置为0
+        for (int col = 0; col <= W; col++) {
+            V[0][col] = 0;
+        }
+        for (int row = 0; row <= N; row++) {
+            V[row][0] = 0;
+        }
+        //从1开始遍历N个物品
+        for (int item = 1; item <= N; item++) {
+            //一行一行的填充数据
+            for (int weight = 1; weight <= W; weight++) {
+                if (wt[item - 1] <= weight) {
+                    //选取（当前项值+之前项去掉当前项权重的值）与不取当前项的值得最大者
+                    V[item][weight] = Math.max(val[item - 1] + V[item - 1][weight - wt[item - 1]], V[item - 1][weight]);
+                } else {//不选取当前项，以之前项代替
+                    V[item][weight] = V[item - 1][weight];
+                }
+            }
+
+        }
+//        //打印最终矩阵
+//        for (int[] rows : V) {
+//            for (int col : rows) {
+//                System.out.format("%5d", col);
+//            }
+//            System.out.println();
+//        }
+        // 回溯算法，算出选择的商品
+        List<int[]> selected = new ArrayList<>();
+        int k = W;
+        int sumWt = 0;
+        for (int i = wt.length; i > 0; i--) {
+            int n = i - 1;
+            if (V[i][k] > V[n][k]) {
+                selected.add(new int[]{val[n], wt[n]});
+                sumWt += wt[n];
+                k -= wt[n];
+            }
+        }
+        selected.add(new int[]{V[N][W], sumWt});
+        Collections.reverse(selected);
+        //返回结果
+        return selected;
+    }
+
+//    private static class BagItem {
+//        public int weight;
+//        public int value;
+//
+//        public BagItem(int weight, int value) {
+//            this.weight = weight;
+//            this.value = value;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "BagItem{" +
+//                    "weight=" + weight +
+//                    ", value=" + value +
+//                    '}';
+//        }
+//    }
+//    private static List<BagItem> knapsack(BagItem[] arr, int W) {
+//        int[][] F = new int[arr.length + 1][W + 1];
+//        for (int i = 0; i <= arr.length; i++) {
+//            for (int v = 0; v <= W; v++) {
+//                if (i < 1 || v == 0) {
+//                    F[i][v] = 0;
+//                } else {
+//                    int w = arr[i - 1].weight;
+//                    if (w > v || F[i - 1][v] > F[i - 1][v - w] + w) {
+//                        F[i][v] = F[i - 1][v];
+//                    } else {
+//                        F[i][v] = F[i - 1][v - w] + w;
+//                    }
+//                }
+//            }
+//        }
+//        List selected = new ArrayList();
+//        int k = W;
+//        for (int i = arr.length; i > 0; i--) {
+//            if (F[i][k] > F[i - 1][k]) {
+//                selected.add(0, arr[i - 1]);
+//                k -= arr[i - 1].weight;
+//            }
+//        }
+//        return selected;
+//    }
+
     public static long saturatedAdd(long a, long b) {
         long naiveSum = a + b;
         return (a ^ b) < 0L | (a ^ naiveSum) >= 0L ? naiveSum : 9223372036854775807L + (naiveSum >>> 63 ^ 1L);
@@ -893,14 +994,14 @@ public final class MathUtils {
     }
 
     public static long saturatedPow(long b, int k) {
-        if(k < 0) {
+        if (k < 0) {
             throw new IllegalArgumentException(" 指数(" + k + ") 必须 >= 0");
         }
         if (b >= -2L & b <= 2L) {
-            switch((int)b) {
+            switch ((int) b) {
                 case -2:
                     if (k >= 64) {
-                        return 9223372036854775807L + (long)(k & 1);
+                        return 9223372036854775807L + (long) (k & 1);
                     }
 
                     return (k & 1) == 0 ? 1L << k : -1L << k;
@@ -921,10 +1022,10 @@ public final class MathUtils {
             }
         } else {
             long accum = 1L;
-            long limit = 9223372036854775807L + (b >>> 63 & (long)(k & 1));
+            long limit = 9223372036854775807L + (b >>> 63 & (long) (k & 1));
 
-            while(true) {
-                switch(k) {
+            while (true) {
+                switch (k) {
                     case 0:
                         return accum;
                     case 1:
@@ -945,6 +1046,35 @@ public final class MathUtils {
                 }
             }
         }
+    }
+
+    public static void main(String[] args) {
+        List<int[]> result = knapsack(new int[]{4, 5, 10, 11, 13}, new int[]{3, 6, 7, 8, 9}, 16);
+        System.out.println(Arrays.deepToString(result.toArray()));
+
+        result = knapsack(new int[]{1, 1, 1, 1, 1, 1, 1}, new int[]{100, 200, 300, 500, 900, 1005, 999}, 1000);
+        System.out.println(Arrays.deepToString(result.toArray()));
+
+        result = knapsack(new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30}, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 30);
+        System.out.println(Arrays.deepToString(result.toArray()));
+
+//        BagItem[] arr = new BagItem[7];
+//        arr[0] = new BagItem(100, 1);
+//        arr[1] = new BagItem(200, 1);
+//        arr[2] = new BagItem(300, 1);
+//        arr[3] = new BagItem(500, 1);
+//        arr[4] = new BagItem(900, 1);
+//        arr[5] = new BagItem(1005, 1);
+//        arr[6] = new BagItem(999, 1);
+//
+//        List<BagItem> list = knapsack(arr, 1000);
+//        System.out.println(Arrays.toString(list.toArray()));
+//
+//        int t = 0;
+//        for (BagItem item : list) {
+//            t += item.value;
+//        }
+//        System.out.println(t);
     }
 
 }
