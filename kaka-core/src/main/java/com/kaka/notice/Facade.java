@@ -126,7 +126,7 @@ public class Facade implements INotifier {
      * @param names      数据代理的唯一名称，可以为null，为null则将类限定名作为唯一名称
      * @return 数据代理模型对象
      */
-    public <T extends Proxy> T registerProxy(Class<T> proxyClass, String... names) {
+    final public <T extends Proxy> T registerProxy(Class<T> proxyClass, String... names) {
         Proxy _proxy = (Proxy) createObject(proxyClass);
         final Proxy proxy = _proxy;
         String _name1 = proxy.name;
@@ -563,7 +563,7 @@ public class Facade implements INotifier {
      * @param asyn true为异步，设为true时须调用initThreadPool方法初始化线程池
      */
     @Override
-    public void sendMessage(final Message msg, final boolean asyn) {
+    final public void sendMessage(final Message msg, final boolean asyn) {
         if (msg == null) {
             return;
         }
@@ -632,7 +632,7 @@ public class Facade implements INotifier {
      * @param scheduler 定时调度器
      */
     @Override
-    public void sendMessage(final Message msg, Scheduler scheduler) {
+    final public void sendMessage(final Message msg, Scheduler scheduler) {
         if (scheduleThreadPool == null) {
             throw new Error(String.format("执行sendMessage定时调度前请先调用 %s.initScheduleThreadPool方法初始化线程池", this.getClass().toString()));
         }
@@ -672,7 +672,7 @@ public class Facade implements INotifier {
      * @param group 调度器组名
      */
     @Override
-    public void cancelSchedule(Object cmd, String group) {
+    final public void cancelSchedule(Object cmd, String group) {
         String name = group;
         name += String.format("_$%s$_%s", cmd.getClass().getTypeName(), cmd);
         cancelSchedule(name);
@@ -681,7 +681,7 @@ public class Facade implements INotifier {
     /**
      * 释放内存
      */
-    final public void dispose() {
+    public void dispose() {
         Iterator<Object> ks = cmdPoolMap.keySet().iterator();
         while (ks.hasNext()) {
             Object key = ks.next();
