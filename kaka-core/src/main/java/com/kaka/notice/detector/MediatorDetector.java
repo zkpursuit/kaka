@@ -1,6 +1,7 @@
 package com.kaka.notice.detector;
 
 import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Mediator;
 import com.kaka.notice.annotation.MultiHandler;
 
@@ -37,9 +38,9 @@ public class MediatorDetector implements IDetector {
         }
         Facade cotx;
         if (sc.context().equals("")) {
-            cotx = Facade.facade;
+            cotx = FacadeFactory.getFacade();
         } else {
-            cotx = Facade.getInstance(sc.context());
+            cotx = FacadeFactory.getFacade(sc.context());
         }
         Mediator observer = cotx.registerMediator((Class<? extends Mediator>) cls);
         logger.info("注册事件观察者：Mediator（" + observer.name + "）==>>>  " + cls);

@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.http.util.JsonUtils;
+import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.util.Charsets;
 import com.kaka.util.IOUtils;
 import com.kaka.util.concurrent.RateLimiter;
@@ -21,14 +23,14 @@ import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.concurrent.TimeUnit;
 
-import static com.kaka.notice.Facade.facade;
-
 /**
  * HTTP通信接口
  */
 public class JsonApiServlet extends HttpServlet {
 
     protected static final Logger logger = (Logger) LoggerFactory.getLogger(JsonApiServlet.class);
+
+    private Facade facade = FacadeFactory.getFacade();
 
     //令牌桶限流
     private RateLimiter limiter = null;

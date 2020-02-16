@@ -2,6 +2,7 @@ package com.kaka.notice.detector;
 
 import com.kaka.notice.Command;
 import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.annotation.Handler;
 import com.kaka.util.StringUtils;
 
@@ -46,9 +47,9 @@ public class CommandDetector implements IDetector {
             if (Command.class.isAssignableFrom(cls)) {
                 Facade cotx;
                 if (regist.context().equals("")) {
-                    cotx = Facade.facade;
+                    cotx = FacadeFactory.getFacade();
                 } else {
-                    cotx = Facade.getInstance(regist.context());
+                    cotx = FacadeFactory.getFacade(regist.context());
                 }
                 if (cmdCls != String.class) {
                     String cmdStr = String.valueOf(cmd);

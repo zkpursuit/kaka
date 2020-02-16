@@ -3,11 +3,13 @@ package com.kaka_http;
 import com.http.core.JsonFilterGroup;
 import com.kaka.Startup;
 import com.kaka.net.HttpServer;
-import static com.kaka.notice.Facade.facade;
+import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 
 public class TestHttpServer extends Startup {
 
     public static void main(String[] args) {
+        Facade facade = FacadeFactory.getFacade();
 
         facade.registerProxy(JsonFilterGroup.class);
 

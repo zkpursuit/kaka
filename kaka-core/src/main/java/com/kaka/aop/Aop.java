@@ -1,8 +1,6 @@
 package com.kaka.aop;
 
-import com.kaka.container.ClassUnloader;
-
-abstract public class Aop implements ClassUnloader {
+abstract public class Aop {
 
     /**
      * 注册切面类
@@ -34,12 +32,5 @@ abstract public class Aop implements ClassUnloader {
      * @return
      */
     abstract public <T> T createInstance(Class<? extends T> clasz);
-
-    /**
-     * 从类加载器中卸载相关类，此相关类表示受Aop容器管理的类
-     *
-     * @param loader 类加载器
-     */
-    abstract public void unloadOf(ClassLoader loader);
 
 }

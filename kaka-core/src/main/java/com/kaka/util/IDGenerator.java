@@ -1,5 +1,8 @@
 package com.kaka.util;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+
 /**
  * 分布式生成唯一ID
  * </br>
@@ -10,9 +13,10 @@ package com.kaka.util;
 public class IDGenerator {
 
     /**
-     * 开始时间截 (2015-01-01)
+     * 开始时间截 (2019-01-01)
      */
-    private final long twepoch = 1420041600000L;
+    // private final long twepoch = 1514736000000L;
+    private final long twepoch = LocalDateTime.of(2019, 1, 1, 0, 0, 0, 0).atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
 
     /**
      * 机器id所占的位数
@@ -80,12 +84,13 @@ public class IDGenerator {
     private long lastTimestamp = -1L;
 
     /**
-     * 构造函数
+     * 构造函数 </br>
+     * 参数含义：[0~31]号数据中心，每个数据中心下可以有[0~31]号工作机器
      *
-     * @param workerId     工作ID (0~31)
      * @param datacenterId 数据中心ID (0~31)
+     * @param workerId     工作ID (0~31)
      */
-    public IDGenerator(long workerId, long datacenterId) {
+    public IDGenerator(long datacenterId, long workerId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }

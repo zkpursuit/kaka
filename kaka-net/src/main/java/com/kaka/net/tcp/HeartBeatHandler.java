@@ -1,12 +1,12 @@
 package com.kaka.net.tcp;
 
 import com.kaka.net.Events;
+import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Message;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
-
-import static com.kaka.notice.Facade.facade;
 
 /**
  * 心跳处理
@@ -14,6 +14,8 @@ import static com.kaka.notice.Facade.facade;
  * @author zhoukai
  */
 public class HeartBeatHandler extends ChannelDuplexHandler {
+
+    private Facade facade = FacadeFactory.getFacade();
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {

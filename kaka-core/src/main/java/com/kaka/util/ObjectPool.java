@@ -136,6 +136,6 @@ abstract public class ObjectPool<T extends Poolable> {
         /**
          * 重置对象数据，保障下次使用时为初始化状态
          */
-        public void reset();
+        void reset();
     }
 }

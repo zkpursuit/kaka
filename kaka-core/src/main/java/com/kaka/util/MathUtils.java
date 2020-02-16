@@ -878,13 +878,13 @@ public final class MathUtils {
         int N = wt.length;
         //创建一个二维数组
         //行最多存储N个物品，列最多为总权重W，下边N+1和W+1是保证从1开始
-        int[][] V = new int[N + 1][W + 1];
+        int[][] F = new int[N + 1][W + 1];
         //将行为 0或者列为0的值，都设置为0
         for (int col = 0; col <= W; col++) {
-            V[0][col] = 0;
+            F[0][col] = 0;
         }
         for (int row = 0; row <= N; row++) {
-            V[row][0] = 0;
+            F[row][0] = 0;
         }
         //从1开始遍历N个物品
         for (int item = 1; item <= N; item++) {
@@ -892,9 +892,9 @@ public final class MathUtils {
             for (int weight = 1; weight <= W; weight++) {
                 if (wt[item - 1] <= weight) {
                     //选取（当前项值+之前项去掉当前项权重的值）与不取当前项的值得最大者
-                    V[item][weight] = Math.max(val[item - 1] + V[item - 1][weight - wt[item - 1]], V[item - 1][weight]);
+                    F[item][weight] = Math.max(val[item - 1] + F[item - 1][weight - wt[item - 1]], F[item - 1][weight]);
                 } else {//不选取当前项，以之前项代替
-                    V[item][weight] = V[item - 1][weight];
+                    F[item][weight] = F[item - 1][weight];
                 }
             }
 
@@ -906,19 +906,37 @@ public final class MathUtils {
 //            }
 //            System.out.println();
 //        }
+
+//        int N = wt.length;
+//        int[][] F = new int[N + 1][W + 1];
+//        for (int i = 0; i <= N; i++) {
+//            for (int v = 0; v <= W; v++) {
+//                if (i < 1 || v == 0) {
+//                    F[i][v] = 0;
+//                } else {
+//                    int w = wt[i - 1];
+//                    if (w > v || F[i - 1][v] > F[i - 1][v - w] + w) {
+//                        F[i][v] = F[i - 1][v];
+//                    } else {
+//                        F[i][v] = F[i - 1][v - w] + w;
+//                    }
+//                }
+//            }
+//        }
+
         // 回溯算法，算出选择的商品
         List<int[]> selected = new ArrayList<>();
         int k = W;
         int sumWt = 0;
         for (int i = wt.length; i > 0; i--) {
             int n = i - 1;
-            if (V[i][k] > V[n][k]) {
+            if (F[i][k] > F[n][k]) {
                 selected.add(new int[]{val[n], wt[n]});
                 sumWt += wt[n];
                 k -= wt[n];
             }
         }
-        selected.add(new int[]{V[N][W], sumWt});
+        selected.add(new int[]{F[N][W], sumWt});
         Collections.reverse(selected);
         //返回结果
         return selected;
@@ -1052,22 +1070,22 @@ public final class MathUtils {
         List<int[]> result = knapsack(new int[]{4, 5, 10, 11, 13}, new int[]{3, 6, 7, 8, 9}, 16);
         System.out.println(Arrays.deepToString(result.toArray()));
 
-        result = knapsack(new int[]{1, 1, 1, 1, 1, 1, 1}, new int[]{100, 200, 300, 500, 900, 1005, 999}, 1000);
+        result = knapsack(new int[]{100, 200, 300, 500, 900, 1005, 999}, new int[]{100, 200, 300, 500, 900, 1005, 999}, 1000);
         System.out.println(Arrays.deepToString(result.toArray()));
 
         result = knapsack(new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30}, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 30);
         System.out.println(Arrays.deepToString(result.toArray()));
 
-//        BagItem[] arr = new BagItem[7];
-//        arr[0] = new BagItem(100, 1);
-//        arr[1] = new BagItem(200, 1);
-//        arr[2] = new BagItem(300, 1);
-//        arr[3] = new BagItem(500, 1);
-//        arr[4] = new BagItem(900, 1);
-//        arr[5] = new BagItem(1005, 1);
-//        arr[6] = new BagItem(999, 1);
+//        BagItem[] arr = new BagItem[10];
+//        arr[0] = new BagItem(100, 100);
+//        arr[1] = new BagItem(200, 200);
+//        arr[2] = new BagItem(300, 300);
+//        arr[3] = new BagItem(500, 500);
+//        arr[4] = new BagItem(900, 900);
+//        arr[5] = new BagItem(1005, 1005);
+//        arr[6] = new BagItem(999, 999);
 //
-//        List<BagItem> list = knapsack(arr, 1000);
+//        List<BagItem> list = knapsack(arr, 30);
 //        System.out.println(Arrays.toString(list.toArray()));
 //
 //        int t = 0;

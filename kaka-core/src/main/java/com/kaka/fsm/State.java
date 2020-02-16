@@ -3,8 +3,7 @@ package com.kaka.fsm;
 import com.kaka.notice.Message;
 
 /**
- *
- * @param <E> 状态机拥有者类型
+ * @param <E> 状态机
  */
 public interface State<E extends StateMachine> {
 
@@ -19,7 +18,6 @@ public interface State<E extends StateMachine> {
      * 状态的常规更新
      *
      * @param stateMachine 状态机
-     *
      */
     void update(E stateMachine);
 
@@ -35,7 +33,7 @@ public interface State<E extends StateMachine> {
      * 状态变迁过渡也可在此实施。
      *
      * @param stateMachine 状态机
-     * @param message 实体所接收的事件，亦表示状态改变的条件
+     * @param message      实体所接收的事件，亦表示状态改变的条件
      * @return true 事件被成功处理;
      */
     boolean onMessage(E stateMachine, Message message);

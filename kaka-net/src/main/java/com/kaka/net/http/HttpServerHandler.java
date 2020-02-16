@@ -1,6 +1,7 @@
 package com.kaka.net.http;
 
 import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,7 +31,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     private static final AsciiString KEEP_ALIVE = new AsciiString("keep-alive");
 
     private final String root;
-    private final Facade httpFacade = Facade.getInstance("HTTP_FACADE");
+    private final Facade httpFacade = FacadeFactory.getFacade("HTTP_FACADE");
 
     public HttpServerHandler(String root) {
         this.root = root;

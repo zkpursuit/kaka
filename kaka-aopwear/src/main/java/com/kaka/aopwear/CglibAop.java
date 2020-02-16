@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -256,35 +255,35 @@ public class CglibAop extends Aop {
                 switch (aspectAdvice) {
                     case "before":
                         if (methodAdvices.before == null) {
-                            methodAdvices.before = new CopyOnWriteArrayList();
+                            methodAdvices.before = Collections.synchronizedList(new ArrayList<>());
                         }
                         methodAdvices.before.add(methodWrap);
                         sortMethodWraps(methodAdvices.before);
                         break;
                     case "after":
                         if (methodAdvices.after == null) {
-                            methodAdvices.after = new CopyOnWriteArrayList<>();
+                            methodAdvices.after = Collections.synchronizedList(new ArrayList<>());
                         }
                         methodAdvices.after.add(methodWrap);
                         sortMethodWraps(methodAdvices.after);
                         break;
                     case "afterReturning":
                         if (methodAdvices.afterReturning == null) {
-                            methodAdvices.afterReturning = new CopyOnWriteArrayList<>();
+                            methodAdvices.afterReturning = Collections.synchronizedList(new ArrayList<>());
                         }
                         methodAdvices.afterReturning.add(methodWrap);
                         sortMethodWraps(methodAdvices.afterReturning);
                         break;
                     case "around":
                         if (methodAdvices.around == null) {
-                            methodAdvices.around = new CopyOnWriteArrayList<>();
+                            methodAdvices.around = Collections.synchronizedList(new ArrayList<>());
                         }
                         methodAdvices.around.add(methodWrap);
                         sortMethodWraps(methodAdvices.afterThrowing);
                         break;
                     case "afterThrowing":
                         if (methodAdvices.afterThrowing == null) {
-                            methodAdvices.afterThrowing = new CopyOnWriteArrayList<>();
+                            methodAdvices.afterThrowing = Collections.synchronizedList(new ArrayList<>());
                         }
                         methodAdvices.afterThrowing.add(methodWrap);
                         sortMethodWraps(methodAdvices.around);
@@ -442,77 +441,6 @@ public class CglibAop extends Aop {
             return enhancer.create();
         }
         return null;
-    }
-
-    private boolean unloadOf(final ClassLoader loader, List<MethodWrap> wraps) {
-        if (wraps == null) {
-            return false;
-        }
-        if (wraps.isEmpty()) {
-            return false;
-        }
-        Iterator<MethodWrap> iterator = wraps.iterator();
-        while (iterator.hasNext()) {
-            MethodWrap wrap = iterator.next();
-            Class<?> cls = wrap.object.getClass();
-            if (cls.getClassLoader() == loader) {
-                iterator.remove();
-            }
-        }
-        return wraps.isEmpty();
-    }
-
-    /**
-     * 从ClassLoader中卸载相关类引用
-     *
-     * @param loader 类加载器
-     */
-    @Override
-    public void unloadOf(final ClassLoader loader) {
-        Set<String> keys1 = method_advices_map.keySet();
-        Iterator<String> iterator1 = keys1.iterator();
-        while (iterator1.hasNext()) {
-            String key = iterator1.next();
-            MethodAdvices advices = method_advices_map.get(key);
-            if (advices != null) {
-                unloadOf(loader, advices.before);
-                unloadOf(loader, advices.after);
-                unloadOf(loader, advices.afterReturning);
-                unloadOf(loader, advices.afterThrowing);
-                unloadOf(loader, advices.around);
-            }
-        }
-
-        Set<String> keys2 = class_method_interceptor_map.keySet();
-        Iterator<String> iterator2 = keys2.iterator();
-        while (iterator2.hasNext()) {
-            String key = iterator2.next();
-            MethodInterceptor interceptor = class_method_interceptor_map.get(key);
-            if (interceptor != null) {
-                Class<?> cls = interceptor.getClass();
-                if (cls.getClassLoader() == loader) {
-                    iterator2.remove();
-                }
-            }
-        }
-
-        Set<Class<?>> keys3 = class_interceptor_map.keySet();
-        Iterator<Class<?>> iterator3 = keys3.iterator();
-        while (iterator3.hasNext()) {
-            Class<?> cls = iterator3.next();
-            if (cls.getClassLoader() == loader) {
-                iterator3.remove();
-            }
-        }
-
-        Set<Class<?>> keys4 = class_enhancer_map.keySet();
-        Iterator<Class<?>> iterator4 = keys4.iterator();
-        while (iterator4.hasNext()) {
-            Class<?> cls = iterator4.next();
-            if (cls.getClassLoader() == loader) {
-                iterator4.remove();
-            }
-        }
     }
 
 }

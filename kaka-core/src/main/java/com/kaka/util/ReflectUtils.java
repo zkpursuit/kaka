@@ -447,7 +447,6 @@ public class ReflectUtils {
                     throw new Error("无法找到无参构造方法", e);
                 }
             }
-
         } else {
             Class[] argTypes = new Class[args.length];
             for (int i = 0; i < args.length; i++) {
@@ -474,15 +473,6 @@ public class ReflectUtils {
         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
             throw new Error(ex);
         }
-    }
-
-    public class A {
-
-    }
-
-    public static void main(String[] args) {
-        A a = (A) ReflectUtils.newInstance(A.class, new Object[0]);
-        System.out.println(a);
     }
 
 }

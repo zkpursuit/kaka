@@ -2,17 +2,12 @@ package com.kaka.notice;
 
 import com.kaka.aop.Aop;
 import com.kaka.aop.AopFactory;
-import com.kaka.container.ClassUnloader;
+import com.kaka.util.ObjectPool;
 import com.kaka.util.ReflectUtils;
 import com.kaka.util.StringUtils;
+import com.kaka.util.concurrent.ConcurrentListMap;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -24,49 +19,12 @@ import java.util.concurrent.TimeUnit;
  *
  * @author zkpursuit
  */
-public class Facade implements INotifier, ClassUnloader {
-
-    private static final Map<String, Facade> instanceMap = new HashMap<>();
-
-    public synchronized static Facade getInstance(String key) {
-        Facade inst;
-        if (instanceMap.get(key) == null) {
-            try {
-                inst = new Facade(key);
-            } catch (Exception e) {
-                inst = instanceMap.get(key);
-            }
-        } else {
-            inst = instanceMap.get(key);
-        }
-        return inst;
-    }
-
-    /**
-     * 唯一默认实例
-     */
-    public final static Facade facade = getInstance("default");
-
-    public static Facade getInstance() {
-        return facade;
-    }
-
-    public synchronized static boolean hasCore(String key) {
-        return instanceMap.containsKey(key);
-    }
-
-    public synchronized static void removeCore(String key) {
-        Facade inst = instanceMap.remove(key);
-        if (inst != null) {
-            inst.dispose();
-        }
-    }
-
+public class Facade implements INotifier {
     private String __name;
     private final Map<String, Proxy> proxyMap = new ConcurrentHashMap<>();
     private final Map<String, Mediator> mediaMap = new ConcurrentHashMap<>();
     private final ConcurrentListMap<Object, Mediator> notiMediMap = new ConcurrentListMap<>();
-    private final Map<Object, CommandPool> cmdPoolMap = new ConcurrentHashMap<>();
+    private final Map<Object, ObjectPool> cmdPoolMap = new ConcurrentHashMap<>();
     private Executor threadPool;
     private ScheduledExecutorService scheduleThreadPool;
     private final Map<String, ScheduledFuture<?>> scheduleFutureMap = new ConcurrentHashMap<>();
@@ -77,20 +35,7 @@ public class Facade implements INotifier, ClassUnloader {
      * @param key 内核唯一标识名
      */
     private Facade(String key) {
-        this.init(key);
-    }
-
-    /**
-     * 初始化内核
-     *
-     * @param key 内核唯一标识名
-     */
-    private void init(String key) {
-        if (instanceMap.get(key) != null) {
-            throw new RuntimeException(String.format("%s 对应的实例已被创建", key));
-        }
         this.__name = key;
-        instanceMap.put(key, this);
     }
 
     /**
@@ -623,7 +568,7 @@ public class Facade implements INotifier, ClassUnloader {
             return;
         }
         if (cmdPoolMap.containsKey(msg.getWhat())) {
-            final CommandPool pool = cmdPoolMap.get(msg.getWhat());
+            final CommandPool pool = (CommandPool) cmdPoolMap.get(msg.getWhat());
             final Command cmd = pool.obtain();
             if (cmd != null) {
                 cmd.facade = this;
@@ -740,7 +685,7 @@ public class Facade implements INotifier, ClassUnloader {
         Iterator<Object> ks = cmdPoolMap.keySet().iterator();
         while (ks.hasNext()) {
             Object key = ks.next();
-            CommandPool cmdPool = cmdPoolMap.get(key);
+            CommandPool cmdPool = (CommandPool) cmdPoolMap.get(key);
             if (cmdPool != null) {
                 cmdPool.clear();
             }
@@ -766,80 +711,6 @@ public class Facade implements INotifier, ClassUnloader {
             this.cancelSchedule(key);
         }
         this.scheduleThreadPool = null;
-    }
-
-    @Override
-    public void unloadOf(ClassLoader loader) {
-        if (this.getClass().getClassLoader() == loader) {
-            this.dispose();
-            return;
-        }
-        Set<String> keys1 = proxyMap.keySet();
-        Iterator<String> iterator1 = keys1.iterator();
-        while (iterator1.hasNext()) {
-            String key = iterator1.next();
-            Proxy proxy = proxyMap.get(key);
-            if (proxy.getClass().getClassLoader() == loader) {
-                iterator1.remove();
-            }
-        }
-
-        Set<String> keys2 = mediaMap.keySet();
-        Iterator<String> iterator2 = keys2.iterator();
-        while (iterator2.hasNext()) {
-            String key = iterator2.next();
-            Mediator mediator = mediaMap.get(key);
-            if (mediator.getClass().getClassLoader() == loader) {
-                iterator2.remove();
-            }
-        }
-
-        Set<Object> keys3 = cmdPoolMap.keySet();
-        Iterator<Object> iterator3 = keys3.iterator();
-        while (iterator3.hasNext()) {
-            Object key = iterator3.next();
-            CommandPool pool = cmdPoolMap.get(key);
-            if (pool.cls.getClassLoader() == loader) {
-                iterator3.remove();
-            }
-        }
-
-
-        Set<Object> keys4 = notiMediMap.keySet();
-        Iterator<Object> iterator4 = keys4.iterator();
-        while (iterator4.hasNext()) {
-            Object key = iterator4.next();
-            List<Mediator> list = notiMediMap.get(key);
-            if (list != null && !list.isEmpty()) {
-                Iterator<Mediator> iter = list.iterator();
-                while (iter.hasNext()) {
-                    Mediator mediator = iter.next();
-                    if (mediator.getClass().getClassLoader() == loader) {
-                        iter.remove();
-                    }
-                }
-                if (list.isEmpty()) {
-                    iterator4.remove();
-                }
-            }
-        }
-
-        Set<String> keys5 = scheduleFutureMap.keySet();
-        Iterator<String> iterator5 = keys5.iterator();
-        while (iterator5.hasNext()) {
-            String key = iterator5.next();
-            ScheduledFuture<?> future = scheduleFutureMap.get(key);
-            if (future.getClass().getClassLoader() == loader) {
-                iterator5.remove();
-            }
-        }
-
-    }
-
-    public synchronized final static void unloadAllOf(ClassLoader loader) {
-        instanceMap.forEach((String n, Facade f) -> {
-            f.unloadOf(loader);
-        });
     }
 
 }

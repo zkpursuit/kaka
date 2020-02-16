@@ -1,6 +1,7 @@
 package com.kaka.numerical;
 
 import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Proxy;
 import com.kaka.notice.detector.IDetector;
 import com.kaka.numerical.annotation.Numeric;
@@ -39,9 +40,9 @@ public class NumericDetector implements IDetector {
         }
         Facade cotx;
         if (sc.context().equals("")) {
-            cotx = Facade.facade;
+            cotx = FacadeFactory.getFacade();
         } else {
-            cotx = Facade.getInstance(sc.context());
+            cotx = FacadeFactory.getFacade(sc.context());
         }
         return cotx.registerProxy((Class<? extends Proxy>) cls, sc.src());
     }

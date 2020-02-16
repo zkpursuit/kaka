@@ -3,6 +3,7 @@ package com.kaka.net.http;
 import com.kaka.net.http.annotation.WebInitParam;
 import com.kaka.net.http.annotation.WebRoute;
 import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.detector.IDetector;
 import com.kaka.util.ReflectUtils;
 import com.kaka.util.StringUtils;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 public class HttpRouteDetector implements IDetector {
 
-    private final Facade httpFacade = Facade.getInstance("HTTP_FACADE");
+    private final Facade httpFacade = FacadeFactory.getFacade("HTTP_FACADE");
 
     @Override
     public String name() {

@@ -8,6 +8,8 @@ import com.http.util.JsonUtils;
 import com.kaka.net.http.HttpRoute;
 import com.kaka.net.http.annotation.WebInitParam;
 import com.kaka.net.http.annotation.WebRoute;
+import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.util.Charsets;
 import io.netty.buffer.ByteBuf;
 import io.netty.handler.codec.http.*;
@@ -16,13 +18,12 @@ import org.slf4j.LoggerFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-import static com.kaka.notice.Facade.facade;
-
 @WebRoute(url = "/myservlet", initParams = {@WebInitParam(name = "a", value = "100")})
 public class JsonApiMyServlet extends HttpRoute {
 
     protected static final Logger logger = (Logger) LoggerFactory.getLogger(JsonApiMyServlet.class);
 
+    private Facade facade = FacadeFactory.getFacade();
     private JsonFilterGroup filterGroup;
 
     public JsonApiMyServlet() {

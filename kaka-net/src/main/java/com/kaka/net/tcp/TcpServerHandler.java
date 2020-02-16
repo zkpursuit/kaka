@@ -1,18 +1,19 @@
 package com.kaka.net.tcp;
 
 import com.kaka.net.Events;
+import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Message;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
-import static com.kaka.notice.Facade.facade;
-
 /**
- *
  * @author zkpursuit
  */
 public class TcpServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
+
+    private Facade facade = FacadeFactory.getFacade();
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {

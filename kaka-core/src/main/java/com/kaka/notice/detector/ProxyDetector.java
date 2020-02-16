@@ -1,6 +1,7 @@
 package com.kaka.notice.detector;
 
 import com.kaka.notice.Facade;
+import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Mediator;
 import com.kaka.notice.Proxy;
 import com.kaka.notice.annotation.Model;
@@ -41,9 +42,9 @@ public class ProxyDetector implements IDetector {
         }
         Facade cotx;
         if (model.context().equals("")) {
-            cotx = Facade.facade;
+            cotx = FacadeFactory.getFacade();
         } else {
-            cotx = Facade.getInstance(model.context());
+            cotx = FacadeFactory.getFacade(model.context());
         }
         Proxy proxy;
         String modelName = model.value();

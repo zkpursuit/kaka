@@ -1,12 +1,8 @@
 package com.test;
 
 import com.kaka.Startup;
-import com.kaka.notice.AsynResult;
-import static com.kaka.notice.Facade.facade;
-import com.kaka.notice.IResult;
-import com.kaka.notice.Message;
-import com.kaka.notice.Scheduler;
-import com.kaka.notice.SyncResult;
+import com.kaka.notice.*;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -18,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class Asyn_Test extends Startup {
 
     public static void main(String[] args) {
+        Facade facade = FacadeFactory.getFacade();
         Asyn_Test test = new Asyn_Test();
         test.scan("com.test.units");
         facade.initThreadPool(Executors.newFixedThreadPool(2));
