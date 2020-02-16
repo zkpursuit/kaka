@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author zkpursuit
  */
 public class Facade implements INotifier {
-    private String __name;
+    String __name;
     private final Map<String, Proxy> proxyMap = new ConcurrentHashMap<>();
     private final Map<String, Mediator> mediaMap = new ConcurrentHashMap<>();
     private final ConcurrentListMap<Object, Mediator> notiMediMap = new ConcurrentListMap<>();
@@ -31,11 +31,8 @@ public class Facade implements INotifier {
 
     /**
      * 创建一个内核
-     *
-     * @param key 内核唯一标识名
      */
-    private Facade(String key) {
-        this.__name = key;
+    protected Facade() {
     }
 
     /**
