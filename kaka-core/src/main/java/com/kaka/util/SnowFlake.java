@@ -10,7 +10,7 @@ import java.time.ZoneId;
  *
  * @author 摘取自网络
  */
-public class IDGenerator {
+public class SnowFlake {
 
     /**
      * 开始时间截 (2019-01-01)
@@ -90,7 +90,7 @@ public class IDGenerator {
      * @param datacenterId 数据中心ID (0~31)
      * @param workerId     工作ID (0~31)
      */
-    public IDGenerator(long datacenterId, long workerId) {
+    public SnowFlake(long datacenterId, long workerId) {
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
         }

@@ -375,6 +375,47 @@ public final class MathUtils {
         return 0;
     }
 
+    private static void swap(int[] src, int a, int b) {
+        int m = src[a];
+        src[a] = src[b];
+        src[b] = m;
+    }
+
+    /**
+     * 数据排列算法
+     *
+     * @param src    原始数据
+     * @param k      一般为src的0号下标，即为0
+     * @param m      一般为src的最大下标，即为src.length - 1
+     * @param action 排列后的数据访问器
+     */
+    private static void permutate(int[] src, int k, int m, Consumer<int[]> action) {
+        int i;
+        if (k > m) {
+            int[] perm = new int[src.length];
+            for (i = 0; i <= m; i++) {
+                perm[i] = src[i];
+            }
+            action.accept(perm);
+        } else {
+            for (i = k; i <= m; i++) {
+                swap(src, k, i);
+                permutate(src, k + 1, m, action);
+                swap(src, k, i);
+            }
+        }
+    }
+
+    /**
+     * 数据排列算法
+     *
+     * @param src    原始数据
+     * @param action 排列后的数据访问器
+     */
+    public static void permutate(int[] src, Consumer<int[]> action) {
+        permutate(src, 0, src.length - 1, action);
+    }
+
     /**
      * 组合，递归实现
      *

@@ -24,14 +24,14 @@ public @interface NumericField {
      *
      * @return 处理器类
      */
-    public Class<? extends Processor> processor() default Processor.class;
+    public Class<? extends Converter> converter() default Converter.class;
 
     /**
      * 每个字段的处理器
      *
      * @param <T> 处理后的数据，如为数组，则其中的数据将被逐个添加到集合对象中，非数组则整个添加到集合对象中
      */
-    public static interface Processor<T> {
+    public static interface Converter<T> {
 
         /**
          * 数据转型

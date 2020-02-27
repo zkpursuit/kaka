@@ -1,7 +1,7 @@
 package com.kaka.numerical;
 
 import com.kaka.numerical.annotation.NumericField;
-import com.kaka.numerical.annotation.NumericField.Processor;
+import com.kaka.numerical.annotation.NumericField.Converter;
 import com.kaka.util.ArrayUtils;
 import com.kaka.util.ReflectUtils;
 
@@ -52,9 +52,9 @@ abstract public class Parser {
             return;
         }
         String[] eles = att.elements();
-        Class<? extends Processor> ProcessorCls = att.processor();
-        Processor<?> processor;
-        if (ProcessorCls == Processor.class) {
+        Class<? extends Converter> ProcessorCls = att.converter();
+        Converter<?> processor;
+        if (ProcessorCls == Converter.class) {
             processor = null;
         } else {
             processor = ProcessorCls.newInstance();
