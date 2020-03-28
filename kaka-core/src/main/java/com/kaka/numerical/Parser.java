@@ -114,7 +114,7 @@ abstract public class Parser {
                         for (int i = 0; i < len; i++) {
                             Object arrVal = ArrayUtils.get(resultValue, i);
                             if (arrVal != null) {
-                                collection.add(resultValue);
+                                collection.add(arrVal);
                             }
                         }
                     } else {

@@ -1,0 +1,16 @@
+ID	别名	物品名称	物品类型	是否可叠加
+id	alias	name	type	pileup
+1	gold	欢乐豆	1	1
+2	diam	钻石	1	1
+3	fuka	福卡	1	1
+4	redbag	红包	3	0
+5	entity	实物	4	0
+6	ticket	参赛卡	2	1
+700	counter	记牌器	2	1
+701	counter1	记牌器(1天)	2	0
+703	counter3	记牌器(3天)	2	0
+705	counter5	记牌器(5天)	2	0
+707	counter7	记牌器(7天)	2	0
+8	jiabei	超级加倍卡	2	1
+9	dipai	底牌卡	2	1
+1000	rmb	人民币	1000	1
