@@ -73,9 +73,7 @@ abstract public class ObjectPool<T extends Poolable> {
         if (object == null) {
             throw new IllegalArgumentException("object cannot be null.");
         }
-        if (object instanceof Poolable) {
-            ((Poolable) object).reset();
-        }
+        object.reset();
         if (freeObjects != null) {
             int idleCount = freeObjects.size();
             if (idleCount < max) {

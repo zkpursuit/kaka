@@ -1,4 +1,5 @@
 /.idea
+/kaka-dbutils
 /kaka-aopwear/target/maven-archiver
 /kaka-aopwear/target/maven-status
 /kaka-aopwear/target/classes
