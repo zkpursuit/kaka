@@ -13,7 +13,6 @@
         <module>kaka-aopwear</module>
         <module>kaka-net</module>
         <module>kaka-test</module>
-        <module>kaka-dbutils</module>
     </modules>
 
 </project>

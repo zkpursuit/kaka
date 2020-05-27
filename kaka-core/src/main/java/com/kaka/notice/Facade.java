@@ -62,6 +62,14 @@ public class Facade implements INotifier {
         this.scheduleThreadPool = scheduleThreadPool;
     }
 
+    public Executor getThreadPool() {
+        return this.threadPool;
+    }
+
+    public ScheduledExecutorService getScheduleThreadPool() {
+        return this.scheduleThreadPool;
+    }
+
     /**
      * 创建对象
      *
