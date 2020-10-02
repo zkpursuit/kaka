@@ -16,15 +16,13 @@ import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
-
-import java.net.InetSocketAddress;
-import java.util.concurrent.Executors;
-import java.security.cert.CertificateException;
-import javax.net.ssl.SSLException;
-
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.slf4j.LoggerFactory;
+
+import javax.net.ssl.SSLException;
+import java.security.cert.CertificateException;
+import java.util.concurrent.Executors;
 
 /**
  * HTTP服务
@@ -34,6 +32,10 @@ import org.slf4j.LoggerFactory;
 public class HttpServer {
 
     private final Logger logger = (Logger) LoggerFactory.getLogger(HttpServer.class);
+
+    protected EventLoopGroup bossGroup;
+    protected EventLoopGroup workerGroup;
+    protected EventLoopGroup businessThreadGroup;
 
     protected String root;
 
@@ -79,14 +81,12 @@ public class HttpServer {
      * @param businessThreadPoolSize 业务处理线程池线程个数，并发量大需调整此值
      */
     public void start(int port, int workerThreadPoolSize, int businessThreadPoolSize) {
-        EventLoopGroup bossGroup = new NioEventLoopGroup();
-        EventLoopGroup workerGroup;
+        bossGroup = new NioEventLoopGroup();
         if (workerThreadPoolSize > 0) {
             workerGroup = new NioEventLoopGroup(workerThreadPoolSize);
         } else {
             workerGroup = new NioEventLoopGroup();
         }
-        EventLoopGroup businessThreadGroup = null;
         if (businessThreadPoolSize > 0) {
             businessThreadGroup = new NioEventLoopGroup(businessThreadPoolSize, Executors.newFixedThreadPool(businessThreadPoolSize));
         }
@@ -139,6 +139,24 @@ public class HttpServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
             businessThreadGroup.shutdownGracefully();
+        }
+    }
+
+    public void stop() {
+        if (bossGroup != null) {
+            if (!bossGroup.isShutdown() && !bossGroup.isShuttingDown()) {
+                bossGroup.shutdownGracefully();
+            }
+        }
+        if (workerGroup != null) {
+            if (!workerGroup.isShutdown() && !workerGroup.isShuttingDown()) {
+                workerGroup.shutdownGracefully();
+            }
+        }
+        if (businessThreadGroup != null) {
+            if (!businessThreadGroup.isShutdown() && !businessThreadGroup.isShuttingDown()) {
+                businessThreadGroup.shutdownGracefully();
+            }
         }
     }
 

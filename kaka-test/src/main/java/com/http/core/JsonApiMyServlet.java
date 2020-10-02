@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.http.util.JsonUtils;
-import com.kaka.net.http.HttpRoute;
+import com.kaka.net.http.Servlet;
 import com.kaka.net.http.annotation.WebInitParam;
-import com.kaka.net.http.annotation.WebRoute;
+import com.kaka.net.http.annotation.WebServlet;
 import com.kaka.notice.Facade;
 import com.kaka.notice.FacadeFactory;
 import com.kaka.util.Charsets;
@@ -18,8 +18,8 @@ import org.slf4j.LoggerFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
-@WebRoute(url = "/myservlet", initParams = {@WebInitParam(name = "a", value = "100")})
-public class JsonApiMyServlet extends HttpRoute {
+@WebServlet(url = "/myservlet", initParams = {@WebInitParam(name = "a", value = "100")})
+public class JsonApiMyServlet extends Servlet {
 
     protected static final Logger logger = (Logger) LoggerFactory.getLogger(JsonApiMyServlet.class);
 

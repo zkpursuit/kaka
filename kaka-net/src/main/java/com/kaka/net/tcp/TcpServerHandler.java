@@ -1,6 +1,6 @@
 package com.kaka.net.tcp;
 
-import com.kaka.net.Events;
+import com.kaka.net.TcpStateCode;
 import com.kaka.notice.Facade;
 import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Message;
@@ -11,31 +11,38 @@ import io.netty.channel.SimpleChannelInboundHandler;
 /**
  * @author zkpursuit
  */
-public class TcpServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
+abstract public class TcpServerHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
-    private Facade facade = FacadeFactory.getFacade();
+    private final Facade facade = FacadeFactory.getFacade();
+
+    /**
+     * 处理数据包
+     *
+     * @param ctx
+     * @param msg 一个数据包
+     */
+    abstract protected void doDataPacket(ChannelHandlerContext ctx, ByteBuf msg);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ByteBuf msg) throws Exception {
-        int opcode = msg.readShort();
-        facade.sendMessage(new TcpDataMessage(opcode, msg, ctx));
+        doDataPacket(ctx, msg);
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        facade.sendMessage(new Message(Events.CHANNEL_ACTIVE, ctx));
+        facade.sendMessage(new Message(TcpStateCode.CHANNEL_ACTIVE, ctx));
         super.channelActive(ctx);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        facade.sendMessage(new Message(Events.CHANNEL_EXCEPTION, new Object[]{ctx, cause}));
+        facade.sendMessage(new Message(TcpStateCode.CHANNEL_EXCEPTION, new Object[]{ctx, cause}));
         super.exceptionCaught(ctx, cause);
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        facade.sendMessage(new Message(Events.CHANNEL_REMOVE, ctx));
+        facade.sendMessage(new Message(TcpStateCode.CHANNEL_REMOVE, ctx));
         super.handlerRemoved(ctx);
     }
 

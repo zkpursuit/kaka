@@ -1,6 +1,6 @@
 package com.kaka.net.tcp;
 
-import com.kaka.net.Events;
+import com.kaka.net.TcpStateCode;
 import com.kaka.notice.Facade;
 import com.kaka.notice.FacadeFactory;
 import com.kaka.notice.Message;
@@ -15,7 +15,7 @@ import io.netty.handler.timeout.IdleStateEvent;
  */
 public class HeartBeatHandler extends ChannelDuplexHandler {
 
-    private Facade facade = FacadeFactory.getFacade();
+    private final Facade facade = FacadeFactory.getFacade();
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
@@ -25,14 +25,14 @@ public class HeartBeatHandler extends ChannelDuplexHandler {
             if (null != e.state()) switch (e.state()) {
                 case READER_IDLE:
                     //读超时
-                    facade.sendMessage(new Message(Events.CHANNEL_READER_IDLE, ctx));
+                    facade.sendMessage(new Message(TcpStateCode.CHANNEL_READER_IDLE, ctx));
                     break;
                 case WRITER_IDLE:
                     //写超时
-                    facade.sendMessage(new Message(Events.CHANNEL_WRITER_IDLE, ctx));
+                    facade.sendMessage(new Message(TcpStateCode.CHANNEL_WRITER_IDLE, ctx));
                     break;
                 case ALL_IDLE:
-                    facade.sendMessage(new Message(Events.CHANNEL_RW_IDLE, ctx));
+                    facade.sendMessage(new Message(TcpStateCode.CHANNEL_RW_IDLE, ctx));
                     break;
                 default:
                     break;

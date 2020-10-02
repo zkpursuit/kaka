@@ -20,7 +20,7 @@ import java.net.InetSocketAddress;
  *
  * @author zhoukai
  */
-public class TcpServer {
+abstract public class TcpServer {
 
     protected EventLoopGroup bossGroup;
     protected EventLoopGroup workerGroup;
@@ -135,23 +135,21 @@ public class TcpServer {
         return ci;
     }
 
-    protected TcpServerHandler buildServerHandler() {
-        return new TcpServerHandler();
-    }
+    abstract protected TcpServerHandler buildServerHandler();
 
-    public void destroy() {
+    public void stop() {
         if (bossGroup != null) {
-            if (bossGroup.isShutdown() == false && bossGroup.isShuttingDown() == false) {
+            if (!bossGroup.isShutdown() && !bossGroup.isShuttingDown()) {
                 bossGroup.shutdownGracefully();
             }
         }
         if (workerGroup != null) {
-            if (workerGroup.isShutdown() == false && workerGroup.isShuttingDown() == false) {
+            if (!workerGroup.isShutdown() && !workerGroup.isShuttingDown()) {
                 workerGroup.shutdownGracefully();
             }
         }
         if (businessThreadGroup != null) {
-            if (businessThreadGroup.isShutdown() == false && businessThreadGroup.isShuttingDown() == false) {
+            if (!businessThreadGroup.isShutdown() && !businessThreadGroup.isShuttingDown()) {
                 businessThreadGroup.shutdownGracefully();
             }
         }

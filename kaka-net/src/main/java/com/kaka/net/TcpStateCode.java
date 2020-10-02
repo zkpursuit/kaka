@@ -4,7 +4,7 @@ package com.kaka.net;
  *
  * @author zkpursuit
  */
-public final class Events {
+public final class TcpStateCode {
     /**
      * msg.getBody() == [ChannelHandlerContext, Throwable]
      */

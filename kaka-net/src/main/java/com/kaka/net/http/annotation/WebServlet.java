@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Target(value = {ElementType.TYPE})
 @Retention(value = RetentionPolicy.RUNTIME)
 @Documented
-public @interface WebRoute {
+public @interface WebServlet {
 
     /**
      * 名称

@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author zkpursuit
  */
-public abstract class HttpRoute extends Proxy {
+public abstract class Servlet extends Proxy {
 
     final Map<String, String> params = new HashMap<>();
 

@@ -112,7 +112,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         }
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK);
         response.headers().set(CONTENT_TYPE, "text/plain; charset=UTF-8");
-        HttpRoute servlet = httpFacade.retrieveProxy(requestUri);
+        Servlet servlet = httpFacade.retrieveProxy(requestUri);
         if (servlet != null) {
             HttpMethod httpMethod = request.method();
             if (httpMethod == HttpMethod.GET) {
