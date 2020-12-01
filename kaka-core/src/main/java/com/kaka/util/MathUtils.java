@@ -1107,15 +1107,15 @@ public final class MathUtils {
         }
     }
 
-    public static void main(String[] args) {
-        List<int[]> result = knapsack(new int[]{4, 5, 10, 11, 13}, new int[]{3, 6, 7, 8, 9}, 16);
-        System.out.println(Arrays.deepToString(result.toArray()));
-
-        result = knapsack(new int[]{100, 200, 300, 500, 900, 1005, 999}, new int[]{100, 200, 300, 500, 900, 1005, 999}, 1000);
-        System.out.println(Arrays.deepToString(result.toArray()));
-
-        result = knapsack(new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30}, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 30);
-        System.out.println(Arrays.deepToString(result.toArray()));
+//    public static void main(String[] args) {
+//        List<int[]> result = knapsack(new int[]{4, 5, 10, 11, 13}, new int[]{3, 6, 7, 8, 9}, 16);
+//        System.out.println(Arrays.deepToString(result.toArray()));
+//
+//        result = knapsack(new int[]{100, 200, 300, 500, 900, 1005, 999}, new int[]{100, 200, 300, 500, 900, 1005, 999}, 1000);
+//        System.out.println(Arrays.deepToString(result.toArray()));
+//
+//        result = knapsack(new int[]{1, 5, 8, 9, 10, 17, 17, 20, 24, 30}, new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 30);
+//        System.out.println(Arrays.deepToString(result.toArray()));
 
 //        BagItem[] arr = new BagItem[10];
 //        arr[0] = new BagItem(100, 100);
@@ -1134,6 +1134,6 @@ public final class MathUtils {
 //            t += item.value;
 //        }
 //        System.out.println(t);
-    }
+//    }
 
 }

@@ -91,7 +91,7 @@ public abstract class Startup {
             loader = Thread.currentThread().getContextClassLoader();
         }
         Set<Class<?>> classes = new HashSet<>();
-        Aop aop = AopFactory.getAop();
+        final Aop aop = AopFactory.getAop();
         for (int i = 0; i < packages.length; i++) {
             if (!delIdxs.contains(i)) {
                 Set<Class<?>> _classes = ClassScaner.getClasses(loader, packages[i]);

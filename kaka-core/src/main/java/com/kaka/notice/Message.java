@@ -56,8 +56,8 @@ public class Message implements Poolable {
             if (this.resultMap == null) {
                 this.resultMap = new ConcurrentHashMap<>();
             }
+            this.resultMap.put(name, result);
         }
-        this.resultMap.put(name, result);
         return result;
     }
 
@@ -73,8 +73,8 @@ public class Message implements Poolable {
             if (this.resultMap == null) {
                 return null;
             }
+            return this.resultMap.get(name);
         }
-        return this.resultMap.get(name);
     }
 
     @Override

@@ -13,6 +13,7 @@
         <module>kaka-aopwear</module>
         <module>kaka-net</module>
         <module>kaka-test</module>
+        <module>kaka-breaker</module>
     </modules>
 
 </project>

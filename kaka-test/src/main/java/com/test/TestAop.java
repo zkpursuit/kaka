@@ -22,6 +22,7 @@ public class TestAop extends Startup {
         TestAop test = new TestAop();
         test.scan("com.test.units");
         facade.sendMessage(new Message("AopCommand", "让AopCommand接收执行"));
+        facade.sendMessage(new Message("2000", "让MyMediator接收执行"));
 
         Aop aop = AopFactory.getAop(); //已扫描处理切面类MyAspect，故而此处无需再次注册即可直接通过aop创建实例
         MyObject1 obj1 = aop.createInstance(MyObject1.class);

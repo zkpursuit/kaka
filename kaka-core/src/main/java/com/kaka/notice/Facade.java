@@ -15,7 +15,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 整个框架的中枢神经（大脑）
+ * 整个框架的中枢
  *
  * @author zkpursuit
  */

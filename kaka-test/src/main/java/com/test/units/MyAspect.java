@@ -25,6 +25,11 @@ public class MyAspect {
     public void before2(JoinPoint joinPoint) {
         System.out.println(joinPoint.getMethod().toGenericString() + " ===>> before2");
     }
+
+    @Before(value = "com.test.units.AopCommand.execute(...)", order = 3)
+    public void before3(JoinPoint joinPoint) {
+        System.out.println(joinPoint.getMethod().toGenericString() + " ===>> before3");
+    }
     
     @After("com.test.units.AopCommand.execute(com.kaka.notice.Message)")
     public void after(JoinPoint joinPoint) {
@@ -46,6 +51,11 @@ public class MyAspect {
     @AfterReturning("com.test.units.AopCommand.execute(...)")
     public void afterReturning(JoinPoint joinPoint) {
         System.out.println(joinPoint.getMethod().toGenericString() + " ===>> afterReturning：" + joinPoint.getResult());
+    }
+
+    @Before("com.test.units.MyMediator.handleMessage(...)")
+    public void before_mediator(JoinPoint joinPoint) {
+        System.out.println(joinPoint.getMethod().toGenericString() + " ===>> before");
     }
 
     @Before("com.test.units.MyObject1.set(...)")

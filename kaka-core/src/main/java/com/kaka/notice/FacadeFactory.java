@@ -13,18 +13,18 @@ public class FacadeFactory {
 
     /**
      * 必须先调用此方法进行配置 </br>
-     * 一般在应用程序启动时调用
+     * 一般在应用程序启动时调用，且仅调用一次
      *
      * @param facadeClass
      * @param <T>
      * @return
      */
-    public synchronized final static <T extends Facade> T config(Class<? extends Facade> facadeClass) {
+    public synchronized static <T extends Facade> T config(Class<? extends Facade> facadeClass) {
         FacadeFactory.facadeClass = facadeClass;
         return getFacade();
     }
 
-    public synchronized final static <T extends Facade> T getFacade(String name) {
+    public synchronized static <T extends Facade> T getFacade(String name) {
         Facade inst;
         if (instanceMap.get(name) == null) {
             try {
@@ -40,7 +40,7 @@ public class FacadeFactory {
         return (T) inst;
     }
 
-    public synchronized final static <T extends Facade> T getFacade() {
+    public synchronized static <T extends Facade> T getFacade() {
         return getFacade(DEFAULT);
     }
 
