@@ -24,17 +24,17 @@ public class MediatorDetector implements IDetector {
     /**
      * 识别事件观察者相关的类并注册到{@link com.kaka.notice.Facade}
      *
-     * @param cls 待识别的类
-     * @return 注册后的{@link com.kaka.notice.Mediator}
+     * @param cls 待识别的类，{@link com.kaka.notice.Mediator}子类
+     * @return 是否被识别注册
      */
     @Override
-    public Object discern(Class<?> cls) {
+    public boolean discern(Class<?> cls) {
         if (!Mediator.class.isAssignableFrom(cls)) {
-            return null;
+            return false;
         }
         MultiHandler sc = cls.getAnnotation(MultiHandler.class);
         if (sc == null) {
-            return null;
+            return false;
         }
         Facade cotx;
         if (sc.context().equals("")) {
@@ -44,7 +44,7 @@ public class MediatorDetector implements IDetector {
         }
         Mediator observer = cotx.registerMediator((Class<? extends Mediator>) cls);
         logger.info("注册事件观察者：Mediator（" + observer.name + "）==>>>  " + cls);
-        return observer;
+        return true;
     }
 
 }

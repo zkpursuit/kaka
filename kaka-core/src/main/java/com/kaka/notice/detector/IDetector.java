@@ -18,7 +18,7 @@ public interface IDetector {
      * 类识别
      *
      * @param cls 待识别的类
-     * @return
+     * @return true表示被正确识别
      */
-    Object discern(Class<?> cls);
+    boolean discern(Class<?> cls);
 }

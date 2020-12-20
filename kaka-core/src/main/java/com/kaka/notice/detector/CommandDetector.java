@@ -26,20 +26,17 @@ public class CommandDetector implements IDetector {
     /**
      * 识别业务处理器相关的类并注册到{@link com.kaka.notice.Facade}
      *
-     * @param cls 待识别的类
-     * @return 注册后的 {@link com.kaka.notice.Command}
+     * @param cls 待识别的类，{@link com.kaka.notice.Command}子类
+     * @return 注册后的
      */
     @Override
-    public Object discern(Class<?> cls) {
+    public boolean discern(Class<?> cls) {
         if (!Command.class.isAssignableFrom(cls)) {
-            return null;
+            return false;
         }
         Handler[] controllers = cls.getAnnotationsByType(Handler.class);
-        if (controllers == null) {
-            return null;
-        }
         if (controllers.length == 0) {
-            return null;
+            return false;
         }
         for (Handler regist : controllers) {
             Object cmd = regist.cmd();
@@ -72,7 +69,6 @@ public class CommandDetector implements IDetector {
                 }
             }
         }
-        return null;
+        return true;
     }
-
 }

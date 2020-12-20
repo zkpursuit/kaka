@@ -27,20 +27,20 @@ public class ServletDetector implements IDetector {
     /**
      * 注册HTTP URL路由，类似J2EE Servlet，如果有HTTP的需求，必须在子类中实现该方法
      *
-     * @param cls 待注册的类
-     * @return 注册后的{@link HttpServlet}
+     * @param cls 待注册的类，{@link Servlet}子类
+     * @return 是否被识别注册
      */
     @Override
-    public Object discern(Class<?> cls) {
+    public boolean discern(Class<?> cls) {
         if (!Servlet.class.isAssignableFrom(cls)) {
-            return null;
+            return false;
         }
         WebServlet ws = cls.getAnnotation(WebServlet.class);
         if (ws == null) {
-            return null;
+            return false;
         }
         if (!StringUtils.isNotEmpty(ws.url())) {
-            return null;
+            return false;
         }
         String url = ws.url();
         url = url.replace('\\', '/');
@@ -64,7 +64,7 @@ public class ServletDetector implements IDetector {
         }
         Servlet servlet = httpFacade.registerProxy((Class<? extends Servlet>) cls, names);
         WebInitParam[] params = ws.initParams();
-        if (params != null && params.length > 0) {
+        if (params.length > 0) {
             Map<String, String> paramsMap = (Map<String, String>) ReflectUtils.getFieldValue(servlet, "params");
             if (paramsMap != null) {
                 for (WebInitParam param : params) {
@@ -72,7 +72,7 @@ public class ServletDetector implements IDetector {
                 }
             }
         }
-        return servlet;
+        return true;
     }
 
 }

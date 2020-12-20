@@ -21,13 +21,20 @@ public @interface Numeric {
      *
      * @return
      */
-    public String src();
-    
+    String src();
+
+    /**
+     * 优先级，数字越大，优先级越高
+     *
+     * @return 优先级
+     */
+    int priority() default 0;
+
     /**
      * 被注册到的目标{@link com.kaka.notice.Facade}唯一名
-     * 
+     *
      * @return {@link com.kaka.notice.Facade}唯一名
      */
-    public String context() default "";
+    String context() default "";
 
 }

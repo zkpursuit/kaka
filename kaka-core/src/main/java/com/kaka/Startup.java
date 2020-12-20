@@ -3,10 +3,7 @@ package com.kaka;
 import com.kaka.aop.Aop;
 import com.kaka.aop.AopFactory;
 import com.kaka.aop.annotation.Aspect;
-import com.kaka.notice.detector.CommandDetector;
-import com.kaka.notice.detector.IDetector;
-import com.kaka.notice.detector.MediatorDetector;
-import com.kaka.notice.detector.ProxyDetector;
+import com.kaka.notice.detector.*;
 import com.kaka.numerical.NumericDetector;
 import com.kaka.util.ClassScaner;
 
@@ -27,21 +24,10 @@ public abstract class Startup {
      * @param registers 事件通知模型注册器
      */
     public Startup(IDetector... registers) {
+        addDetector(new NumericDetector());
+        addDetector(new ProxyDetector());
         addDetector(new CommandDetector());
         addDetector(new MediatorDetector());
-        addDetector(new ProxyDetector());
-        addDetector(new NumericDetector());
-
-        IDetector httpServletDetector = null;
-        try {
-            Class<? extends IDetector> httpServletDetectorClass = (Class<? extends IDetector>) Class.forName("com.kaka.net.http.HttpServletDetector");
-            httpServletDetector = (IDetector) com.kaka.util.ReflectUtils.newInstance(httpServletDetectorClass);
-        } catch (ClassNotFoundException e) {
-        }
-        if (httpServletDetector != null) {
-            addDetector(httpServletDetector);
-        }
-
         for (IDetector detector : registers) {
             addDetector(detector);
         }
@@ -91,24 +77,18 @@ public abstract class Startup {
             loader = Thread.currentThread().getContextClassLoader();
         }
         Set<Class<?>> classes = new HashSet<>();
-        final Aop aop = AopFactory.getAop();
         for (int i = 0; i < packages.length; i++) {
             if (!delIdxs.contains(i)) {
                 Set<Class<?>> _classes = ClassScaner.getClasses(loader, packages[i]);
                 if (!_classes.isEmpty()) {
-//                    if (aop != null) {
-//                        for (Class cls : _classes) {
-//                            aop.cache(cls.getTypeName(), cls);
-//                        }
-//                        aop.cache(packages[i], _classes);
-//                    }
                     classes.addAll(_classes);
                 }
             }
         }
+        final Aop aop = AopFactory.getAop();
         if (aop != null) {
-            for (Class cls : classes) {
-                Aspect aspect = (Aspect) cls.getAnnotation(Aspect.class);
+            for (Class<?> cls : classes) {
+                Aspect aspect = cls.getAnnotation(Aspect.class);
                 if (aspect != null) {
                     aop.registerAspect(cls);
                 }
@@ -117,10 +97,11 @@ public abstract class Startup {
                 }
             }
         }
-        classes.forEach((Class<?> cls) -> {
-            detectorMap.forEach((String name, IDetector detector) -> {
-                detector.discern(cls);
-            });
+        detectorMap.forEach((String name, IDetector detector) -> {
+            classes.forEach(detector::discern);
+            if (detector instanceof PriorityDetector) {
+                ((PriorityDetector) detector).centralizeProcess();
+            }
         });
         return classes;
     }
